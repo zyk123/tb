@@ -1,0 +1,25 @@
+function jdAdOutsideShow(width, height, id, adflag,mobileType,clkmn,expose) {
+	var frame = document.createElement('iframe');
+	frame.frameBorder = 0;
+	frame.style.border = 0;
+	frame.style.margin = 0;
+	frame.style.padding = 0;
+	frame.width = width;
+	frame.height = height;
+	frame.scrolling = "no";
+	frame.src = "//x.jd.com/exsites?spread_type=2&ad_ids=" + id + ":5&location_info=0&adflag="+adflag+"&mobile_type="+(mobileType!=null?mobileType:1)+"&clkmn="+clkmn+"&expose="+expose;
+	var div = document.createElement('div');
+	div.appendChild(frame);
+	var body = document.getElementsByTagName('body')[0];
+	body.style.margin = 0;
+	body.style.border = 0;
+	body.style.padding = 0;
+	body.style.overflow = 'hidden';
+	body.innerHTML = div.innerHTML;
+
+}
+if(clkmn==undefined||expose==undefined){
+	var clkmn='';
+	var expose='';
+}
+jdAdOutsideShow(width, height, id, adflag, mobileType,clkmn,expose);

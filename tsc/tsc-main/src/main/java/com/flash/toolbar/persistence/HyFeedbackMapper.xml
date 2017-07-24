@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.mapper.HyFeedbackMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.model.HyFeedback" >
+    <id column="FEEDBACKID" property="feedbackid" jdbcType="VARCHAR" />
+    <result column="MEMBERID" property="memberid" jdbcType="VARCHAR" />
+    <result column="MOBILENO" property="mobileno" jdbcType="VARCHAR" />
+    <result column="FEEDBACK" property="feedback" jdbcType="VARCHAR" />
+    <result column="FEEDDATE" property="feeddate" jdbcType="TIMESTAMP" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="STATE" property="state" jdbcType="VARCHAR" />
+    <result column="EMAIL" property="email" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    FEEDBACKID, MEMBERID, MOBILENO, FEEDBACK, FEEDDATE, COUNTRYNO, TOPERATORID,NAME,STATE,EMAIL
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from HY_FEEDBACK
+    where FEEDBACKID = #{feedbackid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from HY_FEEDBACK
+    where FEEDBACKID = #{feedbackid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.flash.toolbar.model.HyFeedback" >
+    insert into HY_FEEDBACK (FEEDBACKID, MEMBERID, MOBILENO, 
+      FEEDBACK, FEEDDATE, COUNTRYNO, 
+      TOPERATORID,NAME,STATE,EMAIL)
+    values (#{feedbackid,jdbcType=VARCHAR}, #{memberid,jdbcType=VARCHAR}, #{mobileno,jdbcType=VARCHAR}, 
+      #{feedback,jdbcType=VARCHAR}, #{feeddate,jdbcType=TIMESTAMP}, #{countryno,jdbcType=VARCHAR}, 
+      #{toperatorid,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR},#{state,jdbcType=VARCHAR},#{email,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.flash.toolbar.model.HyFeedback" >
+    insert into HY_FEEDBACK
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="feedbackid != null" >
+        FEEDBACKID,
+      </if>
+      <if test="memberid != null" >
+        MEMBERID,
+      </if>
+      <if test="mobileno != null" >
+        MOBILENO,
+      </if>
+      <if test="feedback != null" >
+        FEEDBACK,
+      </if>
+      <if test="feeddate != null" >
+        FEEDDATE,
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO,
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="state != null" >
+        STATE,
+      </if>
+      <if test="email != null" >
+        EMAIL,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="feedbackid != null" >
+        #{feedbackid,jdbcType=VARCHAR},
+      </if>
+      <if test="memberid != null" >
+        #{memberid,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileno != null" >
+        #{mobileno,jdbcType=VARCHAR},
+      </if>
+      <if test="feedback != null" >
+        #{feedback,jdbcType=VARCHAR},
+      </if>
+      <if test="feeddate != null" >
+        #{feeddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="countryno != null" >
+        #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.flash.toolbar.model.HyFeedback" >
+    update HY_FEEDBACK
+    <set >
+      <if test="memberid != null" >
+        MEMBERID = #{memberid,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileno != null" >
+        MOBILENO = #{mobileno,jdbcType=VARCHAR},
+      </if>
+      <if test="feedback != null" >
+        FEEDBACK = #{feedback,jdbcType=VARCHAR},
+      </if>
+      <if test="feeddate != null" >
+        FEEDDATE = #{feeddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        STATE = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        EMAIL = #{email,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where FEEDBACKID = #{feedbackid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.flash.toolbar.model.HyFeedback" >
+    update HY_FEEDBACK
+    set MEMBERID = #{memberid,jdbcType=VARCHAR},
+      MOBILENO = #{mobileno,jdbcType=VARCHAR},
+      FEEDBACK = #{feedback,jdbcType=VARCHAR},
+      FEEDDATE = #{feeddate,jdbcType=TIMESTAMP},
+      COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      STATE = #{state,jdbcType=VARCHAR},
+      EMAIL = #{email,jdbcType=VARCHAR}
+    where FEEDBACKID = #{feedbackid,jdbcType=VARCHAR}
+  </update>
+</mapper>

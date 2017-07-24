@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.mapper.HyWhiteListMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.model.HyWhiteList" >
+    <id column="WLISTID" property="wlistid" jdbcType="VARCHAR" />
+    <result column="BATCHID" property="batchid" jdbcType="VARCHAR" />
+    <result column="MOBILENO" property="mobileno" jdbcType="VARCHAR" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+    <result column="ADDDATE" property="adddate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    WLISTID, BATCHID, MOBILENO, COUNTRYNO, TOPERATORID, ADDDATE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from HY_WHITELIST
+    where WLISTID = #{wlistid,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="countByToperator" resultType="java.lang.Integer" parameterType="java.util.Map" >
+    select 
+    count(1)
+    from HY_WHITELIST
+    where COUNTRYNO = #{countryno,jdbcType=VARCHAR} and TOPERATORID = #{toperatorid,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectMobileNoPageByToperator" resultType="java.lang.String" parameterType="java.util.Map" >
+    select mobileno from (
+    	select t.*, rownum rn from (
+    		select mobileno from HY_WHITELIST where COUNTRYNO = #{countryno,jdbcType=VARCHAR} and TOPERATORID = #{toperatorid,jdbcType=VARCHAR}
+    	) t where rownum  <![CDATA[<=]]> #{endnum,jdbcType=DECIMAL}
+    ) where rn <![CDATA[>=]]> #{startnum,jdbcType=DECIMAL}
+  </select>
+  
+  <select id="selectByMobileNo" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from HY_WHITELIST
+    where MOBILENO = #{mobileNo,jdbcType=VARCHAR}
+  </select>
+  <select id="countAllByMobileNo" resultType="java.lang.Integer" parameterType="java.lang.String" >
+    select 
+    ((select count(1) from HY_WHITELIST where mobileno=#{mobileNo})+(select count(1) from HY_WHITESECTION where #{mobileNo} &gt;=MOBILENOSTART and #{mobileNo} &lt;=MOBILENOEND))
+    from dual
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from HY_WHITELIST
+    where WLISTID = #{wlistid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.flash.toolbar.model.HyWhiteList" >
+    insert into HY_WHITELIST (WLISTID, BATCHID, MOBILENO, 
+      COUNTRYNO, TOPERATORID, ADDDATE
+      )
+    values (#{wlistid,jdbcType=VARCHAR}, #{batchid,jdbcType=VARCHAR}, #{mobileno,jdbcType=VARCHAR}, 
+      #{countryno,jdbcType=VARCHAR}, #{toperatorid,jdbcType=VARCHAR}, #{adddate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.flash.toolbar.model.HyWhiteList" >
+    insert into HY_WHITELIST
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="wlistid != null" >
+        WLISTID,
+      </if>
+      <if test="batchid != null" >
+        BATCHID,
+      </if>
+      <if test="mobileno != null" >
+        MOBILENO,
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO,
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID,
+      </if>
+      <if test="adddate != null" >
+        ADDDATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="wlistid != null" >
+        #{wlistid,jdbcType=VARCHAR},
+      </if>
+      <if test="batchid != null" >
+        #{batchid,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileno != null" >
+        #{mobileno,jdbcType=VARCHAR},
+      </if>
+      <if test="countryno != null" >
+        #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="adddate != null" >
+        #{adddate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.flash.toolbar.model.HyWhiteList" >
+    update HY_WHITELIST
+    <set >
+      <if test="batchid != null" >
+        BATCHID = #{batchid,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileno != null" >
+        MOBILENO = #{mobileno,jdbcType=VARCHAR},
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="adddate != null" >
+        ADDDATE = #{adddate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where WLISTID = #{wlistid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.flash.toolbar.model.HyWhiteList" >
+    update HY_WHITELIST
+    set BATCHID = #{batchid,jdbcType=VARCHAR},
+      MOBILENO = #{mobileno,jdbcType=VARCHAR},
+      COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      ADDDATE = #{adddate,jdbcType=TIMESTAMP}
+    where WLISTID = #{wlistid,jdbcType=VARCHAR}
+  </update>
+</mapper>

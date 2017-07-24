@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.mapper.QxUserMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.model.QxUser" >
+    <id column="USERID" property="userid" jdbcType="VARCHAR" />
+    <result column="USERNO" property="userno" jdbcType="VARCHAR" />
+    <result column="USERNAME" property="username" jdbcType="VARCHAR" />
+    <result column="PASSWORD" property="password" jdbcType="VARCHAR" />
+    <result column="MOBILEPHONE" property="mobilephone" jdbcType="VARCHAR" />
+    <result column="EMAIL" property="email" jdbcType="VARCHAR" />
+    <result column="CREATEDATE" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+    <result column="DELFLAG" property="delflag" jdbcType="VARCHAR" />
+    <result column="MODIFYMAN" property="modifyman" jdbcType="VARCHAR" />
+    <result column="MODIFYDATE" property="modifydate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    USERID, USERNO, USERNAME, PASSWORD, MOBILEPHONE, EMAIL, CREATEDATE, COUNTRYNO, TOPERATORID, 
+    DELFLAG, MODIFYMAN, MODIFYDATE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from QX_USER
+    where USERID = #{userid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from QX_USER
+    where USERID = #{userid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.flash.toolbar.model.QxUser" >
+    insert into QX_USER (USERID, USERNO, USERNAME, 
+      PASSWORD, MOBILEPHONE, EMAIL, 
+      CREATEDATE, COUNTRYNO, TOPERATORID, 
+      DELFLAG, MODIFYMAN, MODIFYDATE
+      )
+    values (#{userid,jdbcType=VARCHAR}, #{userno,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{mobilephone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{createdate,jdbcType=TIMESTAMP}, #{countryno,jdbcType=VARCHAR}, #{toperatorid,jdbcType=VARCHAR}, 
+      #{delflag,jdbcType=VARCHAR}, #{modifyman,jdbcType=VARCHAR}, #{modifydate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.flash.toolbar.model.QxUser" >
+    insert into QX_USER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userid != null" >
+        USERID,
+      </if>
+      <if test="userno != null" >
+        USERNO,
+      </if>
+      <if test="username != null" >
+        USERNAME,
+      </if>
+      <if test="password != null" >
+        PASSWORD,
+      </if>
+      <if test="mobilephone != null" >
+        MOBILEPHONE,
+      </if>
+      <if test="email != null" >
+        EMAIL,
+      </if>
+      <if test="createdate != null" >
+        CREATEDATE,
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO,
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID,
+      </if>
+      <if test="delflag != null" >
+        DELFLAG,
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN,
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userid != null" >
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="userno != null" >
+        #{userno,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilephone != null" >
+        #{mobilephone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="countryno != null" >
+        #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="delflag != null" >
+        #{delflag,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+        #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.flash.toolbar.model.QxUser" >
+    update QX_USER
+    <set >
+      <if test="userno != null" >
+        USERNO = #{userno,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null" >
+        USERNAME = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        PASSWORD = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilephone != null" >
+        MOBILEPHONE = #{mobilephone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        EMAIL = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="createdate != null" >
+        CREATEDATE = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="delflag != null" >
+        DELFLAG = #{delflag,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where USERID = #{userid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.flash.toolbar.model.QxUser" >
+    update QX_USER
+    set USERNO = #{userno,jdbcType=VARCHAR},
+      USERNAME = #{username,jdbcType=VARCHAR},
+      PASSWORD = #{password,jdbcType=VARCHAR},
+      MOBILEPHONE = #{mobilephone,jdbcType=VARCHAR},
+      EMAIL = #{email,jdbcType=VARCHAR},
+      CREATEDATE = #{createdate,jdbcType=TIMESTAMP},
+      COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      DELFLAG = #{delflag,jdbcType=VARCHAR},
+      MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP}
+    where USERID = #{userid,jdbcType=VARCHAR}
+  </update>
+</mapper>

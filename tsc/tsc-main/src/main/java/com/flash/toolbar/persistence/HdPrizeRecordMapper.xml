@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.mapper.HdPrizeRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.model.HdPrizeRecord" >
+    <id column="RECORDID" property="recordid" jdbcType="VARCHAR" />
+    <result column="MEMBERID" property="memberid" jdbcType="VARCHAR" />
+    <result column="MOBILENO" property="mobileno" jdbcType="VARCHAR" />
+    <result column="PROMOTIONID" property="promotionid" jdbcType="VARCHAR" />
+    <result column="DAYNUM" property="daynum" jdbcType="DECIMAL" />
+    <result column="TOTALNUM" property="totalnum" jdbcType="DECIMAL" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+    <result column="MODIFYMAN" property="modifyman" jdbcType="VARCHAR" />
+    <result column="MODIFYDATE" property="modifydate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    RECORDID, MEMBERID, MOBILENO, PROMOTIONID, DAYNUM, TOTALNUM, COUNTRYNO, TOPERATORID, 
+    MODIFYMAN, MODIFYDATE
+  </sql>
+  
+  <select id="selectByMemberAndPromotionId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from HD_PRIZERECORD
+    where MEMBERID = #{memberid,jdbcType=VARCHAR} and PROMOTIONID = #{promotionid,jdbcType=VARCHAR} 
+  </select>
+  
+  <select id="countByPromotionId" resultType="java.lang.Integer" parameterType="java.lang.String" >
+    select count(0) 
+    from HD_PRIZERECORD
+    where PROMOTIONID = #{promotionid,jdbcType=VARCHAR} 
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from HD_PRIZERECORD
+    where RECORDID = #{recordid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from HD_PRIZERECORD
+    where RECORDID = #{recordid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.flash.toolbar.model.HdPrizeRecord" >
+    insert into HD_PRIZERECORD (RECORDID, MEMBERID, MOBILENO, 
+      PROMOTIONID, DAYNUM, TOTALNUM, 
+      COUNTRYNO, TOPERATORID, MODIFYMAN, 
+      MODIFYDATE)
+    values (#{recordid,jdbcType=VARCHAR}, #{memberid,jdbcType=VARCHAR}, #{mobileno,jdbcType=VARCHAR}, 
+      #{promotionid,jdbcType=VARCHAR}, #{daynum,jdbcType=DECIMAL}, #{totalnum,jdbcType=DECIMAL}, 
+      #{countryno,jdbcType=VARCHAR}, #{toperatorid,jdbcType=VARCHAR}, #{modifyman,jdbcType=VARCHAR}, 
+      #{modifydate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.flash.toolbar.model.HdPrizeRecord" >
+    insert into HD_PRIZERECORD
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="recordid != null" >
+        RECORDID,
+      </if>
+      <if test="memberid != null" >
+        MEMBERID,
+      </if>
+      <if test="mobileno != null" >
+        MOBILENO,
+      </if>
+      <if test="promotionid != null" >
+        PROMOTIONID,
+      </if>
+      <if test="daynum != null" >
+        DAYNUM,
+      </if>
+      <if test="totalnum != null" >
+        TOTALNUM,
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO,
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID,
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN,
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="recordid != null" >
+        #{recordid,jdbcType=VARCHAR},
+      </if>
+      <if test="memberid != null" >
+        #{memberid,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileno != null" >
+        #{mobileno,jdbcType=VARCHAR},
+      </if>
+      <if test="promotionid != null" >
+        #{promotionid,jdbcType=VARCHAR},
+      </if>
+      <if test="daynum != null" >
+        #{daynum,jdbcType=DECIMAL},
+      </if>
+      <if test="totalnum != null" >
+        #{totalnum,jdbcType=DECIMAL},
+      </if>
+      <if test="countryno != null" >
+        #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+        #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.flash.toolbar.model.HdPrizeRecord" >
+    update HD_PRIZERECORD
+    <set >
+      <if test="memberid != null" >
+        MEMBERID = #{memberid,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileno != null" >
+        MOBILENO = #{mobileno,jdbcType=VARCHAR},
+      </if>
+      <if test="promotionid != null" >
+        PROMOTIONID = #{promotionid,jdbcType=VARCHAR},
+      </if>
+      <if test="daynum != null" >
+        DAYNUM = #{daynum,jdbcType=DECIMAL},
+      </if>
+      <if test="totalnum != null" >
+        TOTALNUM = #{totalnum,jdbcType=DECIMAL},
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where RECORDID = #{recordid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.flash.toolbar.model.HdPrizeRecord" >
+    update HD_PRIZERECORD
+    set MEMBERID = #{memberid,jdbcType=VARCHAR},
+      MOBILENO = #{mobileno,jdbcType=VARCHAR},
+      PROMOTIONID = #{promotionid,jdbcType=VARCHAR},
+      DAYNUM = #{daynum,jdbcType=DECIMAL},
+      TOTALNUM = #{totalnum,jdbcType=DECIMAL},
+      COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP}
+    where RECORDID = #{recordid,jdbcType=VARCHAR}
+  </update>
+</mapper>

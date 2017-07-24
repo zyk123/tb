@@ -1,0 +1,27 @@
+.advimg img{display:block;/*margin:7px auto 0;width:40%*/margin: 0 auto;}
+.advimg{display:block;position:relative;z-index:9;}
+.advmenudiv{clear:both;bottom:70px;display:flex;height:70px;position:fixed;right:2.5%;}
+.advmenu{height:56px;margin-right:5px;margin-top:7px;width:56px;-webkit-transform:rotatey(-90deg);transform:rotatey(-90deg);-webkit-transition:transform 1s;transition:transform 1s;z-index: 9;}
+.active .advbg{opacity:.9;width:100%}
+.advbg{background:#eee none repeat scroll 0 0;border-radius:50px;bottom:0;height:70px;position:absolute;right:0;transition:all .8s ease .4s;width:70px;opacity: 0}
+.advtxt em {
+    color: #ff2718;
+    font-size: 1.2rem;
+}
+.advtxt a {
+    color: #409200;
+    text-decoration: underline;
+}
+.rotate .advmenu{-webkit-transform:rotatey(0);transform:rotatey(0);}
+
+
+/*广告位*/
+.advmenudiv{width:60px;-webkit-transition:all 1s ease 1s;transition:all 1s ease 0.8s}
+.advmenu{position:fixed;right:0;}
+
+.advmenudiv.waveleft .advtxt{right: 0;left: auto;}
+.advmenudiv.waveleft .advbg{left: 0;right: auto;}
+.advmenudiv.waveleft .advmenu{margin-left: 12px;}
+
+
+

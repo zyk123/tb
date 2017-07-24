@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.mapper.RzClickEventLogMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.model.RzClickEventLog" >
+    <id column="ACCESSLOGID" property="accesslogid" jdbcType="VARCHAR" />
+    <result column="MOBILENO" property="mobileno" jdbcType="VARCHAR" />
+    <result column="ACCESSTIME" property="accesstime" jdbcType="TIMESTAMP" />
+    <result column="REFERURL" property="referurl" jdbcType="VARCHAR" />
+    <result column="CLICKURL" property="clickurl" jdbcType="VARCHAR" />
+    <result column="USERAGENT" property="useragent" jdbcType="VARCHAR" />
+    <result column="SIP" property="sip" jdbcType="VARCHAR" />
+    <result column="SUSERCOOKIEID" property="susercookieid" jdbcType="VARCHAR" />
+    <result column="SDEVICENO" property="sdeviceno" jdbcType="VARCHAR" />
+    <result column="SDEVICETYPE" property="sdevicetype" jdbcType="VARCHAR" />
+    <result column="SCITY" property="scity" jdbcType="VARCHAR" />
+    <result column="STAYTIME" property="staytime" jdbcType="DECIMAL" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ACCESSLOGID, MOBILENO, ACCESSTIME, REFERURL, CLICKURL, USERAGENT, SIP, SUSERCOOKIEID, 
+    SDEVICENO, SDEVICETYPE, SCITY, STAYTIME, COUNTRYNO, TOPERATORID
+  </sql>
+  
+  <insert id="insertBatch" useGeneratedKeys="false" parameterType="java.util.List">  
+        insert into RZ_CLICKEVENTLOG (
+        <include refid="Base_Column_List" />
+        ) 
+        <foreach collection="list" item="item" index="index" separator="union all" >  
+            (select #{item.accesslogid},#{item.mobileno},#{item.accesstime,jdbcType=TIMESTAMP},#{item.referurl},#{item.clickurl},#{item.useragent},
+            #{item.sip},#{item.susercookieid},#{item.sdeviceno},#{item.sdevicetype},#{item.scity},#{item.staytime},#{item.countryno},#{item.toperatorid} from dual)
+        </foreach>
+    </insert>
+    
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from RZ_CLICKEVENTLOG
+    where ACCESSLOGID = #{accesslogid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from RZ_CLICKEVENTLOG
+    where ACCESSLOGID = #{accesslogid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.flash.toolbar.model.RzClickEventLog" >
+    insert into RZ_CLICKEVENTLOG (ACCESSLOGID, MOBILENO, ACCESSTIME, 
+      REFERURL, CLICKURL, USERAGENT, 
+      SIP, SUSERCOOKIEID, SDEVICENO, 
+      SDEVICETYPE, SCITY, STAYTIME, 
+      COUNTRYNO, TOPERATORID)
+    values (#{accesslogid,jdbcType=VARCHAR}, #{mobileno,jdbcType=VARCHAR}, #{accesstime,jdbcType=TIMESTAMP}, 
+      #{referurl,jdbcType=VARCHAR}, #{clickurl,jdbcType=VARCHAR}, #{useragent,jdbcType=VARCHAR}, 
+      #{sip,jdbcType=VARCHAR}, #{susercookieid,jdbcType=VARCHAR}, #{sdeviceno,jdbcType=VARCHAR}, 
+      #{sdevicetype,jdbcType=VARCHAR}, #{scity,jdbcType=VARCHAR}, #{staytime,jdbcType=DECIMAL}, 
+      #{countryno,jdbcType=VARCHAR}, #{toperatorid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.flash.toolbar.model.RzClickEventLog" >
+    insert into RZ_CLICKEVENTLOG
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="accesslogid != null" >
+        ACCESSLOGID,
+      </if>
+      <if test="mobileno != null" >
+        MOBILENO,
+      </if>
+      <if test="accesstime != null" >
+        ACCESSTIME,
+      </if>
+      <if test="referurl != null" >
+        REFERURL,
+      </if>
+      <if test="clickurl != null" >
+        CLICKURL,
+      </if>
+      <if test="useragent != null" >
+        USERAGENT,
+      </if>
+      <if test="sip != null" >
+        SIP,
+      </if>
+      <if test="susercookieid != null" >
+        SUSERCOOKIEID,
+      </if>
+      <if test="sdeviceno != null" >
+        SDEVICENO,
+      </if>
+      <if test="sdevicetype != null" >
+        SDEVICETYPE,
+      </if>
+      <if test="scity != null" >
+        SCITY,
+      </if>
+      <if test="staytime != null" >
+        STAYTIME,
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO,
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="accesslogid != null" >
+        #{accesslogid,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileno != null" >
+        #{mobileno,jdbcType=VARCHAR},
+      </if>
+      <if test="accesstime != null" >
+        #{accesstime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="referurl != null" >
+        #{referurl,jdbcType=VARCHAR},
+      </if>
+      <if test="clickurl != null" >
+        #{clickurl,jdbcType=VARCHAR},
+      </if>
+      <if test="useragent != null" >
+        #{useragent,jdbcType=VARCHAR},
+      </if>
+      <if test="sip != null" >
+        #{sip,jdbcType=VARCHAR},
+      </if>
+      <if test="susercookieid != null" >
+        #{susercookieid,jdbcType=VARCHAR},
+      </if>
+      <if test="sdeviceno != null" >
+        #{sdeviceno,jdbcType=VARCHAR},
+      </if>
+      <if test="sdevicetype != null" >
+        #{sdevicetype,jdbcType=VARCHAR},
+      </if>
+      <if test="scity != null" >
+        #{scity,jdbcType=VARCHAR},
+      </if>
+      <if test="staytime != null" >
+        #{staytime,jdbcType=DECIMAL},
+      </if>
+      <if test="countryno != null" >
+        #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        #{toperatorid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.flash.toolbar.model.RzClickEventLog" >
+    update RZ_CLICKEVENTLOG
+    <set >
+      <if test="mobileno != null" >
+        MOBILENO = #{mobileno,jdbcType=VARCHAR},
+      </if>
+      <if test="accesstime != null" >
+        ACCESSTIME = #{accesstime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="referurl != null" >
+        REFERURL = #{referurl,jdbcType=VARCHAR},
+      </if>
+      <if test="clickurl != null" >
+        CLICKURL = #{clickurl,jdbcType=VARCHAR},
+      </if>
+      <if test="useragent != null" >
+        USERAGENT = #{useragent,jdbcType=VARCHAR},
+      </if>
+      <if test="sip != null" >
+        SIP = #{sip,jdbcType=VARCHAR},
+      </if>
+      <if test="susercookieid != null" >
+        SUSERCOOKIEID = #{susercookieid,jdbcType=VARCHAR},
+      </if>
+      <if test="sdeviceno != null" >
+        SDEVICENO = #{sdeviceno,jdbcType=VARCHAR},
+      </if>
+      <if test="sdevicetype != null" >
+        SDEVICETYPE = #{sdevicetype,jdbcType=VARCHAR},
+      </if>
+      <if test="scity != null" >
+        SCITY = #{scity,jdbcType=VARCHAR},
+      </if>
+      <if test="staytime != null" >
+        STAYTIME = #{staytime,jdbcType=DECIMAL},
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ACCESSLOGID = #{accesslogid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.flash.toolbar.model.RzClickEventLog" >
+    update RZ_CLICKEVENTLOG
+    set MOBILENO = #{mobileno,jdbcType=VARCHAR},
+      ACCESSTIME = #{accesstime,jdbcType=TIMESTAMP},
+      REFERURL = #{referurl,jdbcType=VARCHAR},
+      CLICKURL = #{clickurl,jdbcType=VARCHAR},
+      USERAGENT = #{useragent,jdbcType=VARCHAR},
+      SIP = #{sip,jdbcType=VARCHAR},
+      SUSERCOOKIEID = #{susercookieid,jdbcType=VARCHAR},
+      SDEVICENO = #{sdeviceno,jdbcType=VARCHAR},
+      SDEVICETYPE = #{sdevicetype,jdbcType=VARCHAR},
+      SCITY = #{scity,jdbcType=VARCHAR},
+      STAYTIME = #{staytime,jdbcType=DECIMAL},
+      COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      TOPERATORID = #{toperatorid,jdbcType=VARCHAR}
+    where ACCESSLOGID = #{accesslogid,jdbcType=VARCHAR}
+  </update>
+</mapper>

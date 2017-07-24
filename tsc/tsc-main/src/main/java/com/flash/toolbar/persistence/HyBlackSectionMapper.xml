@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.mapper.HyBlackSectionMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.model.HyBlackSection" >
+    <id column="BSECTIONID" property="bsectionid" jdbcType="VARCHAR" />
+    <result column="BATCHID" property="batchid" jdbcType="VARCHAR" />
+    <result column="MOBILENOSTART" property="mobilenostart" jdbcType="VARCHAR" />
+    <result column="MOBILENOEND" property="mobilenoend" jdbcType="VARCHAR" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+    <result column="ADDDATE" property="adddate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    BSECTIONID, BATCHID, MOBILENOSTART, MOBILENOEND, COUNTRYNO, TOPERATORID, ADDDATE
+  </sql>
+  
+  <select id="selectByToperator" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from HY_BLACKSECTION
+    where COUNTRYNO = #{countryno,jdbcType=VARCHAR} and TOPERATORID = #{toperatorid,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from HY_BLACKSECTION
+    where BSECTIONID = #{bsectionid,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByMobileSeq" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from HY_BLACKSECTION
+    where #{mobileSeq} &gt;=MOBILENOSTART and #{mobileSeq} &lt;=MOBILENOEND
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from HY_BLACKSECTION
+    where BSECTIONID = #{bsectionid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.flash.toolbar.model.HyBlackSection" >
+    insert into HY_BLACKSECTION (BSECTIONID, BATCHID, MOBILENOSTART, 
+      MOBILENOEND, COUNTRYNO, TOPERATORID, 
+      ADDDATE)
+    values (#{bsectionid,jdbcType=VARCHAR}, #{batchid,jdbcType=VARCHAR}, #{mobilenostart,jdbcType=VARCHAR}, 
+      #{mobilenoend,jdbcType=VARCHAR}, #{countryno,jdbcType=VARCHAR}, #{toperatorid,jdbcType=VARCHAR}, 
+      #{adddate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.flash.toolbar.model.HyBlackSection" >
+    insert into HY_BLACKSECTION
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="bsectionid != null" >
+        BSECTIONID,
+      </if>
+      <if test="batchid != null" >
+        BATCHID,
+      </if>
+      <if test="mobilenostart != null" >
+        MOBILENOSTART,
+      </if>
+      <if test="mobilenoend != null" >
+        MOBILENOEND,
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO,
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID,
+      </if>
+      <if test="adddate != null" >
+        ADDDATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="bsectionid != null" >
+        #{bsectionid,jdbcType=VARCHAR},
+      </if>
+      <if test="batchid != null" >
+        #{batchid,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilenostart != null" >
+        #{mobilenostart,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilenoend != null" >
+        #{mobilenoend,jdbcType=VARCHAR},
+      </if>
+      <if test="countryno != null" >
+        #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="adddate != null" >
+        #{adddate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.flash.toolbar.model.HyBlackSection" >
+    update HY_BLACKSECTION
+    <set >
+      <if test="batchid != null" >
+        BATCHID = #{batchid,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilenostart != null" >
+        MOBILENOSTART = #{mobilenostart,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilenoend != null" >
+        MOBILENOEND = #{mobilenoend,jdbcType=VARCHAR},
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="adddate != null" >
+        ADDDATE = #{adddate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where BSECTIONID = #{bsectionid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.flash.toolbar.model.HyBlackSection" >
+    update HY_BLACKSECTION
+    set BATCHID = #{batchid,jdbcType=VARCHAR},
+      MOBILENOSTART = #{mobilenostart,jdbcType=VARCHAR},
+      MOBILENOEND = #{mobilenoend,jdbcType=VARCHAR},
+      COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      ADDDATE = #{adddate,jdbcType=TIMESTAMP}
+    where BSECTIONID = #{bsectionid,jdbcType=VARCHAR}
+  </update>
+</mapper>

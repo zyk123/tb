@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>Help</title>
+    
+    <!-- Link Swiper's CSS -->
+    <link rel="stylesheet" href="./static/css/swiper.css">
+    <link rel="stylesheet" href="./static/css/base.css">
+    <script src="./static/js/jquery.1.8.3.min.js"></script>
+    <script src="./static/js/swiper.min.js"></script>
+    <!-- Demo styles -->
+    <style>
+        html, body {
+            position: relative;
+            height: 100%;
+        }
+        body {
+            background: #eee;
+            font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+            font-size: 14px;
+            color:#000;
+            margin: 0;
+            padding: 0;
+        }
+        .swiper-container {
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+        }
+        .swiper-slide {
+            text-align: center;
+            font-size: 18px;
+            background: #fff;
+            /* Center slide text vertically */
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+        .swiper-pagination-bullet {
+            width: 20px;
+            height: 20px;
+            text-align: center;
+            line-height: 20px;
+            font-size: 12px;
+            color:#000;
+            opacity: 1;
+            background: rgba(0,0,0,0.2);
+        }
+        .swiper-pagination-bullet-active {
+            color:#fff;
+            background: #007aff;
+        }
+        .mask2{
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        .guide>img{
+            position: absolute;
+            top:0;
+            left: 0;
+            width: 100%;
+        }
+        .guides img{
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .swiper-slide{
+            background:inherit;
+        }
+        .swiper-pagination-bullet{
+            width: 10px;
+            height:10px;
+        }
+
+        .swiper-pagination-bullet{
+            background-color: #5c398d;
+        }
+        .swiper-pagination-bullet-active{
+            background-color: #fc7f01;
+        }
+        .swiper-pagination {
+            position: absolute;
+            text-align: center;
+            -webkit-transition: 300ms;
+            -moz-transition: 300ms;
+            -o-transition: 300ms;
+            transition: 300ms;
+            -webkit-transform: translate3d(0, 0, 0);
+            -ms-transform: translate3d(0, 0, 0);
+            -o-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
+            z-index: 10;
+        }
+
+        .swiper-pagination-fraction, .swiper-pagination-custom, .swiper-container-horizontal > .swiper-pagination-bullets {
+            bottom: 10px;
+            left: 0;
+            width: 100%;
+        }
+        .close{
+            width: 12%;
+            position: absolute;
+            right: 0;
+            top: 0;
+            z-index: 100;
+        }
+    </style>
+</head>
+<body>
+<!-- Swiper -->
+<div class="swiper-container">
+    <a href=""></a><img class="close" onclick="jump()" src="./static/images/icon/xguide.png" alt="">
+    <div class="swiper-wrapper ">
+        <div class="swiper-slide guide ">
+            <img class="" src="./static/images/imgs/guide/guide1.jpg" alt="">
+        </div>
+        <div class="swiper-slide guide ">
+            <img class="" src="./static/images/imgs/guide/guide2.jpg" alt="">
+
+        </div>
+        <div class="swiper-slide guide ">
+            <img class="" src="./static/images/imgs/guide/guide3.jpg" alt="">
+        </div>
+        <div class="swiper-slide guides">
+            <img src="./static/images/imgs/guide/guide4.jpg" alt="">
+        </div>
+        <div class="swiper-slide guides">
+            <img src="./static/images/imgs/guide/guide5.jpg" alt="">
+        </div>
+    </div>
+    <!-- Add Pagination -->
+    <div class="swiper-pagination"></div>
+</div>
+
+
+<!-- Swiper JS -->
+
+<!-- Initialize Swiper -->
+<script>
+    var swiper = new Swiper('.swiper-container', {
+        loop:false,
+        grabCursor: true,
+        pagination: '.swiper-pagination',
+        paginationClickable: false,
+        paginationBulletRender: function (index, className) {
+
+            return '<span class="' + className + '"></span>';
+
+
+        },
+        onSlideChangeStart: function(){
+            var activeIndex = swiper.activeIndex;
+
+        },
+        onTouchEnd:function(e){   /*手指滑动时，判断手指滑动的方向*/
+            var pageCount = swiper.slides.length;
+            gonext();
+        }
+    });
+
+    function gonext(){
+        var startX, startY, moveEndX, moveEndY, X, Y;
+        $(".swiper-wrapper .swiper-slide:last").on("touchstart", function(e) {
+            // e.preventDefault();
+            startX = e.originalEvent.changedTouches[0].pageX,
+                    startY = e.originalEvent.changedTouches[0].pageY;
+        });
+        $(".swiper-wrapper .swiper-slide:last").on("touchmove", function(e) {
+            moveEndX = e.originalEvent.changedTouches[0].pageX,
+                    moveEndY = e.originalEvent.changedTouches[0].pageY,
+                    X = moveEndX - startX,
+                    Y = moveEndY - startY;
+
+            if ( Math.abs(X) > Math.abs(Y) && X < 0 ) {  //从右侧向左滑动
+                if(document.referrer.indexOf("turnSetting") == -1){
+					parent.location.href=document.referrer;
+				  }else{			
+					e.preventDefault();
+				  }
+            }
+
+        });
+    }
+
+	function jump(){
+		if(document.referrer.indexOf("turnSetting") == -1){
+			parent.location.href=document.referrer;
+		}else{			
+			history.go(-1);
+		}
+	}
+
+</script>
+</body>
+</html>

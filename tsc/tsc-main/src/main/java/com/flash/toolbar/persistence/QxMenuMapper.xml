@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.mapper.QxMenuMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.model.QxMenu" >
+    <id column="MENUID" property="menuid" jdbcType="VARCHAR" />
+    <result column="MENUNO" property="menuno" jdbcType="VARCHAR" />
+    <result column="MENUNAME" property="menuname" jdbcType="VARCHAR" />
+    <result column="MENUINDEX" property="menuindex" jdbcType="VARCHAR" />
+    <result column="FID" property="fid" jdbcType="VARCHAR" />
+    <result column="level" property="level" jdbcType="VARCHAR" />
+    <result column="ORDERNO" property="orderno" jdbcType="DECIMAL" />
+    <result column="CREATEDATE" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+    <result column="DELFLAG" property="delflag" jdbcType="VARCHAR" />
+    <result column="MODIFYMAN" property="modifyman" jdbcType="VARCHAR" />
+    <result column="MODIFYDATE" property="modifydate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    MENUID, MENUNO, MENUNAME, MENUINDEX, FID, level, ORDERNO, CREATEDATE, COUNTRYNO, 
+    TOPERATORID, DELFLAG, MODIFYMAN, MODIFYDATE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from QX_MENU
+    where MENUID = #{menuid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from QX_MENU
+    where MENUID = #{menuid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.flash.toolbar.model.QxMenu" >
+    insert into QX_MENU (MENUID, MENUNO, MENUNAME, 
+      MENUINDEX, FID, level, 
+      ORDERNO, CREATEDATE, COUNTRYNO, 
+      TOPERATORID, DELFLAG, MODIFYMAN, 
+      MODIFYDATE)
+    values (#{menuid,jdbcType=VARCHAR}, #{menuno,jdbcType=VARCHAR}, #{menuname,jdbcType=VARCHAR}, 
+      #{menuindex,jdbcType=VARCHAR}, #{fid,jdbcType=VARCHAR}, #{level,jdbcType=VARCHAR}, 
+      #{orderno,jdbcType=DECIMAL}, #{createdate,jdbcType=TIMESTAMP}, #{countryno,jdbcType=VARCHAR}, 
+      #{toperatorid,jdbcType=VARCHAR}, #{delflag,jdbcType=VARCHAR}, #{modifyman,jdbcType=VARCHAR}, 
+      #{modifydate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.flash.toolbar.model.QxMenu" >
+    insert into QX_MENU
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="menuid != null" >
+        MENUID,
+      </if>
+      <if test="menuno != null" >
+        MENUNO,
+      </if>
+      <if test="menuname != null" >
+        MENUNAME,
+      </if>
+      <if test="menuindex != null" >
+        MENUINDEX,
+      </if>
+      <if test="fid != null" >
+        FID,
+      </if>
+      <if test="level != null" >
+        level,
+      </if>
+      <if test="orderno != null" >
+        ORDERNO,
+      </if>
+      <if test="createdate != null" >
+        CREATEDATE,
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO,
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID,
+      </if>
+      <if test="delflag != null" >
+        DELFLAG,
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN,
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="menuid != null" >
+        #{menuid,jdbcType=VARCHAR},
+      </if>
+      <if test="menuno != null" >
+        #{menuno,jdbcType=VARCHAR},
+      </if>
+      <if test="menuname != null" >
+        #{menuname,jdbcType=VARCHAR},
+      </if>
+      <if test="menuindex != null" >
+        #{menuindex,jdbcType=VARCHAR},
+      </if>
+      <if test="fid != null" >
+        #{fid,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null" >
+        #{level,jdbcType=VARCHAR},
+      </if>
+      <if test="orderno != null" >
+        #{orderno,jdbcType=DECIMAL},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="countryno != null" >
+        #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="delflag != null" >
+        #{delflag,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+        #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.flash.toolbar.model.QxMenu" >
+    update QX_MENU
+    <set >
+      <if test="menuno != null" >
+        MENUNO = #{menuno,jdbcType=VARCHAR},
+      </if>
+      <if test="menuname != null" >
+        MENUNAME = #{menuname,jdbcType=VARCHAR},
+      </if>
+      <if test="menuindex != null" >
+        MENUINDEX = #{menuindex,jdbcType=VARCHAR},
+      </if>
+      <if test="fid != null" >
+        FID = #{fid,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null" >
+        level = #{level,jdbcType=VARCHAR},
+      </if>
+      <if test="orderno != null" >
+        ORDERNO = #{orderno,jdbcType=DECIMAL},
+      </if>
+      <if test="createdate != null" >
+        CREATEDATE = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="delflag != null" >
+        DELFLAG = #{delflag,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where MENUID = #{menuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.flash.toolbar.model.QxMenu" >
+    update QX_MENU
+    set MENUNO = #{menuno,jdbcType=VARCHAR},
+      MENUNAME = #{menuname,jdbcType=VARCHAR},
+      MENUINDEX = #{menuindex,jdbcType=VARCHAR},
+      FID = #{fid,jdbcType=VARCHAR},
+      level = #{level,jdbcType=VARCHAR},
+      ORDERNO = #{orderno,jdbcType=DECIMAL},
+      CREATEDATE = #{createdate,jdbcType=TIMESTAMP},
+      COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      DELFLAG = #{delflag,jdbcType=VARCHAR},
+      MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP}
+    where MENUID = #{menuid,jdbcType=VARCHAR}
+  </update>
+</mapper>

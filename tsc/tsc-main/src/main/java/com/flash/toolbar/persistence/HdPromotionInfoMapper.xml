@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.mapper.HdPromotionInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.model.HdPromotionInfo" >
+    <id column="PROMOTIONID" property="promotionid" jdbcType="VARCHAR" />
+    <result column="PROMOTIONNAME" property="promotionname" jdbcType="VARCHAR" />
+    <result column="PROMOTIONDESC" property="promotiondesc" jdbcType="VARCHAR" />
+    <result column="PRIZEDESC" property="prizedesc" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="DECIMAL" />
+    <result column="STARTDATE" property="startdate" jdbcType="TIMESTAMP" />
+    <result column="ENDDATE" property="enddate" jdbcType="TIMESTAMP" />
+    <result column="ONEDAYTIMES" property="onedaytimes" jdbcType="DECIMAL" />
+    <result column="COUNTDOWN" property="countdown" jdbcType="DECIMAL" />
+    <result column="BANNERURL" property="bannerurl" jdbcType="VARCHAR" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+    <result column="MODIFYMAN" property="modifyman" jdbcType="VARCHAR" />
+    <result column="MODIFYDATE" property="modifydate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PROMOTIONID, PROMOTIONNAME, PROMOTIONDESC, PRIZEDESC, STATUS, STARTDATE, ENDDATE, 
+    ONEDAYTIMES, COUNTDOWN, BANNERURL, COUNTRYNO, TOPERATORID, MODIFYMAN, MODIFYDATE
+  </sql>
+  
+  <select id="selectByStatus" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from HD_PROMOTIONINFO
+    where STATUS = #{status,jdbcType=DECIMAL} and COUNTRYNO = #{countryno,jdbcType=VARCHAR} and TOPERATORID = #{toperatorid,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from HD_PROMOTIONINFO
+    where PROMOTIONID = #{promotionid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from HD_PROMOTIONINFO
+    where PROMOTIONID = #{promotionid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.flash.toolbar.model.HdPromotionInfo" >
+    insert into HD_PROMOTIONINFO (PROMOTIONID, PROMOTIONNAME, PROMOTIONDESC, 
+      PRIZEDESC, STATUS, STARTDATE, 
+      ENDDATE, ONEDAYTIMES, COUNTDOWN, 
+      BANNERURL, COUNTRYNO, TOPERATORID, 
+      MODIFYMAN, MODIFYDATE)
+    values (#{promotionid,jdbcType=VARCHAR}, #{promotionname,jdbcType=VARCHAR}, #{promotiondesc,jdbcType=VARCHAR}, 
+      #{prizedesc,jdbcType=VARCHAR}, #{status,jdbcType=DECIMAL}, #{startdate,jdbcType=TIMESTAMP}, 
+      #{enddate,jdbcType=TIMESTAMP}, #{onedaytimes,jdbcType=DECIMAL}, #{countdown,jdbcType=DECIMAL}, 
+      #{bannerurl,jdbcType=VARCHAR}, #{countryno,jdbcType=VARCHAR}, #{toperatorid,jdbcType=VARCHAR}, 
+      #{modifyman,jdbcType=VARCHAR}, #{modifydate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.flash.toolbar.model.HdPromotionInfo" >
+    insert into HD_PROMOTIONINFO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="promotionid != null" >
+        PROMOTIONID,
+      </if>
+      <if test="promotionname != null" >
+        PROMOTIONNAME,
+      </if>
+      <if test="promotiondesc != null" >
+        PROMOTIONDESC,
+      </if>
+      <if test="prizedesc != null" >
+        PRIZEDESC,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="startdate != null" >
+        STARTDATE,
+      </if>
+      <if test="enddate != null" >
+        ENDDATE,
+      </if>
+      <if test="onedaytimes != null" >
+        ONEDAYTIMES,
+      </if>
+      <if test="countdown != null" >
+        COUNTDOWN,
+      </if>
+      <if test="bannerurl != null" >
+        BANNERURL,
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO,
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID,
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN,
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="promotionid != null" >
+        #{promotionid,jdbcType=VARCHAR},
+      </if>
+      <if test="promotionname != null" >
+        #{promotionname,jdbcType=VARCHAR},
+      </if>
+      <if test="promotiondesc != null" >
+        #{promotiondesc,jdbcType=VARCHAR},
+      </if>
+      <if test="prizedesc != null" >
+        #{prizedesc,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="startdate != null" >
+        #{startdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enddate != null" >
+        #{enddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="onedaytimes != null" >
+        #{onedaytimes,jdbcType=DECIMAL},
+      </if>
+      <if test="countdown != null" >
+        #{countdown,jdbcType=DECIMAL},
+      </if>
+      <if test="bannerurl != null" >
+        #{bannerurl,jdbcType=VARCHAR},
+      </if>
+      <if test="countryno != null" >
+        #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+        #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.flash.toolbar.model.HdPromotionInfo" >
+    update HD_PROMOTIONINFO
+    <set >
+      <if test="promotionname != null" >
+        PROMOTIONNAME = #{promotionname,jdbcType=VARCHAR},
+      </if>
+      <if test="promotiondesc != null" >
+        PROMOTIONDESC = #{promotiondesc,jdbcType=VARCHAR},
+      </if>
+      <if test="prizedesc != null" >
+        PRIZEDESC = #{prizedesc,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="startdate != null" >
+        STARTDATE = #{startdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enddate != null" >
+        ENDDATE = #{enddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="onedaytimes != null" >
+        ONEDAYTIMES = #{onedaytimes,jdbcType=DECIMAL},
+      </if>
+      <if test="countdown != null" >
+        COUNTDOWN = #{countdown,jdbcType=DECIMAL},
+      </if>
+      <if test="bannerurl != null" >
+        BANNERURL = #{bannerurl,jdbcType=VARCHAR},
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PROMOTIONID = #{promotionid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.flash.toolbar.model.HdPromotionInfo" >
+    update HD_PROMOTIONINFO
+    set PROMOTIONNAME = #{promotionname,jdbcType=VARCHAR},
+      PROMOTIONDESC = #{promotiondesc,jdbcType=VARCHAR},
+      PRIZEDESC = #{prizedesc,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=DECIMAL},
+      STARTDATE = #{startdate,jdbcType=TIMESTAMP},
+      ENDDATE = #{enddate,jdbcType=TIMESTAMP},
+      ONEDAYTIMES = #{onedaytimes,jdbcType=DECIMAL},
+      COUNTDOWN = #{countdown,jdbcType=DECIMAL},
+      BANNERURL = #{bannerurl,jdbcType=VARCHAR},
+      COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP}
+    where PROMOTIONID = #{promotionid,jdbcType=VARCHAR}
+  </update>
+</mapper>

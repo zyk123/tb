@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.mapper.SysMainInterfaceIconConfigMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.model.SysMainInterfaceIconConfig" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="ICON" property="icon" jdbcType="BLOB" />
+    <result column="LINKURL" property="linkurl" jdbcType="VARCHAR"/>
+    <result column="SIGN" property="sign" jdbcType="CHAR"/>
+    <result column="TYPE" property="type" jdbcType="CHAR"/>
+    <result column="PERCENT" property="percent" jdbcType="VARCHAR"/>
+    <result column="MARK" property="mark" jdbcType="CHAR"/>
+    <result column="POPUP" property="popup" jdbcType="BLOB"/>
+    <result column="CREATEDATE" property="createdate" jdbcType="DATE" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID,ICON,LINKURL,SIGN,TYPE,PERCENT,MARK,POPUP,CREATEDATE, COUNTRYNO, TOPERATORID
+  </sql>
+  <select id="selectAllIcon" resultMap="BaseResultMap" parameterType="com.flash.toolbar.model.SysMainInterfaceIconConfig" >
+    select <include refid="Base_Column_List"/>
+    from SYS_MAININTERFACEICONCONFIG
+    <where>
+    	sign in (1,2,3)
+        <if test="null !=type and '' != type">
+            and TYPE = #{type,jdbcType=VARCHAR}
+        </if>
+  		<if test="null != countryno and '' != countryno">
+  			and COUNTRYNO = #{countryno,jdbcType=VARCHAR}
+  		</if>
+  		<if test="null != toperatorid and '' != toperatorid">
+  			and TOPERATORID = #{toperatorid,jdbcType=VARCHAR}
+  		</if>
+  	</where>
+  </select>
+</mapper>

@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.mapper.HyWebsiteNavigationMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.model.HyWebsiteNavigation" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="ICON" property="icon" jdbcType="BLOB" />
+    <result column="URL" property="url" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="CHAR" />
+    <result column="ORDERNO" property="orderno" jdbcType="NUMERIC" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+    <result column="MODIFYMAN" property="modifyman" jdbcType="VARCHAR" />
+    <result column="MODIFYDATE" property="modifydate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, NAME, ICON, URL,TYPE,ORDERNO,COUNTRYNO,TOPERATORID,MODIFYMAN,MODIFYDATE
+  </sql>
+  <sql id="Example_Where_Clause">
+		<where>
+			1=1
+			<if test="id != null and id != ''">
+				and id = #{bean.id,jdbcType=VARCHAR}
+			</if>
+			<if test="name != null and name != ''">
+				and name = #{bean.name,jdbcType=VARCHAR}
+			</if>
+			<if test="type != null and type != ''">
+				and type = #{bean.type,jdbcType=CHAR}
+			</if>
+			<if test="countryno != null and countryno != ''">
+				and countryNo = #{countryno,jdbcType=VARCHAR}
+			</if>
+			<if test="toperatorid != null and toperatorid !=''">
+				and tOperatorId = #{toperatorid,jdbcType=VARCHAR}
+			</if>			
+		</where>
+  </sql>   
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from hy_websitenavigation
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectBySelective" resultMap="BaseResultMap" parameterType="com.flash.toolbar.model.HyWebsiteNavigation">
+						select
+						<include refid="Base_Column_List" />
+						from hy_websitenavigation
+						<if test="_parameter != null">
+							<include refid="Example_Where_Clause" />
+						</if>
+						order by orderno											
+  </select>   
+  <select id="selectIconByPrimaryKey" parameterType="com.flash.toolbar.model.HyWebsiteNavigation" resultType="com.flash.toolbar.model.HyWebsiteNavigation">
+  	select icon from hy_websitenavigation
+  	<where>
+    	ID = #{id,jdbcType=VARCHAR}
+  		<if test="null != countryno and '' != countryno">
+  			and COUNTRYNO = #{countryno,jdbcType=VARCHAR}
+  		</if>
+  		<if test="null != toperatorid and '' != toperatorid">
+  			and TOPERATORID = #{toperatorid,jdbcType=VARCHAR}
+  		</if>
+  	</where>
+  </select>	  
+  <insert id="insert" parameterType="com.flash.toolbar.model.HyWebsiteNavigation" >
+    insert into hy_websitenavigation (ID, name, icon, 
+      url,type,orderno,countryno,toperatorid,modifyman,modifydate)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{icon,jdbcType=BLOB}, 
+      #{url,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{orderno,jdbcType=DECIMAL}, #{countryno,jdbcType=VARCHAR}
+      , #{toperatorid,jdbcType=VARCHAR}, #{modifyman,jdbcType=VARCHAR}, #{modifydate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.flash.toolbar.model.HyWebsiteNavigation" >
+    insert into hy_websitenavigation
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="icon != null" >
+        ICON,
+      </if>
+      <if test="url != null" >
+        URL,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="orderno != null" >
+        ORDERNO,
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO,
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID,
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN,
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null" >
+        #{icon,jdbcType=BLOB},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="orderno != null" >
+        #{orderno,jdbcType=DECIMAL},
+      </if>
+      <if test="countryno != null" >
+        #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+        #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.flash.toolbar.model.HyWebsiteNavigation" >
+    update hy_websitenavigation
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null" >
+        icon = #{icon,jdbcType=BLOB},
+      </if>
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="orderno != null" >
+       	orderno = #{orderno,jdbcType=DECIMAL},
+      </if>
+      <if test="countryno != null" >
+        countryno = #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        toperatorid = #{toperatorid,jdbcType=VARCHAR},
+      </if>      
+      <if test="modifyman != null" >
+        modifyman = #{modifyman,jdbcType=VARCHAR},
+      </if>      
+      <if test="modifydate != null" >
+        modifydate = #{modifydate,jdbcType=TIMESTAMP},
+      </if>      
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from hy_websitenavigation
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>  
+</mapper>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.mapper.IdGeneratorMapper">
+
+    <sql id="column_list"> sequenceid,fieldname,maxid,remark,pattern,idtype </sql>
+    <resultMap type="com.flash.toolbar.model.IdGenerator" id="idGeneratorMap">
+        <id column="sequenceid" property="id" />
+        <result column="fieldname" property="fieldname" />
+        <result column="maxid" property="maxid" />
+        <result column="remark" property="remark" />
+        <result column="pattern" property="pattern" />
+        <result column="idtype" property="idtype" />
+        <result column="delete_flag" property="deleteFlag" />
+    </resultMap>
+
+    <!-- 根据字段名查询 -->
+    <select id="getSequenceByFieldName" parameterType="com.flash.toolbar.model.IdGenerator"
+        resultMap="idGeneratorMap">
+        SELECT
+        <include refid="column_list" />
+        from idsequence where delete_flag = '0'
+    </select>
+    <!-- 插入一条序列数据记录 -->
+    <insert id="insertSequenceByFieldName" parameterType="com.flash.toolbar.model.IdGenerator">
+        INSERT INTO idsequence ( fieldname,
+        maxid,remark,pattern,idtype,delete_flag)
+        VALUES ( #fieldname#, #id#, #remark#, #pattern#, #idtype#, '0')
+    </insert>
+    <!-- 根据ColumnName更新最大ID号 -->
+    <update id="updateMaxValueByFieldName" parameterType="com.flash.toolbar.model.IdGenerator">
+        update idsequence set maxid = #id# where fieldname = #fieldname#
+    </update>
+</mapper>

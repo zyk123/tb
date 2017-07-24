@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.mapper.SysDictionaryMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.model.SysDictionary" >
+    <id column="DICTIONARYID" property="dictionaryid" jdbcType="VARCHAR" />
+    <result column="DICTTYPE" property="dicttype" jdbcType="VARCHAR" />
+    <result column="DICTNAME" property="dictname" jdbcType="VARCHAR" />
+    <result column="DICTKEY" property="dictkey" jdbcType="VARCHAR" />
+    <result column="DICTVALUE" property="dictvalue" jdbcType="VARCHAR" />
+    <result column="DELFLAG" property="delflag" jdbcType="VARCHAR" />
+    <result column="MODIFYMAN" property="modifyman" jdbcType="VARCHAR" />
+    <result column="MODIFYDATE" property="modifydate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    DICTIONARYID, DICTTYPE, DICTNAME, DICTKEY, DICTVALUE, DELFLAG, MODIFYMAN, MODIFYDATE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from SYS_DICTIONARY
+    where DICTIONARYID = #{dictionaryid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from SYS_DICTIONARY
+    where DICTIONARYID = #{dictionaryid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.flash.toolbar.model.SysDictionary" >
+    insert into SYS_DICTIONARY (DICTIONARYID, DICTTYPE, DICTNAME, 
+      DICTKEY, DICTVALUE, DELFLAG, 
+      MODIFYMAN, MODIFYDATE)
+    values (#{dictionaryid,jdbcType=VARCHAR}, #{dicttype,jdbcType=VARCHAR}, #{dictname,jdbcType=VARCHAR}, 
+      #{dictkey,jdbcType=VARCHAR}, #{dictvalue,jdbcType=VARCHAR}, #{delflag,jdbcType=VARCHAR}, 
+      #{modifyman,jdbcType=VARCHAR}, #{modifydate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.flash.toolbar.model.SysDictionary" >
+    insert into SYS_DICTIONARY
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="dictionaryid != null" >
+        DICTIONARYID,
+      </if>
+      <if test="dicttype != null" >
+        DICTTYPE,
+      </if>
+      <if test="dictname != null" >
+        DICTNAME,
+      </if>
+      <if test="dictkey != null" >
+        DICTKEY,
+      </if>
+      <if test="dictvalue != null" >
+        DICTVALUE,
+      </if>
+      <if test="delflag != null" >
+        DELFLAG,
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN,
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="dictionaryid != null" >
+        #{dictionaryid,jdbcType=VARCHAR},
+      </if>
+      <if test="dicttype != null" >
+        #{dicttype,jdbcType=VARCHAR},
+      </if>
+      <if test="dictname != null" >
+        #{dictname,jdbcType=VARCHAR},
+      </if>
+      <if test="dictkey != null" >
+        #{dictkey,jdbcType=VARCHAR},
+      </if>
+      <if test="dictvalue != null" >
+        #{dictvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="delflag != null" >
+        #{delflag,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+        #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.flash.toolbar.model.SysDictionary" >
+    update SYS_DICTIONARY
+    <set >
+      <if test="dicttype != null" >
+        DICTTYPE = #{dicttype,jdbcType=VARCHAR},
+      </if>
+      <if test="dictname != null" >
+        DICTNAME = #{dictname,jdbcType=VARCHAR},
+      </if>
+      <if test="dictkey != null" >
+        DICTKEY = #{dictkey,jdbcType=VARCHAR},
+      </if>
+      <if test="dictvalue != null" >
+        DICTVALUE = #{dictvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="delflag != null" >
+        DELFLAG = #{delflag,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where DICTIONARYID = #{dictionaryid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.flash.toolbar.model.SysDictionary" >
+    update SYS_DICTIONARY
+    set DICTTYPE = #{dicttype,jdbcType=VARCHAR},
+      DICTNAME = #{dictname,jdbcType=VARCHAR},
+      DICTKEY = #{dictkey,jdbcType=VARCHAR},
+      DICTVALUE = #{dictvalue,jdbcType=VARCHAR},
+      DELFLAG = #{delflag,jdbcType=VARCHAR},
+      MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP}
+    where DICTIONARYID = #{dictionaryid,jdbcType=VARCHAR}
+  </update>
+</mapper>

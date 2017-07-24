@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.1.xsd 
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+    <import resource="tbar-redis.xml" />
+    
+	<!-- 注解支持 -->
+	<context:annotation-config/>
+	<!-- 上下文组件扫描 -->
+	<context:component-scan base-package="com.flash.toolbar">
+	<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
+	
+	<!-- 开启AOP监听 -->
+<!-- 	<aop:aspectj-autoproxy proxy-target-class="true"/> -->
+	
+	<!-- 国际化 -->
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basenames">
+            <list>
+                <value>messages</value>
+            </list>
+        </property>
+        <property name="useCodeAsDefaultMessage" value="true"/>
+    </bean>
+    
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE"/>
+        <property name="ignoreResourceNotFound" value="true"/>
+        <property name="locations">
+            <list>
+                <value>classpath:/environment.properties</value>
+                <value>classpath:/tbar-redis.properties</value>
+            </list>
+        </property>
+        <property name="fileEncoding">
+            <value>UTF-8</value>
+        </property>
+    </bean>
+    
+    <bean name="serviceUrlBean" class="com.flash.toolbar.portal.bean.ServiceUrlBean">
+    	<property name="setToolbarAvaliable" value="${service.url.setToolbarAvaliable}"></property>
+    	<property name="queryFlowPortal" value="${service.url.queryFlowPortal}"></property>
+    	<property name="queryUserFlow" value="${service.url.queryUserFlow}"></property>
+    	<property name="queryMyPackage" value="${service.url.queryMyPackage}"></property>
+    	<property name="recordVisitAction" value="${service.url.recordVisitAction}"></property>
+    	<property name="isToolbarAvalible" value="${service.url.isToolbarAvalible}"></property>
+    	<property name="getPackageListManager" value="${service.url.getPackageListManager}"></property>
+    	<property name="getDefaultSetting" value="${service.url.getDefaultSetting}"></property>
+    	<property name="subScribePackage" value="${service.url.subScribePackage}"></property>
+    	<property name="sendFeedBack" value="${service.url.sendFeedback}"></property>
+    	<property name="baseUrl" value="${service.url.baseUrl}"></property>
+    	<property name="queryToolbarSession" value="${service.url.queryToolbarSession}"></property>
+    	<property name="toolbarSessionOutTime" value="${toolbarSessionOutTime}"></property>
+    	<property name="packageDetail" value="${service.url.getPackageDetail}"></property>
+    	<property name="welHasShown" value="${service.url.welHasShown}"/>
+    	<property name="isToolbarAvalibleOutTime" value="${isToolbarAvalibleOutTime}"/>
+    	<property name="allIcon" value="${service.url.getAllIcon}"/>
+    	<property name="readIcon" value="${service.url.readIcon}"/>
+    	<property name="saveReceiverInfo" value="${service.url.saveReceiverInfo}"/>
+    	<property name="getLuckyList" value="${service.url.getLuckyList}"/>
+    	<property name="getMyLuckyList" value="${service.url.getMyLuckyList}"/>
+    	<property name="getReceiverInfo" value="${service.url.getReceiverInfo}"/>
+    	<property name="recordClickEventAction" value="${service.url.recordClickEventAction}"/>
+    	<property name="iconExpireTime" value="${iconExpireTime}"/>
+    	<property name="requirePrize" value="${service.url.getPrize}"/>
+    	<property name="requireRestOnedaytimes" value="${service.url.getRestOnedaytimes}"/>
+    	<property name="getPromotionList" value="${service.url.getPromotionList}"/>
+    	<property name="getPromotionPrize" value="${service.url.getPromotionPrize}"/>
+    	<property name="judgeLimits" value="${service.url.judgeLimits}"/>
+    	<property name="phoneGameLuckDraw" value="${service.url.phoneGameLuckDraw}"/>
+    	<property name="getCompetitionInfo" value="${service.url.getCompetitionInfo}"/>
+		<property name="activityHasShown" value="${service.url.activityHasShown}"/>
+		<property name="isActivityPopup" value="${service.url.isActivityPopup}"/>
+		<property name="updateManOrRobotInfo" value="${service.url.updateManOrRobotInfo}"/>
+		<property name="queryGameList" value="${service.url.queryGameList}"/>
+		<property name="queryGameIcon" value="${service.url.queryGameIcon}"/>
+		<property name="queryWebsiteList" value="${service.url.queryWebsiteList}"/>
+		<property name="queryWebsiteIcon" value="${service.url.queryWebsiteIcon}"/>
+		<property name="saveReloadOrder" value="${service.url.saveReloadOrder}"/>
+		<property name="saveReloadResult" value="${service.url.saveReloadResult}"/>
+    </bean>
+</beans>

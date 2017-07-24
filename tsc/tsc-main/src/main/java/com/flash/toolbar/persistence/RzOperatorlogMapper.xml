@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.mapper.RzOperatorlogMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.model.RzOperatorlog" >
+    <id column="OPERATORLOGID" property="operatorlogid" jdbcType="VARCHAR" />
+    <result column="USERNO" property="userno" jdbcType="VARCHAR" />
+    <result column="OPERATORMENU" property="operatormenu" jdbcType="VARCHAR" />
+    <result column="OPERATORTYPE" property="operatortype" jdbcType="VARCHAR" />
+    <result column="OPERATORRESTUL" property="operatorrestul" jdbcType="VARCHAR" />
+    <result column="IP" property="ip" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="MODIFYDATE" property="modifydate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    OPERATORLOGID, USERNO, OPERATORMENU, OPERATORTYPE, OPERATORRESTUL, IP, REMARK, MODIFYDATE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from RZ_OPERATORLOG
+    where OPERATORLOGID = #{operatorlogid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from RZ_OPERATORLOG
+    where OPERATORLOGID = #{operatorlogid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.flash.toolbar.model.RzOperatorlog" >
+    insert into RZ_OPERATORLOG (OPERATORLOGID, USERNO, OPERATORMENU, 
+      OPERATORTYPE, OPERATORRESTUL, IP, 
+      REMARK, MODIFYDATE)
+    values (#{operatorlogid,jdbcType=VARCHAR}, #{userno,jdbcType=VARCHAR}, #{operatormenu,jdbcType=VARCHAR}, 
+      #{operatortype,jdbcType=VARCHAR}, #{operatorrestul,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{modifydate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.flash.toolbar.model.RzOperatorlog" >
+    insert into RZ_OPERATORLOG
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="operatorlogid != null" >
+        OPERATORLOGID,
+      </if>
+      <if test="userno != null" >
+        USERNO,
+      </if>
+      <if test="operatormenu != null" >
+        OPERATORMENU,
+      </if>
+      <if test="operatortype != null" >
+        OPERATORTYPE,
+      </if>
+      <if test="operatorrestul != null" >
+        OPERATORRESTUL,
+      </if>
+      <if test="ip != null" >
+        IP,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="operatorlogid != null" >
+        #{operatorlogid,jdbcType=VARCHAR},
+      </if>
+      <if test="userno != null" >
+        #{userno,jdbcType=VARCHAR},
+      </if>
+      <if test="operatormenu != null" >
+        #{operatormenu,jdbcType=VARCHAR},
+      </if>
+      <if test="operatortype != null" >
+        #{operatortype,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorrestul != null" >
+        #{operatorrestul,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null" >
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.flash.toolbar.model.RzOperatorlog" >
+    update RZ_OPERATORLOG
+    <set >
+      <if test="userno != null" >
+        USERNO = #{userno,jdbcType=VARCHAR},
+      </if>
+      <if test="operatormenu != null" >
+        OPERATORMENU = #{operatormenu,jdbcType=VARCHAR},
+      </if>
+      <if test="operatortype != null" >
+        OPERATORTYPE = #{operatortype,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorrestul != null" >
+        OPERATORRESTUL = #{operatorrestul,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null" >
+        IP = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where OPERATORLOGID = #{operatorlogid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.flash.toolbar.model.RzOperatorlog" >
+    update RZ_OPERATORLOG
+    set USERNO = #{userno,jdbcType=VARCHAR},
+      OPERATORMENU = #{operatormenu,jdbcType=VARCHAR},
+      OPERATORTYPE = #{operatortype,jdbcType=VARCHAR},
+      OPERATORRESTUL = #{operatorrestul,jdbcType=VARCHAR},
+      IP = #{ip,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP}
+    where OPERATORLOGID = #{operatorlogid,jdbcType=VARCHAR}
+  </update>
+</mapper>

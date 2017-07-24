@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.mapper.SysRemindConfigMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.model.SysRemindConfig" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="REMINDVAL" property="remindval" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="CHAR" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+    <result column="PREPOSINDICATOR" property="preposindicator" jdbcType="VARCHAR" />
+    <result column="ISOPEN" property="isopen" jdbcType="CHAR" />
+    <result column="MODIFYMAN" property="modifyman" jdbcType="CHAR" />
+    <result column="MODIFYDATE" property="modifydate" jdbcType="TIMESTAMP" />
+    <result column="BRAND" property="brand" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, REMINDVAL, TYPE, COUNTRYNO, TOPERATORID,PREPOSINDICATOR,ISOPEN,MODIFYMAN,MODIFYDATE,BRAND
+  </sql>
+  <sql id="Example_Where_Clause">
+		<where>
+			1=1
+			<if test="id != null and id != ''">
+				and id = #{id,jdbcType=VARCHAR}
+			</if>
+			<if test="remindval != null and remindval != ''">
+				and remindval = #{remindval,jdbcType=VARCHAR}
+			</if>
+			<if test="countryno != null and countryno != ''">
+				and countryno = #{countryno,jdbcType=VARCHAR}
+			</if>
+			<if test="type != null and type != ''">
+				and type = #{type,jdbcType=VARCHAR}
+			</if>
+			<if test="toperatorid != null and toperatorid != ''">
+				and toperatorid = #{toperatorid,jdbcType=VARCHAR}
+			</if>
+			<if test="preposindicator != null and preposindicator != ''">
+				and preposindicator = #{preposindicator,jdbcType=VARCHAR}
+			</if>
+			<if test="isopen != null and isopen != ''">
+				and isopen = #{isopen,jdbcType=VARCHAR}
+			</if>
+			<if test="brand != null and brand != ''">
+				and brand = #{brand,jdbcType=VARCHAR}
+			</if>
+		</where>
+  </sql>   
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from SYS_REMINDCONFIG
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectBySelective" resultMap="BaseResultMap" parameterType="com.flash.toolbar.model.SysRemindConfig">
+						select
+						<include refid="Base_Column_List" />
+						from SYS_REMINDCONFIG
+						<if test="_parameter != null">
+							<include refid="Example_Where_Clause" />
+						</if>						
+						order by type 
+  </select>   
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from SYS_REMINDCONFIG
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.flash.toolbar.model.SysRemindConfig" >
+    insert into SYS_REMINDCONFIG (ID, REMINDVAL, TYPE, 
+      COUNTRYNO, TOPERATORID,PREPOSINDICATOR,ISOPEN,MODIFYMAN,MODIFYDATE,BRAND)
+    values (#{id,jdbcType=VARCHAR}, #{remindval,jdbcType=VARCHAR}, #{type,jdbcType=CHAR}, 
+      #{countryno,jdbcType=VARCHAR}, #{toperatorid,jdbcType=VARCHAR}, #{preposindicator,jdbcType=VARCHAR}
+      , #{isopen,jdbcType=VARCHAR}, #{modifyman,jdbcType=VARCHAR}, #{modifydate,jdbcType=TIMESTAMP}
+      , #{brand,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.flash.toolbar.model.SysRemindConfig" >
+    insert into SYS_REMINDCONFIG
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="remindval != null" >
+        REMINDVAL,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO,
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID,
+      </if>
+      <if test="preposindicator != null" >
+        PREPOSINDICATOR,
+      </if>
+      <if test="isopen != null" >
+        ISOPEN,
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN,
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE,
+      </if>
+      <if test="brand != null" >
+        BRAND,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="remindval != null" >
+        #{remindval,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=CHAR},
+      </if>
+      <if test="countryno != null" >
+        #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="preposindicator != null" >
+        #{preposindicator,jdbcType=VARCHAR},
+      </if>
+      <if test="isopen != null" >
+        #{isopen,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+        #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="brand != null" >
+        #{brand,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.flash.toolbar.model.SysRemindConfig" >
+    update SYS_REMINDCONFIG
+    <set >
+      <if test="remindval != null" >
+        REMINDVAL = #{remindval,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=CHAR},
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="preposindicator != null" >
+        PREPOSINDICATOR = #{preposindicator,jdbcType=VARCHAR},
+      </if>
+      <if test="isopen != null" >
+        ISOPEN = #{isopen,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+       	MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="brand != null" >
+        BRAND = #{brand,jdbcType=VARCHAR},
+      </if>      
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.flash.toolbar.model.SysRemindConfig" >
+    update SYS_REMINDCONFIG
+    set REMINDVAL = #{remindval,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=CHAR},
+      COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      PREPOSINDICATOR = #{preposindicator,jdbcType=VARCHAR},
+      ISOPEN = #{isopen,jdbcType=VARCHAR},
+      MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP},
+      BRAND = #{brand,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.mapper.SysOperatorSegMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.model.SysOperatorSeg" >
+    <id column="OPERATORSEGID" property="operatorsegid" jdbcType="VARCHAR" />
+    <result column="STARTSEGNO" property="startsegno" jdbcType="VARCHAR" />
+    <result column="ENDSEGNO" property="endsegno" jdbcType="VARCHAR" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+    <result column="DELFLAG" property="delflag" jdbcType="VARCHAR" />
+    <result column="MODIFYMAN" property="modifyman" jdbcType="VARCHAR" />
+    <result column="MODIFYDATE" property="modifydate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  
+  <resultMap id="BaseResultMap1" type="com.flash.toolbar.model.SysTelecomOperatorAndSysOperatorSeg" >
+    <result column="OPERATORSEGID" property="operatorsegid" jdbcType="VARCHAR" />
+    <result column="STARTSEGNO" property="startsegno" jdbcType="VARCHAR" />
+    <result column="ENDSEGNO" property="endsegno" jdbcType="VARCHAR" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+    <result column="DELFLAG" property="delflag" jdbcType="VARCHAR" />
+    <result column="MODIFYMAN" property="modifyman" jdbcType="VARCHAR" />
+    <result column="MODIFYDATE" property="modifydate" jdbcType="TIMESTAMP" />
+    
+    <result column="TOPERATORNO" property="toperatorno" jdbcType="VARCHAR" />
+    <result column="TOPERATORNAME" property="toperatorname" jdbcType="VARCHAR" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="COUNTRYNAME" property="countryname" jdbcType="VARCHAR" />
+    <result column="LANGNO" property="langno" jdbcType="VARCHAR" />
+    <result column="LANGNAME" property="langname" jdbcType="VARCHAR" />
+    <result column="CURRENCY" property="currency" jdbcType="VARCHAR" />
+    <result column="TIMEZONE" property="timezone" jdbcType="VARCHAR" />
+    <result column="ADDDATE" property="adddate" jdbcType="TIMESTAMP" />
+    <result column="DELFLAG" property="operatordelflag" jdbcType="VARCHAR" />
+    <result column="MODIFYMAN" property="operatormodifyman" jdbcType="VARCHAR" />
+    <result column="MODIFYDATE" property="operatormodifydate" jdbcType="TIMESTAMP" />    
+  </resultMap>  
+  <sql id="Base_Column_List" >
+    OPERATORSEGID, STARTSEGNO, ENDSEGNO, COUNTRYNO, TOPERATORID, DELFLAG, MODIFYMAN, 
+    MODIFYDATE
+  </sql>
+  <select id="selectAll" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from SYS_OPERATORSEG where DELFLAG='1'
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from SYS_OPERATORSEG
+    where OPERATORSEGID = #{operatorsegid,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByMobileNo" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from SYS_OPERATORSEG
+    where DELFLAG='1' and #{mobileNo,jdbcType=VARCHAR} &gt;=STARTSEGNO and #{mobileNo,jdbcType=VARCHAR} &lt;=ENDSEGNO
+  </select>
+  
+  <select id="selectByMobileNoUnionTelecomOperator" resultMap="BaseResultMap1" parameterType="java.lang.String" >
+    select a.toperatorid,b.timezone,b.langno,b.countryno
+    
+    from SYS_OPERATORSEG a inner join SYS_TELECOMOPERATOR b on a.TOPERATORID=b.TOPERATORID
+    where a.DELFLAG='1' and #{mobileNo,jdbcType=VARCHAR} &gt;=a.STARTSEGNO and #{mobileNo,jdbcType=VARCHAR} &lt;=a.ENDSEGNO
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from SYS_OPERATORSEG
+    where OPERATORSEGID = #{operatorsegid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.flash.toolbar.model.SysOperatorSeg" >
+    insert into SYS_OPERATORSEG (OPERATORSEGID, STARTSEGNO, ENDSEGNO, 
+      COUNTRYNO, TOPERATORID, DELFLAG, 
+      MODIFYMAN, MODIFYDATE)
+    values (#{operatorsegid,jdbcType=VARCHAR}, #{startsegno,jdbcType=VARCHAR}, #{endsegno,jdbcType=VARCHAR}, 
+      #{countryno,jdbcType=VARCHAR}, #{toperatorid,jdbcType=VARCHAR}, #{delflag,jdbcType=VARCHAR}, 
+      #{modifyman,jdbcType=VARCHAR}, #{modifydate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.flash.toolbar.model.SysOperatorSeg" >
+    insert into SYS_OPERATORSEG
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="operatorsegid != null" >
+        OPERATORSEGID,
+      </if>
+      <if test="startsegno != null" >
+        STARTSEGNO,
+      </if>
+      <if test="endsegno != null" >
+        ENDSEGNO,
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO,
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID,
+      </if>
+      <if test="delflag != null" >
+        DELFLAG,
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN,
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="operatorsegid != null" >
+        #{operatorsegid,jdbcType=VARCHAR},
+      </if>
+      <if test="startsegno != null" >
+        #{startsegno,jdbcType=VARCHAR},
+      </if>
+      <if test="endsegno != null" >
+        #{endsegno,jdbcType=VARCHAR},
+      </if>
+      <if test="countryno != null" >
+        #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="delflag != null" >
+        #{delflag,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+        #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.flash.toolbar.model.SysOperatorSeg" >
+    update SYS_OPERATORSEG
+    <set >
+      <if test="startsegno != null" >
+        STARTSEGNO = #{startsegno,jdbcType=VARCHAR},
+      </if>
+      <if test="endsegno != null" >
+        ENDSEGNO = #{endsegno,jdbcType=VARCHAR},
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="delflag != null" >
+        DELFLAG = #{delflag,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where OPERATORSEGID = #{operatorsegid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.flash.toolbar.model.SysOperatorSeg" >
+    update SYS_OPERATORSEG
+    set STARTSEGNO = #{startsegno,jdbcType=VARCHAR},
+      ENDSEGNO = #{endsegno,jdbcType=VARCHAR},
+      COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      DELFLAG = #{delflag,jdbcType=VARCHAR},
+      MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP}
+    where OPERATORSEGID = #{operatorsegid,jdbcType=VARCHAR}
+  </update>
+</mapper>

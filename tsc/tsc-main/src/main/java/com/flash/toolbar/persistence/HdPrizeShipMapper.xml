@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.mapper.HdPrizeShipMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.model.HdPrizeShip" >
+    <id column="SHIPID" property="shipid" jdbcType="VARCHAR" />
+    <result column="MEMBERID" property="memberid" jdbcType="VARCHAR" />
+    <result column="MOBILENO" property="mobileno" jdbcType="VARCHAR" />
+    <result column="PROMOTIONID" property="promotionid" jdbcType="VARCHAR" />
+    <result column="PRIZEID" property="prizeid" jdbcType="VARCHAR" />
+    <result column="SHIPSTATUS" property="shipstatus" jdbcType="VARCHAR" />
+    <result column="WINNINGDATE" property="winningdate" jdbcType="TIMESTAMP" />
+    <result column="SHIPDATE" property="shipdate" jdbcType="TIMESTAMP" />
+    <result column="SHIPNUMBER" property="shipnumber" jdbcType="VARCHAR" />
+    <result column="RECEIVERID" property="receiverid" jdbcType="VARCHAR" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+    <result column="MODIFYMAN" property="modifyman" jdbcType="VARCHAR" />
+    <result column="MODIFYDATE" property="modifydate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <resultMap id="ResultPrizeShip" type="com.flash.toolbar.model.HdPrizeShipUnion" >
+    <id column="SHIPID" property="shipid" jdbcType="VARCHAR" />
+    <result column="MEMBERID" property="memberid" jdbcType="VARCHAR" />
+    <result column="MOBILENO" property="mobileno" jdbcType="VARCHAR" />
+    <result column="PROMOTIONID" property="promotionid" jdbcType="VARCHAR" />
+    <result column="PRIZEID" property="prizeid" jdbcType="VARCHAR" />
+    <result column="SHIPSTATUS" property="shipstatus" jdbcType="VARCHAR" />
+    <result column="WINNINGDATE" property="winningdate" jdbcType="TIMESTAMP" />
+    <result column="SHIPDATE" property="shipdate" jdbcType="TIMESTAMP" />
+    <result column="SHIPNUMBER" property="shipnumber" jdbcType="VARCHAR" />
+    <result column="RECEIVERID" property="receiverid" jdbcType="VARCHAR" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+    <result column="MODIFYMAN" property="modifyman" jdbcType="VARCHAR" />
+    <result column="MODIFYDATE" property="modifydate" jdbcType="TIMESTAMP" />
+    <result column="PRIZENAME" property="prizename" jdbcType="VARCHAR" />
+    <result column="PRIZEDESC" property="prizedesc" jdbcType="VARCHAR" />
+    <result column="PRIZETYPE" property="prizetype" jdbcType="VARCHAR" />
+    <result column="RN" property="rn" jdbcType="DECIMAL" />
+    <result column="PRIZELEVEL" property="prizelevel" jdbcType="VARCHAR" />
+    <result column="PROMOTIONNAME" property="promotionname" jdbcType="VARCHAR" />
+    <result column="PROMOTIONDESC" property="promotiondesc" jdbcType="VARCHAR" />
+    <result column="ICONURL" property="iconurl" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    SHIPID, MEMBERID, MOBILENO, PROMOTIONID, PRIZEID, SHIPSTATUS, WINNINGDATE, SHIPDATE, 
+    SHIPNUMBER, RECEIVERID, COUNTRYNO, TOPERATORID, MODIFYMAN, MODIFYDATE
+  </sql>
+  
+  <select id="selectPageByPromotionId" resultMap="ResultPrizeShip" >
+    select * from (
+    	select t.*, rownum rn from (
+    		select a.mobileno, a.winningdate, b.prizename, d.prizelevel from HD_PRIZESHIP a 
+    		left join HD_PRIZEINFO b on a.prizeid = b.prizeid 
+    		left join HD_PROMOTIONINFO c on a.promotionid = c.promotionid 
+    		left join HD_PROMOTIONPRIZE d on a.promotionid=d.promotionid and a.prizeid=d.prizeid 
+    		where a.promotionid = #{promotionid,jdbcType=VARCHAR} and a.manorrobot='0'
+    		order by a.winningdate desc 
+    	) t where rownum  <![CDATA[<=]]> #{endnum,jdbcType=DECIMAL}
+    ) where rn <![CDATA[>=]]> #{startnum,jdbcType=DECIMAL}
+  </select>
+  
+  <select id="selectByMemberId" resultMap="ResultPrizeShip" >
+  	select a.mobileno, a.prizeid, a.winningdate, b.prizename, d.prizelevel, a.shipdate, a.shipstatus, a.promotionid, a.memberid, c.promotionname, c.promotiondesc, c.prizedesc, d.iconurl 
+  	from HD_PRIZESHIP a 
+    		left join HD_PRIZEINFO b on a.prizeid = b.prizeid 
+    		left join HD_PROMOTIONINFO c on a.promotionid = c.promotionid 
+    		left join HD_PROMOTIONPRIZE d on a.promotionid=d.promotionid and a.prizeid=d.prizeid 
+    		where a.memberid = #{memberid,jdbcType=VARCHAR} and a.manorrobot='0' 
+    		order by a.winningdate desc 
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from HD_PRIZESHIP
+    where SHIPID = #{shipid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from HD_PRIZESHIP
+    where SHIPID = #{shipid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.flash.toolbar.model.HdPrizeShip" >
+    insert into HD_PRIZESHIP (SHIPID, MEMBERID, MOBILENO, 
+      PROMOTIONID, PRIZEID, SHIPSTATUS, 
+      WINNINGDATE, SHIPDATE, SHIPNUMBER, 
+      RECEIVERID, COUNTRYNO, TOPERATORID, 
+      MODIFYMAN, MODIFYDATE,MANORROBOT)
+    values (#{shipid,jdbcType=VARCHAR}, #{memberid,jdbcType=VARCHAR}, #{mobileno,jdbcType=VARCHAR}, 
+      #{promotionid,jdbcType=VARCHAR}, #{prizeid,jdbcType=VARCHAR}, #{shipstatus,jdbcType=VARCHAR}, 
+      #{winningdate,jdbcType=TIMESTAMP}, #{shipdate,jdbcType=TIMESTAMP}, #{shipnumber,jdbcType=VARCHAR}, 
+      #{receiverid,jdbcType=VARCHAR}, #{countryno,jdbcType=VARCHAR}, #{toperatorid,jdbcType=VARCHAR}, 
+      #{modifyman,jdbcType=VARCHAR}, #{modifydate,jdbcType=TIMESTAMP},#{manorrobot,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.flash.toolbar.model.HdPrizeShip" >
+    insert into HD_PRIZESHIP
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="shipid != null" >
+        SHIPID,
+      </if>
+      <if test="memberid != null" >
+        MEMBERID,
+      </if>
+      <if test="mobileno != null" >
+        MOBILENO,
+      </if>
+      <if test="promotionid != null" >
+        PROMOTIONID,
+      </if>
+      <if test="prizeid != null" >
+        PRIZEID,
+      </if>
+      <if test="shipstatus != null" >
+        SHIPSTATUS,
+      </if>
+      <if test="winningdate != null" >
+        WINNINGDATE,
+      </if>
+      <if test="shipdate != null" >
+        SHIPDATE,
+      </if>
+      <if test="shipnumber != null" >
+        SHIPNUMBER,
+      </if>
+      <if test="receiverid != null" >
+        RECEIVERID,
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO,
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID,
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN,
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="shipid != null" >
+        #{shipid,jdbcType=VARCHAR},
+      </if>
+      <if test="memberid != null" >
+        #{memberid,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileno != null" >
+        #{mobileno,jdbcType=VARCHAR},
+      </if>
+      <if test="promotionid != null" >
+        #{promotionid,jdbcType=VARCHAR},
+      </if>
+      <if test="prizeid != null" >
+        #{prizeid,jdbcType=VARCHAR},
+      </if>
+      <if test="shipstatus != null" >
+        #{shipstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="winningdate != null" >
+        #{winningdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shipdate != null" >
+        #{shipdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shipnumber != null" >
+        #{shipnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverid != null" >
+        #{receiverid,jdbcType=VARCHAR},
+      </if>
+      <if test="countryno != null" >
+        #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+        #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.flash.toolbar.model.HdPrizeShip" >
+    update HD_PRIZESHIP
+    <set >
+      <if test="memberid != null" >
+        MEMBERID = #{memberid,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileno != null" >
+        MOBILENO = #{mobileno,jdbcType=VARCHAR},
+      </if>
+      <if test="promotionid != null" >
+        PROMOTIONID = #{promotionid,jdbcType=VARCHAR},
+      </if>
+      <if test="prizeid != null" >
+        PRIZEID = #{prizeid,jdbcType=VARCHAR},
+      </if>
+      <if test="shipstatus != null" >
+        SHIPSTATUS = #{shipstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="winningdate != null" >
+        WINNINGDATE = #{winningdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shipdate != null" >
+        SHIPDATE = #{shipdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shipnumber != null" >
+        SHIPNUMBER = #{shipnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverid != null" >
+        RECEIVERID = #{receiverid,jdbcType=VARCHAR},
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="manorrobot != null" >
+        MANORROBOT = #{manorrobot,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where SHIPID = #{shipid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.flash.toolbar.model.HdPrizeShip" >
+    update HD_PRIZESHIP
+    set MEMBERID = #{memberid,jdbcType=VARCHAR},
+      MOBILENO = #{mobileno,jdbcType=VARCHAR},
+      PROMOTIONID = #{promotionid,jdbcType=VARCHAR},
+      PRIZEID = #{prizeid,jdbcType=VARCHAR},
+      SHIPSTATUS = #{shipstatus,jdbcType=VARCHAR},
+      WINNINGDATE = #{winningdate,jdbcType=TIMESTAMP},
+      SHIPDATE = #{shipdate,jdbcType=TIMESTAMP},
+      SHIPNUMBER = #{shipnumber,jdbcType=VARCHAR},
+      RECEIVERID = #{receiverid,jdbcType=VARCHAR},
+      COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP}
+    where SHIPID = #{shipid,jdbcType=VARCHAR}
+  </update>
+</mapper>

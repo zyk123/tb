@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.mapper.QxPrivilegeMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.model.QxPrivilege" >
+    <id column="PRIVILEGEID" property="privilegeid" jdbcType="VARCHAR" />
+    <result column="PRIVILEGENO" property="privilegeno" jdbcType="VARCHAR" />
+    <result column="PRIVILEGENAME" property="privilegename" jdbcType="VARCHAR" />
+    <result column="CREATEDATE" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+    <result column="MODIFYMAN" property="modifyman" jdbcType="VARCHAR" />
+    <result column="MODIFYDATE" property="modifydate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PRIVILEGEID, PRIVILEGENO, PRIVILEGENAME, CREATEDATE, COUNTRYNO, TOPERATORID, MODIFYMAN, 
+    MODIFYDATE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from QX_PRIVILEGE
+    where PRIVILEGEID = #{privilegeid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from QX_PRIVILEGE
+    where PRIVILEGEID = #{privilegeid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.flash.toolbar.model.QxPrivilege" >
+    insert into QX_PRIVILEGE (PRIVILEGEID, PRIVILEGENO, PRIVILEGENAME, 
+      CREATEDATE, COUNTRYNO, TOPERATORID, 
+      MODIFYMAN, MODIFYDATE)
+    values (#{privilegeid,jdbcType=VARCHAR}, #{privilegeno,jdbcType=VARCHAR}, #{privilegename,jdbcType=VARCHAR}, 
+      #{createdate,jdbcType=TIMESTAMP}, #{countryno,jdbcType=VARCHAR}, #{toperatorid,jdbcType=VARCHAR}, 
+      #{modifyman,jdbcType=VARCHAR}, #{modifydate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.flash.toolbar.model.QxPrivilege" >
+    insert into QX_PRIVILEGE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="privilegeid != null" >
+        PRIVILEGEID,
+      </if>
+      <if test="privilegeno != null" >
+        PRIVILEGENO,
+      </if>
+      <if test="privilegename != null" >
+        PRIVILEGENAME,
+      </if>
+      <if test="createdate != null" >
+        CREATEDATE,
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO,
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID,
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN,
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="privilegeid != null" >
+        #{privilegeid,jdbcType=VARCHAR},
+      </if>
+      <if test="privilegeno != null" >
+        #{privilegeno,jdbcType=VARCHAR},
+      </if>
+      <if test="privilegename != null" >
+        #{privilegename,jdbcType=VARCHAR},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="countryno != null" >
+        #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+        #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.flash.toolbar.model.QxPrivilege" >
+    update QX_PRIVILEGE
+    <set >
+      <if test="privilegeno != null" >
+        PRIVILEGENO = #{privilegeno,jdbcType=VARCHAR},
+      </if>
+      <if test="privilegename != null" >
+        PRIVILEGENAME = #{privilegename,jdbcType=VARCHAR},
+      </if>
+      <if test="createdate != null" >
+        CREATEDATE = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PRIVILEGEID = #{privilegeid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.flash.toolbar.model.QxPrivilege" >
+    update QX_PRIVILEGE
+    set PRIVILEGENO = #{privilegeno,jdbcType=VARCHAR},
+      PRIVILEGENAME = #{privilegename,jdbcType=VARCHAR},
+      CREATEDATE = #{createdate,jdbcType=TIMESTAMP},
+      COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP}
+    where PRIVILEGEID = #{privilegeid,jdbcType=VARCHAR}
+  </update>
+</mapper>

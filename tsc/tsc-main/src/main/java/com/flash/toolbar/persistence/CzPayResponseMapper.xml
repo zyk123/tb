@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.mapper.CzPayResponseMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.model.CzPayResponse" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="STOREID" property="storeid" jdbcType="VARCHAR" />
+    <result column="ORDERID" property="orderid" jdbcType="VARCHAR" />
+    <result column="TRANSDATE" property="transdate" jdbcType="VARCHAR" />
+    <result column="TOTALAMOUNT" property="totalamount" jdbcType="DECIMAL" />
+    <result column="MSISDN" property="msisdn" jdbcType="VARCHAR" />
+    <result column="BALANCE" property="balance" jdbcType="DECIMAL" />
+    <result column="SUSPENDDATE" property="suspenddate" jdbcType="VARCHAR" />
+    <result column="RETURNCODE" property="returncode" jdbcType="VARCHAR" />
+    <result column="REASONCODE" property="reasoncode" jdbcType="DECIMAL" />
+    <result column="REASONDESC" property="reasondesc" jdbcType="VARCHAR" />
+    <result column="REFERID" property="referid" jdbcType="VARCHAR" />
+    <result column="SIGNATURE" property="signature" jdbcType="VARCHAR" />
+    <result column="PAYMENTMETHOD" property="paymentmethod" jdbcType="DECIMAL" />
+    <result column="CARDPADDEDNUM" property="cardpaddednum" jdbcType="VARCHAR" />
+    <result column="AUTHCODE" property="authcode" jdbcType="VARCHAR" />
+    <result column="TOKEN" property="token" jdbcType="VARCHAR" />
+    <result column="PAYER" property="payer" jdbcType="VARCHAR" />
+    <result column="TRANSACTIONID" property="transactionid" jdbcType="VARCHAR" />
+    <result column="ACCOUNTNUM" property="accountnum" jdbcType="VARCHAR" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+    <result column="MODIFYMAN" property="modifyman" jdbcType="VARCHAR" />
+    <result column="MODIFYDATE" property="modifydate" jdbcType="DATE" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, STOREID, ORDERID, TRANSDATE, TOTALAMOUNT, MSISDN, BALANCE, SUSPENDDATE, RETURNCODE, 
+    REASONCODE, REASONDESC, REFERID, SIGNATURE, PAYMENTMETHOD, CARDPADDEDNUM, AUTHCODE, 
+    TOKEN, PAYER, TRANSACTIONID, ACCOUNTNUM, COUNTRYNO, TOPERATORID, MODIFYMAN, MODIFYDATE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from CZ_PAYRESPONSE
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from CZ_PAYRESPONSE
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.flash.toolbar.model.CzPayResponse" >
+    insert into CZ_PAYRESPONSE (ID, STOREID, ORDERID, 
+      TRANSDATE, TOTALAMOUNT, MSISDN, 
+      BALANCE, SUSPENDDATE, RETURNCODE, 
+      REASONCODE, REASONDESC, REFERID, 
+      SIGNATURE, PAYMENTMETHOD, CARDPADDEDNUM, 
+      AUTHCODE, TOKEN, PAYER, 
+      TRANSACTIONID, ACCOUNTNUM, COUNTRYNO, 
+      TOPERATORID, MODIFYMAN, MODIFYDATE
+      )
+    values (#{id,jdbcType=VARCHAR}, #{storeid,jdbcType=VARCHAR}, #{orderid,jdbcType=VARCHAR}, 
+      #{transdate,jdbcType=VARCHAR}, #{totalamount,jdbcType=DECIMAL}, #{msisdn,jdbcType=VARCHAR}, 
+      #{balance,jdbcType=DECIMAL}, #{suspenddate,jdbcType=VARCHAR}, #{returncode,jdbcType=VARCHAR}, 
+      #{reasoncode,jdbcType=DECIMAL}, #{reasondesc,jdbcType=VARCHAR}, #{referid,jdbcType=VARCHAR}, 
+      #{signature,jdbcType=VARCHAR}, #{paymentmethod,jdbcType=DECIMAL}, #{cardpaddednum,jdbcType=VARCHAR}, 
+      #{authcode,jdbcType=VARCHAR}, #{token,jdbcType=VARCHAR}, #{payer,jdbcType=VARCHAR}, 
+      #{transactionid,jdbcType=VARCHAR}, #{accountnum,jdbcType=VARCHAR}, #{countryno,jdbcType=VARCHAR}, 
+      #{toperatorid,jdbcType=VARCHAR}, #{modifyman,jdbcType=VARCHAR}, #{modifydate,jdbcType=DATE}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.flash.toolbar.model.CzPayResponse" >
+    insert into CZ_PAYRESPONSE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="storeid != null" >
+        STOREID,
+      </if>
+      <if test="orderid != null" >
+        ORDERID,
+      </if>
+      <if test="transdate != null" >
+        TRANSDATE,
+      </if>
+      <if test="totalamount != null" >
+        TOTALAMOUNT,
+      </if>
+      <if test="msisdn != null" >
+        MSISDN,
+      </if>
+      <if test="balance != null" >
+        BALANCE,
+      </if>
+      <if test="suspenddate != null" >
+        SUSPENDDATE,
+      </if>
+      <if test="returncode != null" >
+        RETURNCODE,
+      </if>
+      <if test="reasoncode != null" >
+        REASONCODE,
+      </if>
+      <if test="reasondesc != null" >
+        REASONDESC,
+      </if>
+      <if test="referid != null" >
+        REFERID,
+      </if>
+      <if test="signature != null" >
+        SIGNATURE,
+      </if>
+      <if test="paymentmethod != null" >
+        PAYMENTMETHOD,
+      </if>
+      <if test="cardpaddednum != null" >
+        CARDPADDEDNUM,
+      </if>
+      <if test="authcode != null" >
+        AUTHCODE,
+      </if>
+      <if test="token != null" >
+        TOKEN,
+      </if>
+      <if test="payer != null" >
+        PAYER,
+      </if>
+      <if test="transactionid != null" >
+        TRANSACTIONID,
+      </if>
+      <if test="accountnum != null" >
+        ACCOUNTNUM,
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO,
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID,
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN,
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="storeid != null" >
+        #{storeid,jdbcType=VARCHAR},
+      </if>
+      <if test="orderid != null" >
+        #{orderid,jdbcType=VARCHAR},
+      </if>
+      <if test="transdate != null" >
+        #{transdate,jdbcType=VARCHAR},
+      </if>
+      <if test="totalamount != null" >
+        #{totalamount,jdbcType=DECIMAL},
+      </if>
+      <if test="msisdn != null" >
+        #{msisdn,jdbcType=VARCHAR},
+      </if>
+      <if test="balance != null" >
+        #{balance,jdbcType=DECIMAL},
+      </if>
+      <if test="suspenddate != null" >
+        #{suspenddate,jdbcType=VARCHAR},
+      </if>
+      <if test="returncode != null" >
+        #{returncode,jdbcType=VARCHAR},
+      </if>
+      <if test="reasoncode != null" >
+        #{reasoncode,jdbcType=DECIMAL},
+      </if>
+      <if test="reasondesc != null" >
+        #{reasondesc,jdbcType=VARCHAR},
+      </if>
+      <if test="referid != null" >
+        #{referid,jdbcType=VARCHAR},
+      </if>
+      <if test="signature != null" >
+        #{signature,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentmethod != null" >
+        #{paymentmethod,jdbcType=DECIMAL},
+      </if>
+      <if test="cardpaddednum != null" >
+        #{cardpaddednum,jdbcType=VARCHAR},
+      </if>
+      <if test="authcode != null" >
+        #{authcode,jdbcType=VARCHAR},
+      </if>
+      <if test="token != null" >
+        #{token,jdbcType=VARCHAR},
+      </if>
+      <if test="payer != null" >
+        #{payer,jdbcType=VARCHAR},
+      </if>
+      <if test="transactionid != null" >
+        #{transactionid,jdbcType=VARCHAR},
+      </if>
+      <if test="accountnum != null" >
+        #{accountnum,jdbcType=VARCHAR},
+      </if>
+      <if test="countryno != null" >
+        #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+        #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        #{modifydate,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.flash.toolbar.model.CzPayResponse" >
+    update CZ_PAYRESPONSE
+    <set >
+      <if test="storeid != null" >
+        STOREID = #{storeid,jdbcType=VARCHAR},
+      </if>
+      <if test="orderid != null" >
+        ORDERID = #{orderid,jdbcType=VARCHAR},
+      </if>
+      <if test="transdate != null" >
+        TRANSDATE = #{transdate,jdbcType=VARCHAR},
+      </if>
+      <if test="totalamount != null" >
+        TOTALAMOUNT = #{totalamount,jdbcType=DECIMAL},
+      </if>
+      <if test="msisdn != null" >
+        MSISDN = #{msisdn,jdbcType=VARCHAR},
+      </if>
+      <if test="balance != null" >
+        BALANCE = #{balance,jdbcType=DECIMAL},
+      </if>
+      <if test="suspenddate != null" >
+        SUSPENDDATE = #{suspenddate,jdbcType=VARCHAR},
+      </if>
+      <if test="returncode != null" >
+        RETURNCODE = #{returncode,jdbcType=VARCHAR},
+      </if>
+      <if test="reasoncode != null" >
+        REASONCODE = #{reasoncode,jdbcType=DECIMAL},
+      </if>
+      <if test="reasondesc != null" >
+        REASONDESC = #{reasondesc,jdbcType=VARCHAR},
+      </if>
+      <if test="referid != null" >
+        REFERID = #{referid,jdbcType=VARCHAR},
+      </if>
+      <if test="signature != null" >
+        SIGNATURE = #{signature,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentmethod != null" >
+        PAYMENTMETHOD = #{paymentmethod,jdbcType=DECIMAL},
+      </if>
+      <if test="cardpaddednum != null" >
+        CARDPADDEDNUM = #{cardpaddednum,jdbcType=VARCHAR},
+      </if>
+      <if test="authcode != null" >
+        AUTHCODE = #{authcode,jdbcType=VARCHAR},
+      </if>
+      <if test="token != null" >
+        TOKEN = #{token,jdbcType=VARCHAR},
+      </if>
+      <if test="payer != null" >
+        PAYER = #{payer,jdbcType=VARCHAR},
+      </if>
+      <if test="transactionid != null" >
+        TRANSACTIONID = #{transactionid,jdbcType=VARCHAR},
+      </if>
+      <if test="accountnum != null" >
+        ACCOUNTNUM = #{accountnum,jdbcType=VARCHAR},
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE = #{modifydate,jdbcType=DATE},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.flash.toolbar.model.CzPayResponse" >
+    update CZ_PAYRESPONSE
+    set STOREID = #{storeid,jdbcType=VARCHAR},
+      ORDERID = #{orderid,jdbcType=VARCHAR},
+      TRANSDATE = #{transdate,jdbcType=VARCHAR},
+      TOTALAMOUNT = #{totalamount,jdbcType=DECIMAL},
+      MSISDN = #{msisdn,jdbcType=VARCHAR},
+      BALANCE = #{balance,jdbcType=DECIMAL},
+      SUSPENDDATE = #{suspenddate,jdbcType=VARCHAR},
+      RETURNCODE = #{returncode,jdbcType=VARCHAR},
+      REASONCODE = #{reasoncode,jdbcType=DECIMAL},
+      REASONDESC = #{reasondesc,jdbcType=VARCHAR},
+      REFERID = #{referid,jdbcType=VARCHAR},
+      SIGNATURE = #{signature,jdbcType=VARCHAR},
+      PAYMENTMETHOD = #{paymentmethod,jdbcType=DECIMAL},
+      CARDPADDEDNUM = #{cardpaddednum,jdbcType=VARCHAR},
+      AUTHCODE = #{authcode,jdbcType=VARCHAR},
+      TOKEN = #{token,jdbcType=VARCHAR},
+      PAYER = #{payer,jdbcType=VARCHAR},
+      TRANSACTIONID = #{transactionid,jdbcType=VARCHAR},
+      ACCOUNTNUM = #{accountnum,jdbcType=VARCHAR},
+      COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      MODIFYDATE = #{modifydate,jdbcType=DATE}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.mapper.HyFlowAlertMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.model.HyFlowAlert" >
+    <id column="FLOWALERTID" property="flowalertid" jdbcType="VARCHAR" />
+    <result column="MEMBERID" property="memberid" jdbcType="VARCHAR" />
+    <result column="MOBILENO" property="mobileno" jdbcType="VARCHAR" />
+    <result column="ALERTDATE" property="alertdate" jdbcType="DATE" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+    <result column="DELFLAG" property="delflag" jdbcType="VARCHAR" />
+    <result column="MODIFYMAN" property="modifyman" jdbcType="VARCHAR" />
+    <result column="MODIFYDATE" property="modifydate" jdbcType="TIMESTAMP" />
+    <result column="CURRENTVALUE" property="currentvalue" jdbcType="VARCHAR" />
+    <result column="ALERTVALUE" property="alertvalue" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    FLOWALERTID, MEMBERID, MOBILENO, ALERTDATE, COUNTRYNO, TOPERATORID, DELFLAG, MODIFYMAN, 
+    MODIFYDATE,CURRENTVALUE,ALERTVALUE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from HY_FLOWALERT
+    where FLOWALERTID = #{flowalertid,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 查询用户流量提醒 -->
+  <select id="selectByMemberIdAndDate" resultType="java.lang.String" parameterType="com.flash.toolbar.model.HyFlowAlert">
+  	select distinct ALERTVALUE
+    from HY_FLOWALERT
+    where MEMBERID = #{memberid,jdbcType=VARCHAR} 
+    AND ALERTDATE = #{alertdate,jdbcType=DATE}
+    <if test="countryno != null" >
+      AND COUNTRYNO = #{countryno,jdbcType=VARCHAR}
+     </if>
+     <if test="toperatorid != null" >
+      AND TOPERATORID = #{toperatorid,jdbcType=VARCHAR}
+     </if>
+      AND ALERTVALUE = #{alertvalue,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from HY_FLOWALERT
+    where FLOWALERTID = #{flowalertid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.flash.toolbar.model.HyFlowAlert" >
+    insert into HY_FLOWALERT (FLOWALERTID, MEMBERID, MOBILENO, 
+      ALERTDATE, COUNTRYNO, TOPERATORID, 
+      DELFLAG, MODIFYMAN, MODIFYDATE,CURRENTVALUE,ALERTVALUE
+      )
+    values (#{flowalertid,jdbcType=VARCHAR}, #{memberid,jdbcType=VARCHAR}, #{mobileno,jdbcType=VARCHAR}, 
+      #{alertdate,jdbcType=DATE}, #{countryno,jdbcType=VARCHAR}, #{toperatorid,jdbcType=VARCHAR}, 
+      #{delflag,jdbcType=VARCHAR}, #{modifyman,jdbcType=VARCHAR}, #{modifydate,jdbcType=TIMESTAMP}, #{currentvalue,jdbcType=VARCHAR}, #{alertvalue,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.flash.toolbar.model.HyFlowAlert" >
+    insert into HY_FLOWALERT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="flowalertid != null" >
+        FLOWALERTID,
+      </if>
+      <if test="memberid != null" >
+        MEMBERID,
+      </if>
+      <if test="mobileno != null" >
+        MOBILENO,
+      </if>
+      <if test="alertdate != null" >
+        ALERTDATE,
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO,
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID,
+      </if>
+      <if test="delflag != null" >
+        DELFLAG,
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN,
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE,
+      </if>
+      <if test="currentvalue != null" >
+        CURRENTVALUE,
+      </if>
+      <if test="alertvalue != null" >
+        ALERTVALUE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="flowalertid != null" >
+        #{flowalertid,jdbcType=VARCHAR},
+      </if>
+      <if test="memberid != null" >
+        #{memberid,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileno != null" >
+        #{mobileno,jdbcType=VARCHAR},
+      </if>
+      <if test="alertdate != null" >
+        #{alertdate,jdbcType=DATE},
+      </if>
+      <if test="countryno != null" >
+        #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="delflag != null" >
+        #{delflag,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+        #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="currentvalue != null" >
+        #{currentvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="alertvalue != null" >
+        #{alertvalue,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.flash.toolbar.model.HyFlowAlert" >
+    update HY_FLOWALERT
+    <set >
+      <if test="memberid != null" >
+        MEMBERID = #{memberid,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileno != null" >
+        MOBILENO = #{mobileno,jdbcType=VARCHAR},
+      </if>
+      <if test="alertdate != null" >
+        ALERTDATE = #{alertdate,jdbcType=DATE},
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="delflag != null" >
+        DELFLAG = #{delflag,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="currentvalue != null" >
+        CURRENTVALUE = #{currentvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="alertvalue != null" >
+        ALERTVALUE = #{alertvalue,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where FLOWALERTID = #{flowalertid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.flash.toolbar.model.HyFlowAlert" >
+    update HY_FLOWALERT
+    set MEMBERID = #{memberid,jdbcType=VARCHAR},
+      MOBILENO = #{mobileno,jdbcType=VARCHAR},
+      ALERTDATE = #{alertdate,jdbcType=DATE},
+      COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      DELFLAG = #{delflag,jdbcType=VARCHAR},
+      MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP},
+      CURRENTVALUE = #{currentvalue,jdbcType=VARCHAR},
+      ALERTVALUE = #{alertvalue,jdbcType=VARCHAR}
+    where FLOWALERTID = #{flowalertid,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+  		<setting name="cacheEnabled" value="true"/>
+  	</settings>
+	<typeAliases>
+		
+	</typeAliases>
+	<mappers>
+		<mapper resource="com/flash/toolbar/persistence/HyAlertThresholdMapper.xml" />
+		<mapper resource="com/flash/toolbar/persistence/HyBlackImportBatchMapper.xml" />
+		<mapper resource="com/flash/toolbar/persistence/HyBlackListMapper.xml" />
+		<mapper resource="com/flash/toolbar/persistence/HyBlackSectionMapper.xml" />
+		<mapper resource="com/flash/toolbar/persistence/HyCloseSetMapper.xml" />
+		<mapper resource="com/flash/toolbar/persistence/HyFeedbackMapper.xml" />
+		<mapper resource="com/flash/toolbar/persistence/HyFlowAlertMapper.xml" />
+		<mapper resource="com/flash/toolbar/persistence/HyMemberMapper.xml" />
+		<mapper resource="com/flash/toolbar/persistence/HyWhiteImportBatchMapper.xml" />
+		<mapper resource="com/flash/toolbar/persistence/HyWhiteListMapper.xml" />
+		<mapper resource="com/flash/toolbar/persistence/HyWhiteSectionMapper.xml" />
+		<mapper resource="com/flash/toolbar/persistence/JqOuterIpAuthMapper.xml" />
+		<mapper resource="com/flash/toolbar/persistence/JqOuterSystemInfoMapper.xml" />
+		<mapper resource="com/flash/toolbar/persistence/QxMenuMapper.xml" />
+		<mapper resource="com/flash/toolbar/persistence/QxMenuPrivilegeMapper.xml" />
+		<mapper resource="com/flash/toolbar/persistence/QxPrivilegeMapper.xml" />
+		<mapper resource="com/flash/toolbar/persistence/QxRoleMapper.xml" />
+		<mapper resource="com/flash/toolbar/persistence/QxRoleMenuPrivilegeMapper.xml" />
+		<mapper resource="com/flash/toolbar/persistence/QxUserMapper.xml" />
+		<mapper resource="com/flash/toolbar/persistence/QxUserRoleMapper.xml" />
+		<mapper resource="com/flash/toolbar/persistence/RpPackageSubReportMapper.xml" />
+		<mapper resource="com/flash/toolbar/persistence/RpWindowStatReportMapper.xml" />
+		<mapper resource="com/flash/toolbar/persistence/RzAccessLogMapper.xml" />
+		<mapper resource="com/flash/toolbar/persistence/RzAlertThresholdLogMapper.xml" />
+		<mapper resource="com/flash/toolbar/persistence/RzCloseSetLogMapper.xml" />
+		<mapper resource="com/flash/toolbar/persistence/RzOperatorlogMapper.xml" />
+		<mapper resource="com/flash/toolbar/persistence/SysDictionaryMapper.xml" />
+		<mapper resource="com/flash/toolbar/persistence/SysDictionaryTypeMapper.xml" />
+		<mapper resource="com/flash/toolbar/persistence/SysLanguageMapper.xml" />
+		<mapper resource="com/flash/toolbar/persistence/SysOperatorLangMapper.xml" />
+		<mapper resource="com/flash/toolbar/persistence/SysOperatorSegMapper.xml" />
+		<mapper resource="com/flash/toolbar/persistence/SysTelecomOperatorMapper.xml" />
+		<mapper resource="com/flash/toolbar/persistence/SysThresholdColorMapper.xml" />
+		<mapper resource="com/flash/toolbar/persistence/TcFlowPackageMapper.xml" />
+		<mapper resource="com/flash/toolbar/persistence/TcFlowPackageMarketMapper.xml" />
+		<mapper resource="com/flash/toolbar/persistence/TcFlowSubMapper.xml" />
+		<mapper resource="com/flash/toolbar/persistence/TcPackageTypeMapper.xml" />
+		<mapper resource="com/flash/toolbar/persistence/TcFlowpackageDetailMapper.xml" />
+		<mapper resource="com/flash/toolbar/persistence/TcFlowpackagetypeRelaMapper.xml" />
+		<mapper resource="com/flash/toolbar/persistence/HyBlacklistDeviceMapper.xml" />
+		<mapper resource="com/flash/toolbar/persistence/HdPrizeInfoMapper.xml" />
+		<mapper resource="com/flash/toolbar/persistence/HdPrizeRecordMapper.xml" />
+		<mapper resource="com/flash/toolbar/persistence/HdPrizeShipMapper.xml" />
+		<mapper resource="com/flash/toolbar/persistence/HdPromotionInfoMapper.xml" />
+		<mapper resource="com/flash/toolbar/persistence/HdPromotionPrizeMapper.xml" />
+		<mapper resource="com/flash/toolbar/persistence/HdPromotionSortMapper.xml" />
+		<mapper resource="com/flash/toolbar/persistence/HdReceiverInfoMapper.xml" />
+		<mapper resource="com/flash/toolbar/persistence/SysMainInterfaceIconConfigMapper.xml"/>
+		<mapper resource="com/flash/toolbar/persistence/SysRemindConfigMapper.xml"/>
+		<mapper resource="com/flash/toolbar/persistence/HyFlowExpandAlertMapper.xml"/>
+		<mapper resource="com/flash/toolbar/persistence/RzClickEventLogMapper.xml"/>
+		<mapper resource="com/flash/toolbar/persistence/HyActivityExpandAlertMapper.xml"/>
+		<mapper resource="com/flash/toolbar/persistence/HyGameNavigationMapper.xml"/>
+		<mapper resource="com/flash/toolbar/persistence/HyWebsiteNavigationMapper.xml"/>
+		<mapper resource="com/flash/toolbar/persistence/CzPayRequestMapper.xml"/>
+		<mapper resource="com/flash/toolbar/persistence/CzPayResponseMapper.xml"/>
+		<mapper resource="com/flash/toolbar/persistence/CzReloadOrderMapper.xml"/>
+	</mappers>
+</configuration>	

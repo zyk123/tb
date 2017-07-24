@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.mapper.HyBlacklistDeviceMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.model.HyBlacklistDevice" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, NAME
+  </sql>
+	<sql id="where_clause">
+		<where>
+			<if test="null != countryno and '' != countryno">
+	  			and COUNTRYNO = #{countryno,jdbcType=VARCHAR}
+	  		</if>
+	  		<if test="null != toperatorid and '' != toperatorid">
+	  			and TOPERATORID = #{toperatorid,jdbcType=VARCHAR}
+	  		</if>
+  		</where>
+	</sql>  
+	
+  <select id="selectByToperator" resultType="string" parameterType="java.util.Map">
+    select  NAME from HY_BLACKLISTDEVICE
+    <include refid="where_clause"/>
+  </select>
+	
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from HY_BLACKLISTDEVICE
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectDeviceNames" resultType="string" parameterType="com.flash.toolbar.model.SysTelecomOperatorAndHyMember">
+    select  NAME from HY_BLACKLISTDEVICE
+    <include refid="where_clause"/>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from HY_BLACKLISTDEVICE
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.flash.toolbar.model.HyBlacklistDevice" >
+    insert into HY_BLACKLISTDEVICE (ID, NAME)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.flash.toolbar.model.HyBlacklistDevice" >
+    insert into HY_BLACKLISTDEVICE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.flash.toolbar.model.HyBlacklistDevice" >
+    update HY_BLACKLISTDEVICE
+    <set >
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.flash.toolbar.model.HyBlacklistDevice" >
+    update HY_BLACKLISTDEVICE
+    set NAME = #{name,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

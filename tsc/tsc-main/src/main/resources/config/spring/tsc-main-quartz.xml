@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="
+     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+     http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.1.xsd
+     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
+
+	<!-- 定时任务处理类 -->
+	<bean name="lotteryFileService" class="com.flash.toolbar.service.impl.LotteryFileServiceImpl"></bean>
+	<bean name="scheduleService" class="com.flash.toolbar.service.impl.ScheduleServiceImpl"></bean>
+	
+	<!-- 配置定时器任务Job -->
+	<bean name="lotteryFileJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="lotteryFileService" /> 
+		</property>
+		<property name="targetMethod">
+			<value>readPageLoadCsv</value> 
+		</property>
+	</bean>
+	<bean name="lotteryFileJob1" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="lotteryFileService" /> 
+		</property>
+		<property name="targetMethod">
+			<value>readClickEventCsv</value> 
+		</property>
+	</bean>
+	<bean id="lotteryFileTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="lotteryFileJob" />
+		</property>
+		<property name="cronExpression">
+			<value>${quartz.readpageload}</value> 
+		</property>
+	</bean>
+	<bean id="lotteryFileTrigger1" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="lotteryFileJob1" />
+		</property>
+		<property name="cronExpression">
+			<value>${quartz.readpageload}</value> 
+		</property>
+	</bean>
+	
+	<bean name="scheduleServiceJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="scheduleService" /> 
+		</property>
+		<property name="targetMethod">
+			<value>doStaticCache</value> 
+		</property>
+	</bean>
+
+	<bean id="scheduleServiceTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="scheduleServiceJob" />
+		</property>
+		<property name="cronExpression">
+			<value>${quartz.readtable}</value> 
+		</property>
+	</bean>
+
+	<bean name="queryReloadStateJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="scheduleService" />
+		</property>
+		<property name="targetMethod">
+			<value>doQueryStateReload</value>
+		</property>
+	</bean>
+
+	<bean id="queryReloadStateTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="queryReloadStateJob" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0 1 * * ?</value>
+		</property>
+	</bean>
+	
+	<!-- 启动定时任务 -->
+	<bean id="startQuertz" lazy-init="false" autowire="no" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref local="lotteryFileTrigger" />
+				<ref local="lotteryFileTrigger1" />
+				<!--server01执行-->
+				<ref local="scheduleServiceTrigger" />
+				<!--server02执行-->
+				<ref local="queryReloadStateTrigger"/>
+			</list>
+		</property>
+	</bean>
+</beans>

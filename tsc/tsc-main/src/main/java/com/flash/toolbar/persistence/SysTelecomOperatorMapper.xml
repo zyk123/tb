@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.mapper.SysTelecomOperatorMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.model.SysTelecomOperator" >
+    <id column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+    <result column="TOPERATORNO" property="toperatorno" jdbcType="VARCHAR" />
+    <result column="TOPERATORNAME" property="toperatorname" jdbcType="VARCHAR" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="COUNTRYNAME" property="countryname" jdbcType="VARCHAR" />
+    <result column="LANGNO" property="langno" jdbcType="VARCHAR" />
+    <result column="LANGNAME" property="langname" jdbcType="VARCHAR" />
+    <result column="CURRENCY" property="currency" jdbcType="VARCHAR" />
+    <result column="TIMEZONE" property="timezone" jdbcType="VARCHAR" />
+    <result column="ADDDATE" property="adddate" jdbcType="TIMESTAMP" />
+    <result column="DELFLAG" property="delflag" jdbcType="VARCHAR" />
+    <result column="MODIFYMAN" property="modifyman" jdbcType="VARCHAR" />
+    <result column="MODIFYDATE" property="modifydate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="BaseResultMap1" type="com.flash.toolbar.model.SysTelecomOperatorAndHyMember" >
+    <id column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+    <result column="TOPERATORNO" property="toperatorno" jdbcType="VARCHAR" />
+    <result column="MEMBERID" property="memberid" jdbcType="VARCHAR" />
+    <result column="TOPERATORNAME" property="toperatorname" jdbcType="VARCHAR" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="COUNTRYNAME" property="countryname" jdbcType="VARCHAR" />
+    <result column="LANGNO" property="langno" jdbcType="VARCHAR" />
+    <result column="LANGNAME" property="langname" jdbcType="VARCHAR" />
+    <result column="CURRENCY" property="currency" jdbcType="VARCHAR" />
+    <result column="TIMEZONE" property="timezone" jdbcType="VARCHAR" />
+    <result column="ADDDATE" property="adddate" jdbcType="TIMESTAMP" />
+    <result column="DELFLAG" property="delflag" jdbcType="VARCHAR" />
+    <result column="MODIFYMAN" property="modifyman" jdbcType="VARCHAR" />
+    <result column="MODIFYDATE" property="modifydate" jdbcType="TIMESTAMP" />
+    <result column="MOBILENO" property="mobileno" jdbcType="VARCHAR" />
+    <result column="PREPOSINDICATOR" property="preposindicator" jdbcType="VARCHAR" />
+    <result column="BRAND" property="brand" jdbcType="VARCHAR" />
+    <result column="FIRSTSHOW" property="firstshow" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    TOPERATORID, TOPERATORNO, TOPERATORNAME, COUNTRYNO, COUNTRYNAME, LANGNO, LANGNAME, 
+    CURRENCY, TIMEZONE, ADDDATE, DELFLAG, MODIFYMAN, MODIFYDATE
+  </sql>
+  <select id="selectAll" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from SYS_TELECOMOPERATOR
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from SYS_TELECOMOPERATOR
+    where TOPERATORID = #{toperatorid,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByMemberId" resultMap="BaseResultMap1" parameterType="java.lang.String" >
+    select t.TOPERATORID, t.TOPERATORNO, t.TOPERATORNAME, t.COUNTRYNO, t.COUNTRYNAME, t.LANGNO, t.LANGNAME, 
+    t.CURRENCY, t.TIMEZONE, t.ADDDATE, t.DELFLAG, t.MODIFYMAN, t.MODIFYDATE, m.MOBILENO, m.PREPOSINDICATOR, m.BRAND, m.FIRSTSHOW 
+    from sys_telecomoperator t,hy_member m 
+    where t.toperatorid=m.toperatorid and m.memberid=#{memberid,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByMobileno" resultMap="BaseResultMap1" parameterType="java.lang.String" >
+    select m.MEMBERID,m.BRAND,m.PREPOSINDICATOR,t.TOPERATORID, t.TOPERATORNO, t.TOPERATORNAME, t.COUNTRYNO, t.COUNTRYNAME, t.LANGNO, t.LANGNAME, 
+    t.CURRENCY, t.TIMEZONE, t.ADDDATE, t.DELFLAG, t.MODIFYMAN, t.MODIFYDATE, m.MOBILENO,m.FIRSTSHOW 
+    from sys_telecomoperator t,hy_member m 
+    where t.toperatorid=m.toperatorid and m.mobileno=#{mobileno,jdbcType=VARCHAR} and t.delFlag='1' and m.delFlag='1'
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from SYS_TELECOMOPERATOR
+    where TOPERATORID = #{toperatorid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.flash.toolbar.model.SysTelecomOperator" >
+    insert into SYS_TELECOMOPERATOR (TOPERATORID, TOPERATORNO, TOPERATORNAME, 
+      COUNTRYNO, COUNTRYNAME, LANGNO, 
+      LANGNAME, CURRENCY, TIMEZONE, 
+      ADDDATE, DELFLAG, MODIFYMAN, 
+      MODIFYDATE)
+    values (#{toperatorid,jdbcType=VARCHAR}, #{toperatorno,jdbcType=VARCHAR}, #{toperatorname,jdbcType=VARCHAR}, 
+      #{countryno,jdbcType=VARCHAR}, #{countryname,jdbcType=VARCHAR}, #{langno,jdbcType=VARCHAR}, 
+      #{langname,jdbcType=VARCHAR}, #{currency,jdbcType=VARCHAR}, #{timezone,jdbcType=VARCHAR}, 
+      #{adddate,jdbcType=TIMESTAMP}, #{delflag,jdbcType=VARCHAR}, #{modifyman,jdbcType=VARCHAR}, 
+      #{modifydate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.flash.toolbar.model.SysTelecomOperator" >
+    insert into SYS_TELECOMOPERATOR
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="toperatorid != null" >
+        TOPERATORID,
+      </if>
+      <if test="toperatorno != null" >
+        TOPERATORNO,
+      </if>
+      <if test="toperatorname != null" >
+        TOPERATORNAME,
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO,
+      </if>
+      <if test="countryname != null" >
+        COUNTRYNAME,
+      </if>
+      <if test="langno != null" >
+        LANGNO,
+      </if>
+      <if test="langname != null" >
+        LANGNAME,
+      </if>
+      <if test="currency != null" >
+        CURRENCY,
+      </if>
+      <if test="timezone != null" >
+        TIMEZONE,
+      </if>
+      <if test="adddate != null" >
+        ADDDATE,
+      </if>
+      <if test="delflag != null" >
+        DELFLAG,
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN,
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="toperatorid != null" >
+        #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorno != null" >
+        #{toperatorno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorname != null" >
+        #{toperatorname,jdbcType=VARCHAR},
+      </if>
+      <if test="countryno != null" >
+        #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="countryname != null" >
+        #{countryname,jdbcType=VARCHAR},
+      </if>
+      <if test="langno != null" >
+        #{langno,jdbcType=VARCHAR},
+      </if>
+      <if test="langname != null" >
+        #{langname,jdbcType=VARCHAR},
+      </if>
+      <if test="currency != null" >
+        #{currency,jdbcType=VARCHAR},
+      </if>
+      <if test="timezone != null" >
+        #{timezone,jdbcType=VARCHAR},
+      </if>
+      <if test="adddate != null" >
+        #{adddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delflag != null" >
+        #{delflag,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+        #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.flash.toolbar.model.SysTelecomOperator" >
+    update SYS_TELECOMOPERATOR
+    <set >
+      <if test="toperatorno != null" >
+        TOPERATORNO = #{toperatorno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorname != null" >
+        TOPERATORNAME = #{toperatorname,jdbcType=VARCHAR},
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="countryname != null" >
+        COUNTRYNAME = #{countryname,jdbcType=VARCHAR},
+      </if>
+      <if test="langno != null" >
+        LANGNO = #{langno,jdbcType=VARCHAR},
+      </if>
+      <if test="langname != null" >
+        LANGNAME = #{langname,jdbcType=VARCHAR},
+      </if>
+      <if test="currency != null" >
+        CURRENCY = #{currency,jdbcType=VARCHAR},
+      </if>
+      <if test="timezone != null" >
+        TIMEZONE = #{timezone,jdbcType=VARCHAR},
+      </if>
+      <if test="adddate != null" >
+        ADDDATE = #{adddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delflag != null" >
+        DELFLAG = #{delflag,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where TOPERATORID = #{toperatorid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.flash.toolbar.model.SysTelecomOperator" >
+    update SYS_TELECOMOPERATOR
+    set TOPERATORNO = #{toperatorno,jdbcType=VARCHAR},
+      TOPERATORNAME = #{toperatorname,jdbcType=VARCHAR},
+      COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      COUNTRYNAME = #{countryname,jdbcType=VARCHAR},
+      LANGNO = #{langno,jdbcType=VARCHAR},
+      LANGNAME = #{langname,jdbcType=VARCHAR},
+      CURRENCY = #{currency,jdbcType=VARCHAR},
+      TIMEZONE = #{timezone,jdbcType=VARCHAR},
+      ADDDATE = #{adddate,jdbcType=TIMESTAMP},
+      DELFLAG = #{delflag,jdbcType=VARCHAR},
+      MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP}
+    where TOPERATORID = #{toperatorid,jdbcType=VARCHAR}
+  </update>
+</mapper>

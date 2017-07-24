@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.mapper.SysLanguageMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.model.SysLanguage" >
+    <id column="LANGUAGEID" property="languageid" jdbcType="VARCHAR" />
+    <result column="LANGNAME" property="langname" jdbcType="VARCHAR" />
+    <result column="LANGNO" property="langno" jdbcType="VARCHAR" />
+    <result column="MODIFYDATE" property="modifydate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    LANGUAGEID, LANGNAME, LANGNO, MODIFYDATE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from SYS_LANGUAGE
+    where LANGUAGEID = #{languageid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from SYS_LANGUAGE
+    where LANGUAGEID = #{languageid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.flash.toolbar.model.SysLanguage" >
+    insert into SYS_LANGUAGE (LANGUAGEID, LANGNAME, LANGNO, 
+      MODIFYDATE)
+    values (#{languageid,jdbcType=VARCHAR}, #{langname,jdbcType=VARCHAR}, #{langno,jdbcType=VARCHAR}, 
+      #{modifydate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.flash.toolbar.model.SysLanguage" >
+    insert into SYS_LANGUAGE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="languageid != null" >
+        LANGUAGEID,
+      </if>
+      <if test="langname != null" >
+        LANGNAME,
+      </if>
+      <if test="langno != null" >
+        LANGNO,
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="languageid != null" >
+        #{languageid,jdbcType=VARCHAR},
+      </if>
+      <if test="langname != null" >
+        #{langname,jdbcType=VARCHAR},
+      </if>
+      <if test="langno != null" >
+        #{langno,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.flash.toolbar.model.SysLanguage" >
+    update SYS_LANGUAGE
+    <set >
+      <if test="langname != null" >
+        LANGNAME = #{langname,jdbcType=VARCHAR},
+      </if>
+      <if test="langno != null" >
+        LANGNO = #{langno,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where LANGUAGEID = #{languageid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.flash.toolbar.model.SysLanguage" >
+    update SYS_LANGUAGE
+    set LANGNAME = #{langname,jdbcType=VARCHAR},
+      LANGNO = #{langno,jdbcType=VARCHAR},
+      MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP}
+    where LANGUAGEID = #{languageid,jdbcType=VARCHAR}
+  </update>
+</mapper>

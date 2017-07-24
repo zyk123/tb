@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"	
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.1.xsd 
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-3.1.xsd 
+	http://code.alibabatech.com/schema/dubbo
+	http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+	">
+	<import resource="tsc-main-provider.xml" />
+	<import resource="tsc-main-redis.xml" />
+	<import resource="tsc-main-quartz.xml" />
+
+	<context:property-placeholder location="classpath*:/tsc-main-jdbc.properties,classpath*:/tsc-main-zookeeper.properties,classpath*:/environment.properties,classpath*:/tsc-main-redis.properties" />
+	
+	<!-- 注解支持 -->
+	<context:annotation-config />
+	<!-- 上下文组件扫描  -->
+	<context:component-scan base-package="com.flash.toolbar">
+	</context:component-scan>
+
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+		<property name="ignoreResourceNotFound" value="true" />
+		<property name="locations">
+			<list>
+				<value>classpath*:/tsc-main-jdbc.properties</value>
+				<value>classpath*:/tsc-main-zookeeper.properties</value>
+				<value>classpath*:/environment.properties</value>
+				<value>classpath*:/tsc-main-redis.properties</value>
+			</list>
+		</property>
+		<property name="fileEncoding">
+			<value>UTF-8</value>
+		</property>
+	</bean>
+
+	<!-- 提供方应用名称信息，这个相当于起一个名字，我们dubbo管理页面比较清晰是哪个应用暴露出来的 -->
+<!-- 	<dubbo:application name="tsc_provider"></dubbo:application> -->
+	<!-- 使用zookeeper注册中心暴露服务地址 -->
+<!-- 	<dubbo:registry address="zookeeper://127.0.0.1:2181"></dubbo:registry> -->
+	<!-- 用dubbo协议在20880端口暴露服务 -->  
+    <!-- <dubbo:protocol name="dubbo" port="20880" /> -->
+	<!-- 要暴露的服务接口 -->
+<!-- 	<dubbo:service interface="com.flash.toolbar.facade.LotteryFileManager" ref="lotteryFileManager" timeout="3000" /> -->
+<!-- 	<dubbo:service interface="com.flash.toolbar.facade.MemberManager" ref="memberManager" timeout="3000" /> -->
+	
+	
+	<!-- 数据库连接 -->
+<!-- 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" -->
+<!-- 		destroy-method="close"> -->
+<!-- 		<property name="driverClassName" value="${connection.driver_class}" /> -->
+<!-- 		<property name="url" value="${connection.url}" /> -->
+<!-- 		<property name="username" value="${connection.username}" /> -->
+<!-- 		<property name="password" value="${connection.password}" /> -->
+<!-- 		<property name="maxActive" value="${connection.maxActive}" /> -->
+<!-- 		<property name="maxIdle" value="${connection.maxIdle}" /> -->
+<!-- 		<property name="minIdle" value="${connection.minIdle}" /> -->
+<!-- 		<property name="maxWait" value="${connection.maxWait}" /> -->
+		<!-- 设置在自动回收超时连接的时候打印连接的超时错误  -->  
+<!-- 		<property name="logAbandoned" value="${connection.logAbandoned}"/>   -->
+		<!-- 设置自动回收超时连接 -->  
+<!-- 		<property name="removeAbandoned"  value="${connection.removeAbandoned}"/>  -->
+		<!-- 自动回收超时时间(以秒数为单位) -->  
+<!-- 		<property name="removeAbandonedTimeout" value="${connection.removeAbandonedTimeout}"/>  -->
+<!-- 		<property name="testOnBorrow" value="${connection.testOnBorrow}"/>  -->
+<!-- 		<property name="testWhileIdle" value="${connection.testWhileIdle}"/>  -->
+<!-- 		<property name="validationQuery" value="${connection.validationQuery}"/>  -->
+<!-- 	</bean> -->
+
+
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"  
+        destroy-method="close">  
+        <property name="url" value="${connection.url}" />  
+        <property name="username" value="${connection.username}" />  
+        <property name="password" value="${connection.password}" />  
+        <property name="driverClassName" value="${connection.driverClassName}" />  
+        <property name="filters" value="${connection.filters}" />  
+  		<!-- 最大连接池数量 -->
+        <property name="maxActive" value="${connection.maxActive}" />  
+        <!-- 初始化时建立物理连接的个数 -->
+        <property name="initialSize" value="${connection.initialSize}" />  
+        <!-- 配置获取连接等待超时的时间 -->
+        <property name="maxWait" value="${connection.maxWait}" />  
+        <!-- 最小连接池数量 -->
+        <property name="minIdle" value="${connection.minIdle}" />  
+  		<!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 --> 
+        <property name="timeBetweenEvictionRunsMillis" value="${connection.timeBetweenEvictionRunsMillis}" />  
+        <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+        <property name="minEvictableIdleTimeMillis" value="${connection.minEvictableIdleTimeMillis}" />  
+  		<!-- 用来检测连接是否有效的sql，要求是一个查询语句。如果validationQuery为null，testOnBorrow、testOnReturn、testWhileIdle都不会其作用 -->
+        <property name="validationQuery" value="${connection.validationQuery}" />  
+        <!-- 申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效 -->
+        <property name="testWhileIdle" value="${connection.testWhileIdle}" />  
+        <!-- 申请连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能 -->
+        <property name="testOnBorrow" value="${connection.testOnBorrow}" />  
+        <!-- 归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能 -->
+        <property name="testOnReturn" value="${connection.testOnReturn}" />  
+        <property name="removeAbandoned" value="${connection.removeAbandoned}" /> <!-- 打开removeAbandoned功能 -->  
+        <property name="removeAbandonedTimeout" value="${connection.removeAbandonedTimeout}" /> <!-- 1800秒，也就是30分钟 -->  
+    </bean>  
+
+	
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<!-- 配置声明式事务：方法一，在Service实现类或者public实现方法上使用注解@Transactional，则此类或方法就会启用事务机制 -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	
+	<!-- mybatis配置 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="configLocation" value="classpath:/config/mybatis-config.xml" />  
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<!--  查 找 类 路 径 下 的 映 射 器 并 自 动 将 它 们 创 建 成 MapperFactoryBean -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.flash.toolbar.mapper" />
+	</bean>
+	
+ 	<!-- 开启AOP监听 只对当前配置文件有效 -->
+	<aop:aspectj-autoproxy expose-proxy="true"/>
+	
+	<bean id="paramPropertiesUtil" class="com.flash.toolbar.common.util.ParamPropertiesUtil" >
+    	<property name="segLenthB" value="${tsc.main.segLenthB}" />
+    	<property name="segLenthE" value="${tsc.main.segLenthE}" />
+    	<property name="socketTimeOut" value="${http.socket.timeout}" />
+    	<property name="connectTimeOut" value="${http.connect.timeout}" />
+    	<property name="iSegLenthB" value="${tsc.main.iSegLenthB}" />
+    	<property name="iSegLenthE" value="${tsc.main.iSegLenthE}" />
+    	<property name="cacheTimeOut" value="${redis.member.timeout}" />
+    	<property name="cacheScoreListTimeOut" value="${redis.scorelist.timeout}" />
+    	<property name="celcomHost" value="${tsc.main.celcomHost}" />
+    	<property name="reloadResponseUrl" value="${tsc.main.reloadResponseUrl}" />
+    	<property name="reloadPostResponseUrl" value="${tsc.main.reloadPostResponseUrl}" />
+    	<property name="reloadPassword" value="${tsc.main.reloadPassword}" />
+    	<property name="reloadStoreid" value="${tsc.main.reloadStoreid}" />
+    	<property name="reloadPassword2" value="${tsc.main.reloadPassword2}" />
+    	<property name="reloadStoreid2" value="${tsc.main.reloadStoreid2}" />
+    	<property name="reloadRequestUrl" value="${tsc.main.reloadRequestUrl}" />
+    </bean>
+	
+</beans>

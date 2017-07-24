@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>tbar.html</title>	
+    <meta charset=utf-8>
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no,minimum-scale=1.0,maximum-scale=1.0"/>
+	<style>html{height:100%;overflow:hidden;}</style>
+  </head>
+  
+  <body  style="background-color:transparent; margin:0px; height:100%">
+    <iframe id='t_c' name='t_c' src='http://m.sohu.com' width='100%' height='100%' frameborder='0'"></iframe>
+    <script type="text/javascript">
+    	//var toolbar_hosting_phoneno = "FcCyeZfO1qsVHLoPPR2QZkN25LqPsadYM1dPB6cgStet6jjcxBwtyQXlPBj9YAvE4Rw9xBeOlkQObituPjuIBA==";
+    	document.write("<s"+"cript type='text/javascript' src='http://58.27.120.214:8080/tbar/js/tbar-test.js'></scr"+"ipt>");
+    </script>
+  </body>
+</html>

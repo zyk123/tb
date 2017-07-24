@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.mapper.HdPromotionPrizeMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.model.HdPromotionPrize" >
+    <id column="PROMOTIONPRIZEID" property="promotionprizeid" jdbcType="VARCHAR" />
+    <result column="PROMOTIONID" property="promotionid" jdbcType="VARCHAR" />
+    <result column="PRIZEID" property="prizeid" jdbcType="VARCHAR" />
+    <result column="PRIZELEVEL" property="prizelevel" jdbcType="VARCHAR" />
+    <result column="PRIZETOTALNUM" property="prizetotalnum" jdbcType="DECIMAL" />
+    <result column="PRIZERESTNUM" property="prizerestnum" jdbcType="DECIMAL" />
+    <result column="SCORESTART" property="scoreStart" jdbcType="DECIMAL" />
+    <result column="SCOREEND" property="scoreEnd" jdbcType="DECIMAL" />
+    <result column="PROBABILITY" property="probability" jdbcType="DECIMAL" />
+    <result column="ORDERNO" property="orderno" jdbcType="DECIMAL" />
+    <result column="ICONURL" property="iconurl" jdbcType="VARCHAR" />
+    <result column="BACKGROUNDURL" property="backgroundurl" jdbcType="VARCHAR" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+    <result column="MODIFYMAN" property="modifyman" jdbcType="VARCHAR" />
+    <result column="MODIFYDATE" property="modifydate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <resultMap id="ResultPromotionPrize" type="com.flash.toolbar.model.HdPromotionPrizeUnion" >
+    <id column="PROMOTIONPRIZEID" property="promotionprizeid" jdbcType="VARCHAR" />
+    <result column="PROMOTIONID" property="promotionid" jdbcType="VARCHAR" />
+    <result column="PRIZEID" property="prizeid" jdbcType="VARCHAR" />
+    <result column="PRIZELEVEL" property="prizelevel" jdbcType="VARCHAR" />
+    <result column="PRIZETOTALNUM" property="prizetotalnum" jdbcType="DECIMAL" />
+    <result column="PRIZERESTNUM" property="prizerestnum" jdbcType="DECIMAL" />
+    <result column="PROBABILITY" property="probability" jdbcType="DECIMAL" />
+    <result column="ORDERNO" property="orderno" jdbcType="DECIMAL" />
+    <result column="ICONURL" property="iconurl" jdbcType="VARCHAR" />
+    <result column="BACKGROUNDURL" property="backgroundurl" jdbcType="VARCHAR" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+    <result column="MODIFYMAN" property="modifyman" jdbcType="VARCHAR" />
+    <result column="MODIFYDATE" property="modifydate" jdbcType="TIMESTAMP" />
+    <result column="PRIZENAME" property="prizename" jdbcType="VARCHAR" />
+    <result column="PRIZEDESC" property="prizedesc" jdbcType="VARCHAR" />
+    <result column="PRIZETYPE" property="prizetype" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  
+  <sql id="Base_Column_List" >
+    PROMOTIONPRIZEID, PROMOTIONID, PRIZEID, PRIZELEVEL, PRIZETOTALNUM, PRIZERESTNUM, 
+    PROBABILITY, ORDERNO, ICONURL, BACKGROUNDURL, COUNTRYNO, TOPERATORID, MODIFYMAN, 
+    MODIFYDATE
+  </sql>
+  
+  <select id="selectPrizeByPromotionId" resultMap="ResultPromotionPrize" parameterType="java.lang.String" >
+    select 
+    t.PROMOTIONPRIZEID, t.PROMOTIONID, t.PRIZEID, t.PRIZELEVEL, t.PRIZETOTALNUM, t.PRIZERESTNUM, 
+    t.PROBABILITY, t.ORDERNO, t.ICONURL, t.BACKGROUNDURL, t.COUNTRYNO, t.TOPERATORID, t.MODIFYMAN, 
+    t.MODIFYDATE, p.PRIZENAME, p.PRIZEDESC, p.PRIZETYPE 
+    from HD_PROMOTIONPRIZE t, HD_PRIZEINFO p 
+    where t.PRIZEID = p.PRIZEID and p.PRIZETYPE='1' and t.PROMOTIONID = #{promotionid,jdbcType=VARCHAR} order by t.ORDERNO
+  </select>
+  
+  <select id="selectAllPrizeByPromotionId" resultMap="ResultPromotionPrize" parameterType="java.lang.String" >
+    select 
+    t.PROMOTIONPRIZEID, t.PROMOTIONID, t.PRIZEID, t.PRIZELEVEL, t.PRIZETOTALNUM, t.PRIZERESTNUM, 
+    t.PROBABILITY, t.ORDERNO, t.ICONURL, t.BACKGROUNDURL, t.COUNTRYNO, t.TOPERATORID, t.MODIFYMAN, 
+    t.MODIFYDATE, p.PRIZENAME, p.PRIZEDESC, p.PRIZETYPE 
+    from HD_PROMOTIONPRIZE t, HD_PRIZEINFO p 
+    where t.PRIZEID = p.PRIZEID and t.PROMOTIONID = #{promotionid,jdbcType=VARCHAR} order by t.ORDERNO
+  </select>
+  
+  <select id="selectStallPrizeByPromotionId" resultMap="ResultPromotionPrize" parameterType="java.util.Map" >
+    select 
+    t.PROMOTIONPRIZEID, t.PROMOTIONID, t.PRIZEID, t.PRIZELEVEL, t.PRIZETOTALNUM, t.PRIZERESTNUM, 
+    t.PROBABILITY, t.ORDERNO, t.ICONURL, t.BACKGROUNDURL, t.COUNTRYNO, t.TOPERATORID, t.MODIFYMAN, 
+    t.MODIFYDATE, p.PRIZENAME, p.PRIZEDESC, p.PRIZETYPE 
+    from HD_PROMOTIONPRIZE t, HD_PRIZEINFO p 
+    where t.PRIZEID = p.PRIZEID 
+	<if test="promotionid != null and promotionid!= ''">
+		and t.PROMOTIONID = #{promotionid,jdbcType=VARCHAR}
+	</if>    
+	<if test="scoreNum != null and scoreNum!= ''">
+		and t.scoreStart <![CDATA[<=]]> #{scoreNum,jdbcType=DECIMAL} 
+<!-- 		and t.scoreEnd <![CDATA[>=]]> #{scoreNum,jdbcType=DECIMAL}  -->
+	</if>    
+     order by t.ORDERNO
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from HD_PROMOTIONPRIZE
+    where PROMOTIONPRIZEID = #{promotionprizeid,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectStallBySelective" resultType="java.util.Map"  parameterType="com.flash.toolbar.model.HdPromotionPrize">
+    select distinct scorestart,scoreend    from HD_PROMOTIONPRIZE where 1=1
+    		<if test="countryno != null and countryno != ''">
+				and countryno = #{countryno,jdbcType=VARCHAR}
+			</if>			
+			<if test="toperatorid != null and toperatorid !=''">
+				and toperatorid = #{toperatorid,jdbcType=VARCHAR}
+			</if>
+			<if test="promotionid != null and promotionid !=''">
+				and promotionId = #{promotionid,jdbcType=VARCHAR}
+			</if>
+			order by scorestart
+  </select>  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from HD_PROMOTIONPRIZE
+    where PROMOTIONPRIZEID = #{promotionprizeid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.flash.toolbar.model.HdPromotionPrize" >
+    insert into HD_PROMOTIONPRIZE (PROMOTIONPRIZEID, PROMOTIONID, PRIZEID, 
+      PRIZELEVEL, PRIZETOTALNUM, PRIZERESTNUM, 
+      PROBABILITY, ORDERNO, ICONURL, 
+      BACKGROUNDURL, COUNTRYNO, TOPERATORID, 
+      MODIFYMAN, MODIFYDATE)
+    values (#{promotionprizeid,jdbcType=VARCHAR}, #{promotionid,jdbcType=VARCHAR}, #{prizeid,jdbcType=VARCHAR}, 
+      #{prizelevel,jdbcType=VARCHAR}, #{prizetotalnum,jdbcType=DECIMAL}, #{prizerestnum,jdbcType=DECIMAL}, 
+      #{probability,jdbcType=DECIMAL}, #{orderno,jdbcType=DECIMAL}, #{iconurl,jdbcType=VARCHAR}, 
+      #{backgroundurl,jdbcType=VARCHAR}, #{countryno,jdbcType=VARCHAR}, #{toperatorid,jdbcType=VARCHAR}, 
+      #{modifyman,jdbcType=VARCHAR}, #{modifydate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.flash.toolbar.model.HdPromotionPrize" >
+    insert into HD_PROMOTIONPRIZE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="promotionprizeid != null" >
+        PROMOTIONPRIZEID,
+      </if>
+      <if test="promotionid != null" >
+        PROMOTIONID,
+      </if>
+      <if test="prizeid != null" >
+        PRIZEID,
+      </if>
+      <if test="prizelevel != null" >
+        PRIZELEVEL,
+      </if>
+      <if test="prizetotalnum != null" >
+        PRIZETOTALNUM,
+      </if>
+      <if test="prizerestnum != null" >
+        PRIZERESTNUM,
+      </if>
+      <if test="probability != null" >
+        PROBABILITY,
+      </if>
+      <if test="orderno != null" >
+        ORDERNO,
+      </if>
+      <if test="iconurl != null" >
+        ICONURL,
+      </if>
+      <if test="backgroundurl != null" >
+        BACKGROUNDURL,
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO,
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID,
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN,
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="promotionprizeid != null" >
+        #{promotionprizeid,jdbcType=VARCHAR},
+      </if>
+      <if test="promotionid != null" >
+        #{promotionid,jdbcType=VARCHAR},
+      </if>
+      <if test="prizeid != null" >
+        #{prizeid,jdbcType=VARCHAR},
+      </if>
+      <if test="prizelevel != null" >
+        #{prizelevel,jdbcType=VARCHAR},
+      </if>
+      <if test="prizetotalnum != null" >
+        #{prizetotalnum,jdbcType=DECIMAL},
+      </if>
+      <if test="prizerestnum != null" >
+        #{prizerestnum,jdbcType=DECIMAL},
+      </if>
+      <if test="probability != null" >
+        #{probability,jdbcType=DECIMAL},
+      </if>
+      <if test="orderno != null" >
+        #{orderno,jdbcType=DECIMAL},
+      </if>
+      <if test="iconurl != null" >
+        #{iconurl,jdbcType=VARCHAR},
+      </if>
+      <if test="backgroundurl != null" >
+        #{backgroundurl,jdbcType=VARCHAR},
+      </if>
+      <if test="countryno != null" >
+        #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+        #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.flash.toolbar.model.HdPromotionPrize" >
+    update HD_PROMOTIONPRIZE
+    <set >
+      <if test="promotionid != null" >
+        PROMOTIONID = #{promotionid,jdbcType=VARCHAR},
+      </if>
+      <if test="prizeid != null" >
+        PRIZEID = #{prizeid,jdbcType=VARCHAR},
+      </if>
+      <if test="prizelevel != null" >
+        PRIZELEVEL = #{prizelevel,jdbcType=VARCHAR},
+      </if>
+      <if test="prizetotalnum != null" >
+        PRIZETOTALNUM = #{prizetotalnum,jdbcType=DECIMAL},
+      </if>
+      <if test="prizerestnum != null" >
+        PRIZERESTNUM = #{prizerestnum,jdbcType=DECIMAL},
+      </if>
+      <if test="probability != null" >
+        PROBABILITY = #{probability,jdbcType=DECIMAL},
+      </if>
+      <if test="orderno != null" >
+        ORDERNO = #{orderno,jdbcType=DECIMAL},
+      </if>
+      <if test="iconurl != null" >
+        ICONURL = #{iconurl,jdbcType=VARCHAR},
+      </if>
+      <if test="backgroundurl != null" >
+        BACKGROUNDURL = #{backgroundurl,jdbcType=VARCHAR},
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PROMOTIONPRIZEID = #{promotionprizeid,jdbcType=VARCHAR}
+  </update>
+  <update id="increaseHdPromotionPrize" parameterType="java.lang.String" >
+    update HD_PROMOTIONPRIZE set PRIZERESTNUM = PRIZERESTNUM+1 
+    where PROMOTIONPRIZEID = #{promotionprizeid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.flash.toolbar.model.HdPromotionPrize" >
+    update HD_PROMOTIONPRIZE
+    set PROMOTIONID = #{promotionid,jdbcType=VARCHAR},
+      PRIZEID = #{prizeid,jdbcType=VARCHAR},
+      PRIZELEVEL = #{prizelevel,jdbcType=VARCHAR},
+      PRIZETOTALNUM = #{prizetotalnum,jdbcType=DECIMAL},
+      PRIZERESTNUM = #{prizerestnum,jdbcType=DECIMAL},
+      PROBABILITY = #{probability,jdbcType=DECIMAL},
+      ORDERNO = #{orderno,jdbcType=DECIMAL},
+      ICONURL = #{iconurl,jdbcType=VARCHAR},
+      BACKGROUNDURL = #{backgroundurl,jdbcType=VARCHAR},
+      COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP}
+    where PROMOTIONPRIZEID = #{promotionprizeid,jdbcType=VARCHAR}
+  </update>
+</mapper>

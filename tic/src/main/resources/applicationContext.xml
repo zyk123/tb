@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.1.xsd 
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-3.1.xsd 
+	http://code.alibabatech.com/schema/dubbo
+	http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+	
+	<!-- 注解支持 -->
+	<context:annotation-config />
+	<!-- 上下文组件扫描  -->
+	<context:component-scan base-package="com.flash.toolbar">
+	</context:component-scan>
+
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+		<property name="ignoreResourceNotFound" value="true" />
+		<property name="locations">
+			<list>      </list>
+		</property>
+		<property name="fileEncoding">
+			<value>UTF-8</value>
+		</property>
+	</bean>
+	
+	<!-- 关闭所有服务的启动时检查 -->
+	<dubbo:consumer check="false"/>	
+	<!-- 提供方应用名称信息，这个相当于起一个名字，我们dubbo管理页面比较清晰是哪个应用暴露出来的 -->
+	<dubbo:application name="tic_consumer"></dubbo:application>
+	<!-- 使用zookeeper注册中心暴露服务地址 -->
+	<dubbo:registry address="zookeeper://127.0.0.1:2181" check="false"></dubbo:registry>
+	<!-- 生成远程服务代理，可以像使用本地bean一样使用 -->
+	<dubbo:reference interface="com.flash.toolbar.facade.LotteryFileManager" id="lotteryFileManager" retries="0" check="false" timeout="60000" />
+	<dubbo:reference interface="com.flash.toolbar.facade.MemberManager" id="memberManager" retries="0" check="false" timeout="60000" />
+	<dubbo:reference interface="com.flash.toolbar.facade.ToolbarPortalManager" id="toolbarPortalManager" retries="0" check="false" timeout="60000" />
+	<dubbo:reference interface="com.flash.toolbar.facade.PackageListManager" id="packageListManager" retries="0" check="false" timeout="60000" />
+	<dubbo:reference interface="com.flash.toolbar.facade.PromotionManager" id="promotionManager" retries="0" check="false" timeout="60000" />
+	<dubbo:reference interface="com.flash.toolbar.facade.ReloadManager" id="reloadManager" retries="0" check="false" timeout="60000" />
+</beans>

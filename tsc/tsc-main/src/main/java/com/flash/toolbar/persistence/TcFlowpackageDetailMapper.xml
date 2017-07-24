@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.mapper.TcFlowpackageDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.model.TcFlowpackageDetail" >
+    <id column="PACKAGEDETAILID" property="packagedetailid" jdbcType="VARCHAR" />
+    <result column="PACKAGEID" property="packageid" jdbcType="VARCHAR" />
+    <result column="DETAILNAME" property="detailname" jdbcType="VARCHAR" />
+    <result column="ITEMNAME" property="itemname" jdbcType="VARCHAR" />
+    <result column="ITEMVALUE" property="itemvalue" jdbcType="VARCHAR" />
+    <result column="ORDERNO" property="orderno" jdbcType="DECIMAL" />
+    <result column="PARENTID" property="parentid" jdbcType="VARCHAR" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+    <result column="DELFLAG" property="delflag" jdbcType="VARCHAR" />
+    <result column="MODIFYMAN" property="modifyman" jdbcType="VARCHAR" />
+    <result column="MODIFYDATE" property="modifydate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PACKAGEDETAILID, PACKAGEID, DETAILNAME, ITEMNAME, ITEMVALUE, ORDERNO, PARENTID, COUNTRYNO, 
+    TOPERATORID, DELFLAG, MODIFYMAN, MODIFYDATE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from TC_FLOWPACKAGE_DETAIL
+    where PACKAGEDETAILID = #{packagedetailid,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectByPackageId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from TC_FLOWPACKAGE_DETAIL
+    where PACKAGEID = #{packageid,jdbcType=VARCHAR} and PARENTID='-1' and DELFLAG='1' order by ORDERNO
+  </select>
+  
+  <select id="selectByParentId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from TC_FLOWPACKAGE_DETAIL
+    where PARENTID = #{parentid,jdbcType=VARCHAR} and DELFLAG='1' order by ORDERNO
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from TC_FLOWPACKAGE_DETAIL
+    where PACKAGEDETAILID = #{packagedetailid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.flash.toolbar.model.TcFlowpackageDetail" >
+    insert into TC_FLOWPACKAGE_DETAIL (PACKAGEDETAILID, PACKAGEID, DETAILNAME, 
+      ITEMNAME, ITEMVALUE, ORDERNO, 
+      PARENTID, COUNTRYNO, TOPERATORID, 
+      DELFLAG, MODIFYMAN, MODIFYDATE
+      )
+    values (#{packagedetailid,jdbcType=VARCHAR}, #{packageid,jdbcType=VARCHAR}, #{detailname,jdbcType=VARCHAR}, 
+      #{itemname,jdbcType=VARCHAR}, #{itemvalue,jdbcType=VARCHAR}, #{orderno,jdbcType=DECIMAL}, 
+      #{parentid,jdbcType=VARCHAR}, #{countryno,jdbcType=VARCHAR}, #{toperatorid,jdbcType=VARCHAR}, 
+      #{delflag,jdbcType=VARCHAR}, #{modifyman,jdbcType=VARCHAR}, #{modifydate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.flash.toolbar.model.TcFlowpackageDetail" >
+    insert into TC_FLOWPACKAGE_DETAIL
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="packagedetailid != null" >
+        PACKAGEDETAILID,
+      </if>
+      <if test="packageid != null" >
+        PACKAGEID,
+      </if>
+      <if test="detailname != null" >
+        DETAILNAME,
+      </if>
+      <if test="itemname != null" >
+        ITEMNAME,
+      </if>
+      <if test="itemvalue != null" >
+        ITEMVALUE,
+      </if>
+      <if test="orderno != null" >
+        ORDERNO,
+      </if>
+      <if test="parentid != null" >
+        PARENTID,
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO,
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID,
+      </if>
+      <if test="delflag != null" >
+        DELFLAG,
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN,
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="packagedetailid != null" >
+        #{packagedetailid,jdbcType=VARCHAR},
+      </if>
+      <if test="packageid != null" >
+        #{packageid,jdbcType=VARCHAR},
+      </if>
+      <if test="detailname != null" >
+        #{detailname,jdbcType=VARCHAR},
+      </if>
+      <if test="itemname != null" >
+        #{itemname,jdbcType=VARCHAR},
+      </if>
+      <if test="itemvalue != null" >
+        #{itemvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="orderno != null" >
+        #{orderno,jdbcType=DECIMAL},
+      </if>
+      <if test="parentid != null" >
+        #{parentid,jdbcType=VARCHAR},
+      </if>
+      <if test="countryno != null" >
+        #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="delflag != null" >
+        #{delflag,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+        #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.flash.toolbar.model.TcFlowpackageDetail" >
+    update TC_FLOWPACKAGE_DETAIL
+    <set >
+      <if test="packageid != null" >
+        PACKAGEID = #{packageid,jdbcType=VARCHAR},
+      </if>
+      <if test="detailname != null" >
+        DETAILNAME = #{detailname,jdbcType=VARCHAR},
+      </if>
+      <if test="itemname != null" >
+        ITEMNAME = #{itemname,jdbcType=VARCHAR},
+      </if>
+      <if test="itemvalue != null" >
+        ITEMVALUE = #{itemvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="orderno != null" >
+        ORDERNO = #{orderno,jdbcType=DECIMAL},
+      </if>
+      <if test="parentid != null" >
+        PARENTID = #{parentid,jdbcType=VARCHAR},
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="delflag != null" >
+        DELFLAG = #{delflag,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PACKAGEDETAILID = #{packagedetailid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.flash.toolbar.model.TcFlowpackageDetail" >
+    update TC_FLOWPACKAGE_DETAIL
+    set PACKAGEID = #{packageid,jdbcType=VARCHAR},
+      DETAILNAME = #{detailname,jdbcType=VARCHAR},
+      ITEMNAME = #{itemname,jdbcType=VARCHAR},
+      ITEMVALUE = #{itemvalue,jdbcType=VARCHAR},
+      ORDERNO = #{orderno,jdbcType=DECIMAL},
+      PARENTID = #{parentid,jdbcType=VARCHAR},
+      COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      DELFLAG = #{delflag,jdbcType=VARCHAR},
+      MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP}
+    where PACKAGEDETAILID = #{packagedetailid,jdbcType=VARCHAR}
+  </update>
+</mapper>

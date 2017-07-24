@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.mapper.QxRoleMenuPrivilegeMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.model.QxRoleMenuPrivilege" >
+    <id column="RMPID" property="rmpid" jdbcType="VARCHAR" />
+    <result column="ROLEID" property="roleid" jdbcType="VARCHAR" />
+    <result column="PRIVILEGEID" property="privilegeid" jdbcType="VARCHAR" />
+    <result column="MENUID" property="menuid" jdbcType="VARCHAR" />
+    <result column="CREATEDATE" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    RMPID, ROLEID, PRIVILEGEID, MENUID, CREATEDATE, COUNTRYNO, TOPERATORID
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from QX_ROLEMENUPRIVILEGE
+    where RMPID = #{rmpid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from QX_ROLEMENUPRIVILEGE
+    where RMPID = #{rmpid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.flash.toolbar.model.QxRoleMenuPrivilege" >
+    insert into QX_ROLEMENUPRIVILEGE (RMPID, ROLEID, PRIVILEGEID, 
+      MENUID, CREATEDATE, COUNTRYNO, 
+      TOPERATORID)
+    values (#{rmpid,jdbcType=VARCHAR}, #{roleid,jdbcType=VARCHAR}, #{privilegeid,jdbcType=VARCHAR}, 
+      #{menuid,jdbcType=VARCHAR}, #{createdate,jdbcType=TIMESTAMP}, #{countryno,jdbcType=VARCHAR}, 
+      #{toperatorid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.flash.toolbar.model.QxRoleMenuPrivilege" >
+    insert into QX_ROLEMENUPRIVILEGE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="rmpid != null" >
+        RMPID,
+      </if>
+      <if test="roleid != null" >
+        ROLEID,
+      </if>
+      <if test="privilegeid != null" >
+        PRIVILEGEID,
+      </if>
+      <if test="menuid != null" >
+        MENUID,
+      </if>
+      <if test="createdate != null" >
+        CREATEDATE,
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO,
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="rmpid != null" >
+        #{rmpid,jdbcType=VARCHAR},
+      </if>
+      <if test="roleid != null" >
+        #{roleid,jdbcType=VARCHAR},
+      </if>
+      <if test="privilegeid != null" >
+        #{privilegeid,jdbcType=VARCHAR},
+      </if>
+      <if test="menuid != null" >
+        #{menuid,jdbcType=VARCHAR},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="countryno != null" >
+        #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        #{toperatorid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.flash.toolbar.model.QxRoleMenuPrivilege" >
+    update QX_ROLEMENUPRIVILEGE
+    <set >
+      <if test="roleid != null" >
+        ROLEID = #{roleid,jdbcType=VARCHAR},
+      </if>
+      <if test="privilegeid != null" >
+        PRIVILEGEID = #{privilegeid,jdbcType=VARCHAR},
+      </if>
+      <if test="menuid != null" >
+        MENUID = #{menuid,jdbcType=VARCHAR},
+      </if>
+      <if test="createdate != null" >
+        CREATEDATE = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where RMPID = #{rmpid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.flash.toolbar.model.QxRoleMenuPrivilege" >
+    update QX_ROLEMENUPRIVILEGE
+    set ROLEID = #{roleid,jdbcType=VARCHAR},
+      PRIVILEGEID = #{privilegeid,jdbcType=VARCHAR},
+      MENUID = #{menuid,jdbcType=VARCHAR},
+      CREATEDATE = #{createdate,jdbcType=TIMESTAMP},
+      COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      TOPERATORID = #{toperatorid,jdbcType=VARCHAR}
+    where RMPID = #{rmpid,jdbcType=VARCHAR}
+  </update>
+</mapper>

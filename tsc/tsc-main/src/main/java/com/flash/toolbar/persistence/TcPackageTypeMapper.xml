@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.mapper.TcPackageTypeMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.model.TcPackageType" >
+    <id column="PACKAGETYPEID" property="packagetypeid" jdbcType="VARCHAR" />
+    <result column="PTNAME" property="ptname" jdbcType="VARCHAR" />
+    <result column="ORDERNO" property="orderno" jdbcType="DECIMAL" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+    <result column="ADDDATE" property="adddate" jdbcType="TIMESTAMP" />
+    <result column="BRAND" property="brand" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PACKAGETYPEID, PTNAME, ORDERNO, COUNTRYNO, TOPERATORID, ADDDATE, BRAND
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from TC_PACKAGETYPE
+    where PACKAGETYPEID = #{packagetypeid,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAllPackageType" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select <include refid="Base_Column_List" /> from tc_packagetype  
+    <where>
+    	<if test="brand != null and brand != ''" >
+	        BRAND = #{brand,jdbcType=VARCHAR}
+	    </if>
+	    <if test="tOperatorId != null and tOperatorId != ''" >
+	        and TOPERATORID = #{tOperatorId,jdbcType=VARCHAR}
+	    </if>
+	    <if test="countryNo != null and countryNo != ''" >
+	        and COUNTRYNO = #{countryNo,jdbcType=VARCHAR}
+	    </if>
+    </where>
+    order by orderno
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from TC_PACKAGETYPE
+    where PACKAGETYPEID = #{packagetypeid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.flash.toolbar.model.TcPackageType" >
+    insert into TC_PACKAGETYPE (PACKAGETYPEID, PTNAME, ORDERNO, 
+      COUNTRYNO, TOPERATORID, ADDDATE, BRAND
+      )
+    values (#{packagetypeid,jdbcType=VARCHAR}, #{ptname,jdbcType=VARCHAR}, #{orderno,jdbcType=DECIMAL}, 
+      #{countryno,jdbcType=VARCHAR}, #{toperatorid,jdbcType=VARCHAR}, #{adddate,jdbcType=TIMESTAMP}, #{brand,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.flash.toolbar.model.TcPackageType" >
+    insert into TC_PACKAGETYPE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="packagetypeid != null" >
+        PACKAGETYPEID,
+      </if>
+      <if test="ptname != null" >
+        PTNAME,
+      </if>
+      <if test="orderno != null" >
+        ORDERNO,
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO,
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID,
+      </if>
+      <if test="adddate != null" >
+        ADDDATE,
+      </if>
+      <if test="brand != null" >
+        BRAND,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="packagetypeid != null" >
+        #{packagetypeid,jdbcType=VARCHAR},
+      </if>
+      <if test="ptname != null" >
+        #{ptname,jdbcType=VARCHAR},
+      </if>
+      <if test="orderno != null" >
+        #{orderno,jdbcType=DECIMAL},
+      </if>
+      <if test="countryno != null" >
+        #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="adddate != null" >
+        #{adddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="brand != null" >
+        #{BRAND,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.flash.toolbar.model.TcPackageType" >
+    update TC_PACKAGETYPE
+    <set >
+      <if test="ptname != null" >
+        PTNAME = #{ptname,jdbcType=VARCHAR},
+      </if>
+      <if test="orderno != null" >
+        ORDERNO = #{orderno,jdbcType=DECIMAL},
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="adddate != null" >
+        ADDDATE = #{adddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="brand != null" >
+        BRAND = #{brand,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PACKAGETYPEID = #{packagetypeid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.flash.toolbar.model.TcPackageType" >
+    update TC_PACKAGETYPE
+    set PTNAME = #{ptname,jdbcType=VARCHAR},
+      ORDERNO = #{orderno,jdbcType=DECIMAL},
+      COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      ADDDATE = #{adddate,jdbcType=TIMESTAMP},
+      BRAND = #{brand,jdbcType=VARCHAR}
+    where PACKAGETYPEID = #{packagetypeid,jdbcType=VARCHAR}
+  </update>
+</mapper>

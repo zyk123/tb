@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.mapper.CzReloadOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.model.CzReloadOrder" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="STOREID" property="storeid" jdbcType="VARCHAR" />
+    <result column="TRANSDATE" property="transdate" jdbcType="VARCHAR" />
+    <result column="TOTALAMOUNT" property="totalamount" jdbcType="DECIMAL" />
+    <result column="BALANCE" property="balance" jdbcType="DECIMAL" />
+    <result column="MEMBERID" property="memberid" jdbcType="VARCHAR" />
+    <result column="MSISDN" property="msisdn" jdbcType="VARCHAR" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="MODIFYMAN" property="modifyman" jdbcType="VARCHAR" />
+    <result column="MODIFYDATE" property="modifydate" jdbcType="DATE" />
+    <result column="RELOADDATE" property="reloaddate" jdbcType="DATE" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, STOREID, TRANSDATE, TOTALAMOUNT, BALANCE, MEMBERID, MSISDN, COUNTRYNO, TOPERATORID, 
+    STATUS, MODIFYMAN, MODIFYDATE, RELOADDATE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from CZ_RELOADORDER
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from CZ_RELOADORDER
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.flash.toolbar.model.CzReloadOrder" >
+    insert into CZ_RELOADORDER (ID, STOREID, TRANSDATE, 
+      TOTALAMOUNT, BALANCE, MEMBERID, 
+      MSISDN, COUNTRYNO, TOPERATORID, 
+      STATUS, MODIFYMAN, MODIFYDATE ,RELOADDATE
+      )
+    values (#{id,jdbcType=VARCHAR}, #{storeid,jdbcType=VARCHAR}, #{transdate,jdbcType=VARCHAR}, 
+      #{totalamount,jdbcType=DECIMAL}, #{balance,jdbcType=DECIMAL}, #{memberid,jdbcType=VARCHAR}, 
+      #{msisdn,jdbcType=VARCHAR}, #{countryno,jdbcType=VARCHAR}, #{toperatorid,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR}, #{modifyman,jdbcType=VARCHAR}, #{modifydate,jdbcType=DATE}, #{reloaddate,jdbcType=DATE}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.flash.toolbar.model.CzReloadOrder" >
+    insert into CZ_RELOADORDER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="storeid != null" >
+        STOREID,
+      </if>
+      <if test="transdate != null" >
+        TRANSDATE,
+      </if>
+      <if test="totalamount != null" >
+        TOTALAMOUNT,
+      </if>
+      <if test="balance != null" >
+        BALANCE,
+      </if>
+      <if test="memberid != null" >
+        MEMBERID,
+      </if>
+      <if test="msisdn != null" >
+        MSISDN,
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO,
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN,
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE,
+      </if>
+      <if test="reloaddate != null" >
+        RELOADDATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="storeid != null" >
+        #{storeid,jdbcType=VARCHAR},
+      </if>
+      <if test="transdate != null" >
+        #{transdate,jdbcType=VARCHAR},
+      </if>
+      <if test="totalamount != null" >
+        #{totalamount,jdbcType=DECIMAL},
+      </if>
+      <if test="balance != null" >
+        #{balance,jdbcType=DECIMAL},
+      </if>
+      <if test="memberid != null" >
+        #{memberid,jdbcType=VARCHAR},
+      </if>
+      <if test="msisdn != null" >
+        #{msisdn,jdbcType=VARCHAR},
+      </if>
+      <if test="countryno != null" >
+        #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+        #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        #{modifydate,jdbcType=DATE},
+      </if>
+      <if test="reloaddate != null" >
+        #{reloaddate,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.flash.toolbar.model.CzReloadOrder" >
+    update CZ_RELOADORDER
+    <set >
+      <if test="storeid != null" >
+        STOREID = #{storeid,jdbcType=VARCHAR},
+      </if>
+      <if test="transdate != null" >
+        TRANSDATE = #{transdate,jdbcType=VARCHAR},
+      </if>
+      <if test="totalamount != null" >
+        TOTALAMOUNT = #{totalamount,jdbcType=DECIMAL},
+      </if>
+      <if test="balance != null" >
+        BALANCE = #{balance,jdbcType=DECIMAL},
+      </if>
+      <if test="memberid != null" >
+        MEMBERID = #{memberid,jdbcType=VARCHAR},
+      </if>
+      <if test="msisdn != null" >
+        MSISDN = #{msisdn,jdbcType=VARCHAR},
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE = #{modifydate,jdbcType=DATE},
+      </if>
+      <if test="reloaddate != null" >
+        RELOADDATE = #{reloaddate,jdbcType=DATE},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.flash.toolbar.model.CzReloadOrder" >
+    update CZ_RELOADORDER
+    set STOREID = #{storeid,jdbcType=VARCHAR},
+      TRANSDATE = #{transdate,jdbcType=VARCHAR},
+      TOTALAMOUNT = #{totalamount,jdbcType=DECIMAL},
+      BALANCE = #{balance,jdbcType=DECIMAL},
+      MEMBERID = #{memberid,jdbcType=VARCHAR},
+      MSISDN = #{msisdn,jdbcType=VARCHAR},
+      COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      MODIFYDATE = #{modifydate,jdbcType=DATE},
+      RELOADDATE = #{reloaddate,jdbcType=DATE}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+
+
+  <select id="select4QueryStateReload" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    *
+    from CZ_RELOADORDER
+    where ID LIKE #{ID,jdbcType=VARCHAR}
+  </select>
+
+</mapper>

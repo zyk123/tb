@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.mapper.QxUserRoleMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.model.QxUserRole" >
+    <id column="USERROLEID" property="userroleid" jdbcType="VARCHAR" />
+    <result column="USERID" property="userid" jdbcType="VARCHAR" />
+    <result column="ROLEID" property="roleid" jdbcType="VARCHAR" />
+    <result column="CREATEDATE" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    USERROLEID, USERID, ROLEID, CREATEDATE, COUNTRYNO, TOPERATORID
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from QX_USERROLE
+    where USERROLEID = #{userroleid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from QX_USERROLE
+    where USERROLEID = #{userroleid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.flash.toolbar.model.QxUserRole" >
+    insert into QX_USERROLE (USERROLEID, USERID, ROLEID, 
+      CREATEDATE, COUNTRYNO, TOPERATORID
+      )
+    values (#{userroleid,jdbcType=VARCHAR}, #{userid,jdbcType=VARCHAR}, #{roleid,jdbcType=VARCHAR}, 
+      #{createdate,jdbcType=TIMESTAMP}, #{countryno,jdbcType=VARCHAR}, #{toperatorid,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.flash.toolbar.model.QxUserRole" >
+    insert into QX_USERROLE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userroleid != null" >
+        USERROLEID,
+      </if>
+      <if test="userid != null" >
+        USERID,
+      </if>
+      <if test="roleid != null" >
+        ROLEID,
+      </if>
+      <if test="createdate != null" >
+        CREATEDATE,
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO,
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userroleid != null" >
+        #{userroleid,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="roleid != null" >
+        #{roleid,jdbcType=VARCHAR},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="countryno != null" >
+        #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        #{toperatorid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.flash.toolbar.model.QxUserRole" >
+    update QX_USERROLE
+    <set >
+      <if test="userid != null" >
+        USERID = #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="roleid != null" >
+        ROLEID = #{roleid,jdbcType=VARCHAR},
+      </if>
+      <if test="createdate != null" >
+        CREATEDATE = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where USERROLEID = #{userroleid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.flash.toolbar.model.QxUserRole" >
+    update QX_USERROLE
+    set USERID = #{userid,jdbcType=VARCHAR},
+      ROLEID = #{roleid,jdbcType=VARCHAR},
+      CREATEDATE = #{createdate,jdbcType=TIMESTAMP},
+      COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      TOPERATORID = #{toperatorid,jdbcType=VARCHAR}
+    where USERROLEID = #{userroleid,jdbcType=VARCHAR}
+  </update>
+</mapper>

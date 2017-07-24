@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.mapper.TcFlowpackagetypeRelaMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.model.TcFlowpackagetypeRela" >
+    <id column="RELAID" property="relaid" jdbcType="VARCHAR" />
+    <result column="PACKAGETYPEID" property="packagetypeid" jdbcType="VARCHAR" />
+    <result column="PACKAGEID" property="packageid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    RELAID, PACKAGETYPEID, PACKAGEID
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from TC_FLOWPACKAGETYPE_RELA
+    where RELAID = #{relaid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from TC_FLOWPACKAGETYPE_RELA
+    where RELAID = #{relaid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.flash.toolbar.model.TcFlowpackagetypeRela" >
+    insert into TC_FLOWPACKAGETYPE_RELA (RELAID, PACKAGETYPEID, PACKAGEID
+      )
+    values (#{relaid,jdbcType=VARCHAR}, #{packagetypeid,jdbcType=VARCHAR}, #{packageid,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.flash.toolbar.model.TcFlowpackagetypeRela" >
+    insert into TC_FLOWPACKAGETYPE_RELA
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="relaid != null" >
+        RELAID,
+      </if>
+      <if test="packagetypeid != null" >
+        PACKAGETYPEID,
+      </if>
+      <if test="packageid != null" >
+        PACKAGEID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="relaid != null" >
+        #{relaid,jdbcType=VARCHAR},
+      </if>
+      <if test="packagetypeid != null" >
+        #{packagetypeid,jdbcType=VARCHAR},
+      </if>
+      <if test="packageid != null" >
+        #{packageid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.flash.toolbar.model.TcFlowpackagetypeRela" >
+    update TC_FLOWPACKAGETYPE_RELA
+    <set >
+      <if test="packagetypeid != null" >
+        PACKAGETYPEID = #{packagetypeid,jdbcType=VARCHAR},
+      </if>
+      <if test="packageid != null" >
+        PACKAGEID = #{packageid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where RELAID = #{relaid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.flash.toolbar.model.TcFlowpackagetypeRela" >
+    update TC_FLOWPACKAGETYPE_RELA
+    set PACKAGETYPEID = #{packagetypeid,jdbcType=VARCHAR},
+      PACKAGEID = #{packageid,jdbcType=VARCHAR}
+    where RELAID = #{relaid,jdbcType=VARCHAR}
+  </update>
+</mapper>

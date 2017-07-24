@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.mapper.RpPackageSubReportMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.model.RpPackageSubReport" >
+    <id column="PSID" property="psid" jdbcType="VARCHAR" />
+    <result column="DATATYPE" property="datatype" jdbcType="VARCHAR" />
+    <result column="DATADATE" property="datadate" jdbcType="TIMESTAMP" />
+    <result column="FGNO" property="fgno" jdbcType="VARCHAR" />
+    <result column="FGNAME" property="fgname" jdbcType="VARCHAR" />
+    <result column="TOTNUM" property="totnum" jdbcType="DECIMAL" />
+    <result column="CONSNUM" property="consnum" jdbcType="DECIMAL" />
+    <result column="PAYNUM" property="paynum" jdbcType="DECIMAL" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PSID, DATATYPE, DATADATE, FGNO, FGNAME, TOTNUM, CONSNUM, PAYNUM, COUNTRYNO, TOPERATORID
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from RP_PACKAGESUBREPORT
+    where PSID = #{psid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from RP_PACKAGESUBREPORT
+    where PSID = #{psid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.flash.toolbar.model.RpPackageSubReport" >
+    insert into RP_PACKAGESUBREPORT (PSID, DATATYPE, DATADATE, 
+      FGNO, FGNAME, TOTNUM, 
+      CONSNUM, PAYNUM, COUNTRYNO, 
+      TOPERATORID)
+    values (#{psid,jdbcType=VARCHAR}, #{datatype,jdbcType=VARCHAR}, #{datadate,jdbcType=TIMESTAMP}, 
+      #{fgno,jdbcType=VARCHAR}, #{fgname,jdbcType=VARCHAR}, #{totnum,jdbcType=DECIMAL}, 
+      #{consnum,jdbcType=DECIMAL}, #{paynum,jdbcType=DECIMAL}, #{countryno,jdbcType=VARCHAR}, 
+      #{toperatorid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.flash.toolbar.model.RpPackageSubReport" >
+    insert into RP_PACKAGESUBREPORT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="psid != null" >
+        PSID,
+      </if>
+      <if test="datatype != null" >
+        DATATYPE,
+      </if>
+      <if test="datadate != null" >
+        DATADATE,
+      </if>
+      <if test="fgno != null" >
+        FGNO,
+      </if>
+      <if test="fgname != null" >
+        FGNAME,
+      </if>
+      <if test="totnum != null" >
+        TOTNUM,
+      </if>
+      <if test="consnum != null" >
+        CONSNUM,
+      </if>
+      <if test="paynum != null" >
+        PAYNUM,
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO,
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="psid != null" >
+        #{psid,jdbcType=VARCHAR},
+      </if>
+      <if test="datatype != null" >
+        #{datatype,jdbcType=VARCHAR},
+      </if>
+      <if test="datadate != null" >
+        #{datadate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fgno != null" >
+        #{fgno,jdbcType=VARCHAR},
+      </if>
+      <if test="fgname != null" >
+        #{fgname,jdbcType=VARCHAR},
+      </if>
+      <if test="totnum != null" >
+        #{totnum,jdbcType=DECIMAL},
+      </if>
+      <if test="consnum != null" >
+        #{consnum,jdbcType=DECIMAL},
+      </if>
+      <if test="paynum != null" >
+        #{paynum,jdbcType=DECIMAL},
+      </if>
+      <if test="countryno != null" >
+        #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        #{toperatorid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.flash.toolbar.model.RpPackageSubReport" >
+    update RP_PACKAGESUBREPORT
+    <set >
+      <if test="datatype != null" >
+        DATATYPE = #{datatype,jdbcType=VARCHAR},
+      </if>
+      <if test="datadate != null" >
+        DATADATE = #{datadate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fgno != null" >
+        FGNO = #{fgno,jdbcType=VARCHAR},
+      </if>
+      <if test="fgname != null" >
+        FGNAME = #{fgname,jdbcType=VARCHAR},
+      </if>
+      <if test="totnum != null" >
+        TOTNUM = #{totnum,jdbcType=DECIMAL},
+      </if>
+      <if test="consnum != null" >
+        CONSNUM = #{consnum,jdbcType=DECIMAL},
+      </if>
+      <if test="paynum != null" >
+        PAYNUM = #{paynum,jdbcType=DECIMAL},
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PSID = #{psid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.flash.toolbar.model.RpPackageSubReport" >
+    update RP_PACKAGESUBREPORT
+    set DATATYPE = #{datatype,jdbcType=VARCHAR},
+      DATADATE = #{datadate,jdbcType=TIMESTAMP},
+      FGNO = #{fgno,jdbcType=VARCHAR},
+      FGNAME = #{fgname,jdbcType=VARCHAR},
+      TOTNUM = #{totnum,jdbcType=DECIMAL},
+      CONSNUM = #{consnum,jdbcType=DECIMAL},
+      PAYNUM = #{paynum,jdbcType=DECIMAL},
+      COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      TOPERATORID = #{toperatorid,jdbcType=VARCHAR}
+    where PSID = #{psid,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.mapper.HyFlowExpandAlertMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.model.HyFlowExpandAlert" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="MEMBERID" property="memberid" jdbcType="VARCHAR" />
+    <result column="MOBILENO" property="mobileno" jdbcType="VARCHAR" />
+    <result column="ALERTTIME" property="alerttime" jdbcType="TIMESTAMP" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, MEMBERID, MOBILENO, ALERTTIME, COUNTRYNO, TOPERATORID
+  </sql>
+  <sql id="Example_Where_Clause">
+		<where>
+			1=1
+			<if test="id != null and id != ''">
+				and id = #{id,jdbcType=VARCHAR}
+			</if>
+			<if test="memberid != null and memberid != ''">
+				and memberid = #{memberid,jdbcType=VARCHAR}
+			</if>
+			<if test="mobileno != null and mobileno != ''">
+				and mobileno like  #{mobileno,jdbcType=VARCHAR} || '%'
+			</if>			
+			<if test="countryno != null and countryno != ''">
+				and countryno = #{countryno,jdbcType=VARCHAR}
+			</if>
+			<if test="toperatorid != null and toperatorid != ''">
+				and toperatorid = #{toperatorid,jdbcType=VARCHAR}
+			</if>
+			<if test="alerttime != null">
+				and alerttime <![CDATA[>=]]>
+				#{alerttime,jdbcType=DATE}
+			</if>			
+		</where>
+  </sql>    
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from HY_FLOWEXPANDALERT
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectBySelective" resultMap="BaseResultMap" parameterType="com.flash.toolbar.model.HyFlowExpandAlert">
+						select
+						<include refid="Base_Column_List" />
+						from HY_FLOWEXPANDALERT
+						<if test="_parameter != null">
+							<include refid="Example_Where_Clause" />
+						</if>						
+  </select>   
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from HY_FLOWEXPANDALERT
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.flash.toolbar.model.HyFlowExpandAlert" >
+    insert into HY_FLOWEXPANDALERT (ID, MEMBERID, MOBILENO,
+      ALERTTIME, COUNTRYNO, TOPERATORID
+      )
+    values (#{id,jdbcType=VARCHAR}, #{memberid,jdbcType=VARCHAR}, #{mobileno,jdbcType=VARCHAR}, 
+      #{alerttime,jdbcType=TIMESTAMP}, #{countryno,jdbcType=VARCHAR}, #{toperatorid,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.flash.toolbar.model.HyFlowExpandAlert" >
+    insert into HY_FLOWEXPANDALERT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="memberid != null" >
+        MEMBERID,
+      </if>
+      <if test="mobileno != null" >
+        MOBILENO,
+      </if>
+      <if test="alerttime != null" >
+        ALERTTIME,
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO,
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="memberid != null" >
+        #{memberid,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileno != null" >
+        #{mobileno,jdbcType=VARCHAR},
+      </if>
+      <if test="alerttime != null" >
+        #{alerttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="countryno != null" >
+        #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        #{toperatorid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.flash.toolbar.model.HyFlowExpandAlert" >
+    update HY_FLOWEXPANDALERT
+    <set >
+      <if test="memberid != null" >
+        MEMBERID = #{memberid,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileno != null" >
+        MOBILENO = #{mobileno,jdbcType=VARCHAR},
+      </if>
+      <if test="alerttime != null" >
+        ALERTTIME = #{alerttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.flash.toolbar.model.HyFlowExpandAlert" >
+    update HY_FLOWEXPANDALERT
+    set MEMBERID = #{memberid,jdbcType=VARCHAR},
+      MOBILENO = #{mobileno,jdbcType=VARCHAR},
+      ALERTTIME = #{alerttime,jdbcType=TIMESTAMP},
+      COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      TOPERATORID = #{toperatorid,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.mapper.TcFlowPackageMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.model.TcFlowPackage" >
+    <id column="PACKAGEID" property="packageid" jdbcType="VARCHAR" />
+    <result column="FGNO" property="fgno" jdbcType="VARCHAR" />
+    <result column="FGNAME" property="fgname" jdbcType="VARCHAR" />
+    <result column="FGDESC" property="fgdesc" jdbcType="VARCHAR" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+    <result column="LANGNO" property="langno" jdbcType="VARCHAR" />
+    <result column="EXPENSES" property="expenses" jdbcType="VARCHAR" />
+    <result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
+    <result column="CURRENCY" property="currency" jdbcType="VARCHAR" />
+    <result column="PACKAGETYPEID" property="packagetypeid" jdbcType="VARCHAR" />
+    <result column="ORDERNO" property="orderno" jdbcType="DECIMAL" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="ADDDATE" property="adddate" jdbcType="TIMESTAMP" />
+    <result column="DELFLAG" property="delflag" jdbcType="VARCHAR" />
+    <result column="MODIFYMAN" property="modifyman" jdbcType="VARCHAR" />
+    <result column="MODIFYDATE" property="modifydate" jdbcType="TIMESTAMP" />
+    <result column="FGTIPS" property="fgtips" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PACKAGEID, FGNO, FGNAME, FGDESC, COUNTRYNO, TOPERATORID, LANGNO, EXPENSES, AMOUNT, 
+    CURRENCY, PACKAGETYPEID, ORDERNO, STATUS, REMARK, ADDDATE, DELFLAG, MODIFYMAN, MODIFYDATE, FGTIPS
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from TC_FLOWPACKAGE
+    where PACKAGEID = #{packageid,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 根据运营商id查询 -->
+  <select id="selectByFGNo" resultMap="BaseResultMap"
+	parameterType="com.flash.toolbar.model.TcFlowPackage">
+	select
+	<include refid="Base_Column_List" />
+	from TC_FLOWPACKAGE
+	where FGNO = #{fgno,jdbcType=VARCHAR}
+	<if test="countryno != null">
+		AND COUNTRYNO = #{countryno,jdbcType=VARCHAR}
+	</if>
+	<if test="toperatorid != null">
+		AND TOPERATORID = #{toperatorid,jdbcType=VARCHAR}
+	</if>
+	<if test="status != null">
+		AND STATUS = #{status,jdbcType=VARCHAR}
+	</if>
+	<if test="delflag != null">
+		AND DELFLAG = #{delflag,jdbcType=VARCHAR}
+	</if>
+</select>
+  
+  <select id="selectByPackageTypeId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from TC_FLOWPACKAGE
+    where PACKAGETYPEID = #{packagetypeid,jdbcType=VARCHAR} and status='0' and delflag='1' order by orderno
+  </select>
+  
+  <select id="selectByFlowPackageTypeId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    t.PACKAGEID, t.FGNO, t.FGNAME, t.FGDESC, t.COUNTRYNO, t.TOPERATORID, t.LANGNO, t.EXPENSES, t.AMOUNT, 
+    t.CURRENCY, t.PACKAGETYPEID, t.ORDERNO, t.STATUS, t.REMARK, t.ADDDATE, t.DELFLAG, t.MODIFYMAN, t.MODIFYDATE, t.FGTIPS
+    from TC_FLOWPACKAGE t left join TC_FLOWPACKAGETYPE_RELA r on t.packageid=r.packageid 
+    where r.packagetypeid = #{packagetypeid,jdbcType=VARCHAR} 
+    and t.status='0' and t.delflag='1' order by t.orderno
+  </select>
+  
+  <select id="selectByPackageNo" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from TC_FLOWPACKAGE
+    where FGNO = #{packageno,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from TC_FLOWPACKAGE
+    where PACKAGEID = #{packageid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.flash.toolbar.model.TcFlowPackage" >
+    insert into TC_FLOWPACKAGE (PACKAGEID, FGNO, FGNAME, 
+      FGDESC, COUNTRYNO, TOPERATORID, 
+      LANGNO, EXPENSES, AMOUNT, 
+      CURRENCY, PACKAGETYPEID, ORDERNO, 
+      STATUS, REMARK, ADDDATE, 
+      DELFLAG, MODIFYMAN, MODIFYDATE, FGTIPS
+      )
+    values (#{packageid,jdbcType=VARCHAR}, #{fgno,jdbcType=VARCHAR}, #{fgname,jdbcType=VARCHAR}, 
+      #{fgdesc,jdbcType=VARCHAR}, #{countryno,jdbcType=VARCHAR}, #{toperatorid,jdbcType=VARCHAR}, 
+      #{langno,jdbcType=VARCHAR}, #{expenses,jdbcType=VARCHAR}, #{amount,jdbcType=DECIMAL}, 
+      #{currency,jdbcType=VARCHAR}, #{packagetypeid,jdbcType=VARCHAR}, #{orderno,jdbcType=DECIMAL}, 
+      #{status,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{adddate,jdbcType=TIMESTAMP}, 
+      #{delflag,jdbcType=VARCHAR}, #{modifyman,jdbcType=VARCHAR}, #{modifydate,jdbcType=TIMESTAMP}, #{fgtips,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.flash.toolbar.model.TcFlowPackage" >
+    insert into TC_FLOWPACKAGE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="packageid != null" >
+        PACKAGEID,
+      </if>
+      <if test="fgno != null" >
+        FGNO,
+      </if>
+      <if test="fgname != null" >
+        FGNAME,
+      </if>
+      <if test="fgdesc != null" >
+        FGDESC,
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO,
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID,
+      </if>
+      <if test="langno != null" >
+        LANGNO,
+      </if>
+      <if test="expenses != null" >
+        EXPENSES,
+      </if>
+      <if test="amount != null" >
+        AMOUNT,
+      </if>
+      <if test="currency != null" >
+        CURRENCY,
+      </if>
+      <if test="packagetypeid != null" >
+        PACKAGETYPEID,
+      </if>
+      <if test="orderno != null" >
+        ORDERNO,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="adddate != null" >
+        ADDDATE,
+      </if>
+      <if test="delflag != null" >
+        DELFLAG,
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN,
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE,
+      </if>
+      <if test="fgtips != null" >
+        FGTIPS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="packageid != null" >
+        #{packageid,jdbcType=VARCHAR},
+      </if>
+      <if test="fgno != null" >
+        #{fgno,jdbcType=VARCHAR},
+      </if>
+      <if test="fgname != null" >
+        #{fgname,jdbcType=VARCHAR},
+      </if>
+      <if test="fgdesc != null" >
+        #{fgdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="countryno != null" >
+        #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="langno != null" >
+        #{langno,jdbcType=VARCHAR},
+      </if>
+      <if test="expenses != null" >
+        #{expenses,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="currency != null" >
+        #{currency,jdbcType=VARCHAR},
+      </if>
+      <if test="packagetypeid != null" >
+        #{packagetypeid,jdbcType=VARCHAR},
+      </if>
+      <if test="orderno != null" >
+        #{orderno,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="adddate != null" >
+        #{adddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delflag != null" >
+        #{delflag,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+        #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fgtips != null" >
+        #{fgtips,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.flash.toolbar.model.TcFlowPackage" >
+    update TC_FLOWPACKAGE
+    <set >
+      <if test="fgno != null" >
+        FGNO = #{fgno,jdbcType=VARCHAR},
+      </if>
+      <if test="fgname != null" >
+        FGNAME = #{fgname,jdbcType=VARCHAR},
+      </if>
+      <if test="fgdesc != null" >
+        FGDESC = #{fgdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="langno != null" >
+        LANGNO = #{langno,jdbcType=VARCHAR},
+      </if>
+      <if test="expenses != null" >
+        EXPENSES = #{expenses,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        AMOUNT = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="currency != null" >
+        CURRENCY = #{currency,jdbcType=VARCHAR},
+      </if>
+      <if test="packagetypeid != null" >
+        PACKAGETYPEID = #{packagetypeid,jdbcType=VARCHAR},
+      </if>
+      <if test="orderno != null" >
+        ORDERNO = #{orderno,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="adddate != null" >
+        ADDDATE = #{adddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delflag != null" >
+        DELFLAG = #{delflag,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fgtips != null" >
+        FGTIPS = #{fgtips,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PACKAGEID = #{packageid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.flash.toolbar.model.TcFlowPackage" >
+    update TC_FLOWPACKAGE
+    set FGNO = #{fgno,jdbcType=VARCHAR},
+      FGNAME = #{fgname,jdbcType=VARCHAR},
+      FGDESC = #{fgdesc,jdbcType=VARCHAR},
+      COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      LANGNO = #{langno,jdbcType=VARCHAR},
+      EXPENSES = #{expenses,jdbcType=VARCHAR},
+      AMOUNT = #{amount,jdbcType=DECIMAL},
+      CURRENCY = #{currency,jdbcType=VARCHAR},
+      PACKAGETYPEID = #{packagetypeid,jdbcType=VARCHAR},
+      ORDERNO = #{orderno,jdbcType=DECIMAL},
+      STATUS = #{status,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      ADDDATE = #{adddate,jdbcType=TIMESTAMP},
+      DELFLAG = #{delflag,jdbcType=VARCHAR},
+      MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      FGTIPS = #{fgtips,jdbcType=VARCHAR},
+      MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP}
+    where PACKAGEID = #{packageid,jdbcType=VARCHAR}
+  </update>
+</mapper>

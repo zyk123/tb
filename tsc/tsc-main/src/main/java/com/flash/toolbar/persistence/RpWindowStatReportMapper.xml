@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.mapper.RpWindowStatReportMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.model.RpWindowStatReport" >
+    <id column="WSRID" property="wsrid" jdbcType="VARCHAR" />
+    <result column="DATATYPE" property="datatype" jdbcType="VARCHAR" />
+    <result column="DATADATE" property="datadate" jdbcType="TIMESTAMP" />
+    <result column="PAGENO" property="pageno" jdbcType="VARCHAR" />
+    <result column="PAGENAME" property="pagename" jdbcType="VARCHAR" />
+    <result column="TOTNUM" property="totnum" jdbcType="DECIMAL" />
+    <result column="CONSNUM" property="consnum" jdbcType="DECIMAL" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    WSRID, DATATYPE, DATADATE, PAGENO, PAGENAME, TOTNUM, CONSNUM, COUNTRYNO, TOPERATORID
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from RP_WINDOWSTATREPORT
+    where WSRID = #{wsrid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from RP_WINDOWSTATREPORT
+    where WSRID = #{wsrid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.flash.toolbar.model.RpWindowStatReport" >
+    insert into RP_WINDOWSTATREPORT (WSRID, DATATYPE, DATADATE, 
+      PAGENO, PAGENAME, TOTNUM, 
+      CONSNUM, COUNTRYNO, TOPERATORID
+      )
+    values (#{wsrid,jdbcType=VARCHAR}, #{datatype,jdbcType=VARCHAR}, #{datadate,jdbcType=TIMESTAMP}, 
+      #{pageno,jdbcType=VARCHAR}, #{pagename,jdbcType=VARCHAR}, #{totnum,jdbcType=DECIMAL}, 
+      #{consnum,jdbcType=DECIMAL}, #{countryno,jdbcType=VARCHAR}, #{toperatorid,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.flash.toolbar.model.RpWindowStatReport" >
+    insert into RP_WINDOWSTATREPORT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="wsrid != null" >
+        WSRID,
+      </if>
+      <if test="datatype != null" >
+        DATATYPE,
+      </if>
+      <if test="datadate != null" >
+        DATADATE,
+      </if>
+      <if test="pageno != null" >
+        PAGENO,
+      </if>
+      <if test="pagename != null" >
+        PAGENAME,
+      </if>
+      <if test="totnum != null" >
+        TOTNUM,
+      </if>
+      <if test="consnum != null" >
+        CONSNUM,
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO,
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="wsrid != null" >
+        #{wsrid,jdbcType=VARCHAR},
+      </if>
+      <if test="datatype != null" >
+        #{datatype,jdbcType=VARCHAR},
+      </if>
+      <if test="datadate != null" >
+        #{datadate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pageno != null" >
+        #{pageno,jdbcType=VARCHAR},
+      </if>
+      <if test="pagename != null" >
+        #{pagename,jdbcType=VARCHAR},
+      </if>
+      <if test="totnum != null" >
+        #{totnum,jdbcType=DECIMAL},
+      </if>
+      <if test="consnum != null" >
+        #{consnum,jdbcType=DECIMAL},
+      </if>
+      <if test="countryno != null" >
+        #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        #{toperatorid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.flash.toolbar.model.RpWindowStatReport" >
+    update RP_WINDOWSTATREPORT
+    <set >
+      <if test="datatype != null" >
+        DATATYPE = #{datatype,jdbcType=VARCHAR},
+      </if>
+      <if test="datadate != null" >
+        DATADATE = #{datadate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pageno != null" >
+        PAGENO = #{pageno,jdbcType=VARCHAR},
+      </if>
+      <if test="pagename != null" >
+        PAGENAME = #{pagename,jdbcType=VARCHAR},
+      </if>
+      <if test="totnum != null" >
+        TOTNUM = #{totnum,jdbcType=DECIMAL},
+      </if>
+      <if test="consnum != null" >
+        CONSNUM = #{consnum,jdbcType=DECIMAL},
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where WSRID = #{wsrid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.flash.toolbar.model.RpWindowStatReport" >
+    update RP_WINDOWSTATREPORT
+    set DATATYPE = #{datatype,jdbcType=VARCHAR},
+      DATADATE = #{datadate,jdbcType=TIMESTAMP},
+      PAGENO = #{pageno,jdbcType=VARCHAR},
+      PAGENAME = #{pagename,jdbcType=VARCHAR},
+      TOTNUM = #{totnum,jdbcType=DECIMAL},
+      CONSNUM = #{consnum,jdbcType=DECIMAL},
+      COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      TOPERATORID = #{toperatorid,jdbcType=VARCHAR}
+    where WSRID = #{wsrid,jdbcType=VARCHAR}
+  </update>
+</mapper>

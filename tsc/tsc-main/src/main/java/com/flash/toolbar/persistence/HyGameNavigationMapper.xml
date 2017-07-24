@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.mapper.HyGameNavigationMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.model.HyGameNavigation" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="ICON" property="icon" jdbcType="BLOB" />
+    <result column="URL" property="url" jdbcType="VARCHAR" />
+    <result column="RECOMMENDLEVEL" property="recommendlevel" jdbcType="CHAR" />
+    <result column="DOWNLOADNUM" property="downloadnum" jdbcType="NUMERIC" />
+    <result column="TYPE" property="type" jdbcType="CHAR" />
+    <result column="ORDERNO" property="orderno" jdbcType="NUMERIC" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+    <result column="MODIFYMAN" property="modifyman" jdbcType="VARCHAR" />
+    <result column="MODIFYDATE" property="modifydate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, NAME, ICON, URL,RECOMMENDLEVEL,DOWNLOADNUM,TYPE,ORDERNO,COUNTRYNO,TOPERATORID,MODIFYMAN,MODIFYDATE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from hy_gamenavigation
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <sql id="Example_Where_Clause">
+		<where>
+			1=1
+			<if test="id != null and id != ''">
+				and id = #{id,jdbcType=VARCHAR}
+			</if>
+			<if test="name != null and name != ''">
+				and name = #{name,jdbcType=VARCHAR}
+			</if>
+			<if test="recommendlevel != null and recommendlevel != ''">
+				and recommendlevel = #{recommendlevel,jdbcType=CHAR}
+			</if>
+			<if test="type != null and type != ''">
+				and type = #{type,jdbcType=CHAR}
+			</if>
+			<if test="countryno != null and countryno != ''">
+				and countryNo = #{countryno,jdbcType=VARCHAR}
+			</if>
+			<if test="toperatorid != null and toperatorid !=''">
+				and tOperatorId = #{toperatorid,jdbcType=VARCHAR}
+			</if>						
+		</where>
+  </sql>   
+  <select id="selectBySelective" resultMap="BaseResultMap" parameterType="com.flash.toolbar.model.HyGameNavigation">
+						select
+						<include refid="Base_Column_List" />
+						from hy_gamenavigation
+						<if test="_parameter != null">
+							<include refid="Example_Where_Clause" />
+						</if>
+						order by orderno											
+  </select>     
+  <select id="selectIconByPrimaryKey" parameterType="com.flash.toolbar.model.HyGameNavigation" resultType="com.flash.toolbar.model.HyGameNavigation">
+  	select icon from hy_gamenavigation
+  	<where>
+    	ID = #{id,jdbcType=VARCHAR}
+  		<if test="null != countryno and '' != countryno">
+  			and COUNTRYNO = #{countryno,jdbcType=VARCHAR}
+  		</if>
+  		<if test="null != toperatorid and '' != toperatorid">
+  			and TOPERATORID = #{toperatorid,jdbcType=VARCHAR}
+  		</if>
+  	</where>
+  </select>	  
+  <insert id="insert" parameterType="com.flash.toolbar.model.HyGameNavigation" >
+    insert into hy_gamenavigation (ID, name, icon, 
+      url, recommendlevel,downloadnum,type,orderno,countryno,toperatorid,modifyman,modifydate)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{icon,jdbcType=BLOB}, 
+      #{url,jdbcType=VARCHAR}, #{recommendlevel,jdbcType=VARCHAR}, #{downloadnum,jdbcType=DECIMAL}
+      , #{type,jdbcType=VARCHAR}, #{orderno,jdbcType=DECIMAL}, #{countryno,jdbcType=VARCHAR}
+      , #{toperatorid,jdbcType=VARCHAR}, #{modifyman,jdbcType=VARCHAR}, #{modifydate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.flash.toolbar.model.HyGameNavigation" >
+    insert into hy_gamenavigation
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="icon != null" >
+        ICON,
+      </if>
+      <if test="url != null" >
+        URL,
+      </if>
+      <if test="recommendlevel != null" >
+        RECOMMENDLEVEL,
+      </if>
+      <if test="downloadnum != null" >
+        DOWNLOADNUM,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="orderno != null" >
+        ORDERNO,
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO,
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID,
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN,
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null" >
+        #{icon,jdbcType=BLOB},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="recommendlevel != null" >
+        #{recommendlevel,jdbcType=VARCHAR},
+      </if>
+      <if test="downloadnum != null" >
+        #{downloadnum,jdbcType=DECIMAL},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="orderno != null" >
+        #{orderno,jdbcType=DECIMAL},
+      </if>
+      <if test="countryno != null" >
+        #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+        #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.flash.toolbar.model.HyGameNavigation" >
+    update hy_gamenavigation
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null" >
+        icon = #{icon,jdbcType=BLOB},
+      </if>
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="recommendlevel != null" >
+        recommendlevel = #{recommendlevel,jdbcType=VARCHAR},
+      </if>
+      <if test="downloadnum != null" >
+        downloadnum = #{downloadnum,jdbcType=DECIMAL},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="orderno != null" >
+       	orderno = #{orderno,jdbcType=DECIMAL},
+      </if>
+      <if test="countryno != null" >
+        countryno = #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        toperatorid = #{toperatorid,jdbcType=VARCHAR},
+      </if>      
+      <if test="modifyman != null" >
+        modifyman = #{modifyman,jdbcType=VARCHAR},
+      </if>      
+      <if test="modifydate != null" >
+        modifydate = #{modifydate,jdbcType=TIMESTAMP},
+      </if>      
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from hy_gamenavigation
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>  
+</mapper>
