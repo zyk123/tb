@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.omp.mapper.TcPackageTypeMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.omp.model.TcPackageType" >
+    <id column="PACKAGETYPEID" property="packagetypeid" jdbcType="VARCHAR" />
+    <result column="PTNAME" property="ptname" jdbcType="VARCHAR" />
+    <result column="BRAND" property="brand" jdbcType="VARCHAR" />
+    <result column="ORDERNO" property="orderno" jdbcType="DECIMAL" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+    <result column="ADDDATE" property="adddate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PACKAGETYPEID, PTNAME, BRAND, ORDERNO, COUNTRYNO, TOPERATORID, ADDDATE
+  </sql>
+  
+	<sql id="Example_Where_Clause">
+		<where>
+			1=1
+			<if test="bean.packagetypeid != null and bean.packagetypeid != ''">
+				and packagetypeid = #{bean.packagetypeid,jdbcType=VARCHAR}
+			</if>
+			<if test="bean.ptname != null and bean.ptname != ''">
+				and ptname like  '%'||#{bean.ptname,jdbcType=VARCHAR}||'%'
+			</if>
+			<if test="bean.brand != null and bean.brand != ''">
+				and brand like  '%'||#{bean.brand,jdbcType=VARCHAR}||'%'
+			</if>
+			<if test="bean.countryno != null and bean.countryno != ''">
+				and countryNo = #{bean.countryno,jdbcType=VARCHAR}
+			</if>			
+			<if test="bean.toperatorid != null and bean.toperatorid != ''">
+				and tOperatorId = #{bean.toperatorid,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</sql> 
+	
+	<sql id="Example_Where_Clause_Fit">
+		<where>
+			1=1
+			<if test="bean.packagetypeid != null and bean.packagetypeid != ''">
+				and packagetypeid = #{bean.packagetypeid,jdbcType=VARCHAR}
+			</if>
+			<if test="bean.ptname != null and bean.ptname != ''">
+				and ptname like  '%'||#{bean.ptname,jdbcType=VARCHAR}||'%'
+			</if>
+			<if test="bean.brand != null and bean.brand != ''">
+				and brand = #{bean.brand,jdbcType=VARCHAR}
+			</if>
+			<if test="bean.countryno != null and bean.countryno != ''">
+				and countryNo = #{bean.countryno,jdbcType=VARCHAR}
+			</if>			
+			<if test="bean.toperatorid != null and bean.toperatorid != ''">
+				and tOperatorId = #{bean.toperatorid,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</sql>  	   
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from TC_PACKAGETYPE
+    where PACKAGETYPEID = #{packagetypeid,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByPageSelective" resultMap="BaseResultMap" parameterType="com.flash.toolbar.omp.model.TcPackageType">
+  		select
+		*
+		from ( 
+			select
+				<include refid="Base_Column_List" />
+				, ROWNUM RN from 
+					( select <include refid="Base_Column_List" />,rownum rn from (
+						select
+						<include refid="Base_Column_List" />
+						from TC_PACKAGETYPE
+						<if test="_parameter != null">
+							<include refid="Example_Where_Clause" />
+						</if>
+						order by brand,orderno											
+						) 
+					) WHERE rn <![CDATA[<=]]> ${pager.pageTail} 
+		) WHERE RN <![CDATA[>=]]>
+		${pager.pageOffset}  						
+  </select>    
+  <select id="countByCondition" parameterType="Object" resultType="java.lang.Integer"> 
+	select count(1) from TC_PACKAGETYPE
+				<if test="_parameter != null">
+					<include refid="Example_Where_Clause" />
+				</if>		
+  </select>   
+  <select id="countBySelective" parameterType="Object" resultType="java.lang.Integer"> 
+	select count(1) from TC_PACKAGETYPE
+				<if test="_parameter != null">
+					<include refid="Example_Where_Clause_Fit" />
+				</if>		
+  </select>   
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from TC_PACKAGETYPE
+    where PACKAGETYPEID = #{packagetypeid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteBacth" parameterType="map" >
+	delete from TC_PACKAGETYPE WHERE 1=1
+	<if test="qxUserModel.bean.countryno != null and qxUserModel.bean.countryno != ''">
+		and countryNo = #{qxUserModel.bean.countryno,jdbcType=VARCHAR}
+	</if>	
+	<if test="qxUserModel.bean.toperatorid != null and qxUserModel.bean.toperatorid != ''">
+		and tOperatorId = #{qxUserModel.bean.toperatorid,jdbcType=VARCHAR}
+	</if>	
+	and PACKAGETYPEID in
+	<foreach item="idItem" collection="bListIds" open="(" separator="union" close=")">
+	select #{idItem} from dual
+	</foreach>
+  </delete>
+  <insert id="insert" parameterType="com.flash.toolbar.omp.model.TcPackageType" >
+    insert into TC_PACKAGETYPE (PACKAGETYPEID, PTNAME, BRAND, ORDERNO, 
+      COUNTRYNO, TOPERATORID, ADDDATE
+      )
+    values (#{packagetypeid,jdbcType=VARCHAR}, #{ptname,jdbcType=VARCHAR}, #{brand,jdbcType=VARCHAR}, #{orderno,jdbcType=DECIMAL}, 
+      #{countryno,jdbcType=VARCHAR}, #{toperatorid,jdbcType=VARCHAR}, #{adddate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.flash.toolbar.omp.model.TcPackageType" >
+    insert into TC_PACKAGETYPE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="packagetypeid != null" >
+        PACKAGETYPEID,
+      </if>
+      <if test="ptname != null" >
+        PTNAME,
+      </if>
+      <if test="brand != null" >
+        BRAND,
+      </if>
+      <if test="orderno != null" >
+        ORDERNO,
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO,
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID,
+      </if>
+      <if test="adddate != null" >
+        ADDDATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="packagetypeid != null" >
+        #{packagetypeid,jdbcType=VARCHAR},
+      </if>
+      <if test="ptname != null" >
+        #{ptname,jdbcType=VARCHAR},
+      </if>
+      <if test="brand != null" >
+        #{brand,jdbcType=VARCHAR},
+      </if>
+      <if test="orderno != null" >
+        #{orderno,jdbcType=DECIMAL},
+      </if>
+      <if test="countryno != null" >
+        #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="adddate != null" >
+        #{adddate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.flash.toolbar.omp.model.TcPackageType" >
+    update TC_PACKAGETYPE
+    <set >
+      <if test="ptname != null" >
+        PTNAME = #{ptname,jdbcType=VARCHAR},
+      </if>
+      <if test="brand != null" >
+        BRAND = #{brand,jdbcType=VARCHAR},
+      </if>
+      <if test="orderno != null" >
+        ORDERNO = #{orderno,jdbcType=DECIMAL},
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="adddate != null" >
+        ADDDATE = #{adddate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PACKAGETYPEID = #{packagetypeid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.flash.toolbar.omp.model.TcPackageType" >
+    update TC_PACKAGETYPE
+    set PTNAME = #{ptname,jdbcType=VARCHAR},
+      BRAND = #{brand,jdbcType=VARCHAR},
+      ORDERNO = #{orderno,jdbcType=DECIMAL},
+      COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      ADDDATE = #{adddate,jdbcType=TIMESTAMP}
+    where PACKAGETYPEID = #{packagetypeid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateOrderNo" parameterType="map" >
+    update TC_PACKAGETYPE
+    set ORDERNO = ORDERNO${type} where 1=1
+	<if test="qxUserModel.bean.countryno != null and qxUserModel.bean.countryno != ''">
+		and countryNo = #{qxUserModel.bean.countryno,jdbcType=VARCHAR}
+	</if>	
+	<if test="qxUserModel.bean.toperatorid != null and qxUserModel.bean.toperatorid != ''">
+		and tOperatorId = #{qxUserModel.bean.toperatorid,jdbcType=VARCHAR}
+	</if>	    
+    and PACKAGETYPEID = #{packagetypeid,jdbcType=VARCHAR}
+  </update>
+</mapper>

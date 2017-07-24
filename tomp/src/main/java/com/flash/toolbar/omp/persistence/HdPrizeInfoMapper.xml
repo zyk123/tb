@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.omp.mapper.HdPrizeInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.omp.model.HdPrizeInfo" >
+    <id column="PRIZEID" property="prizeid" jdbcType="VARCHAR" />
+    <result column="PRIZENAME" property="prizename" jdbcType="VARCHAR" />
+    <result column="PRIZEDESC" property="prizedesc" jdbcType="VARCHAR" />
+    <result column="PRIZEPRICE" property="prizeprice" jdbcType="DECIMAL" />
+    <result column="PRIZETOTALNUM" property="prizetotalnum" jdbcType="DECIMAL" />
+    <result column="PRIZERESTNUM" property="prizerestnum" jdbcType="DECIMAL" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+    <result column="MODIFYMAN" property="modifyman" jdbcType="VARCHAR" />
+    <result column="MODIFYDATE" property="modifydate" jdbcType="TIMESTAMP" />
+    <result column="PRIZEUNIT" property="prizeunit" jdbcType="VARCHAR" />
+    <result column="PRIZETYPE" property="prizetype" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="BaseResultMapModel"
+		type="com.flash.toolbar.omp.promotionment.bo.PrizeModel">
+		<id column="PRIZEID" property="bean.prizeid" jdbcType="VARCHAR" />
+		<result column="PRIZENAME" property="bean.prizename" jdbcType="VARCHAR" />
+		<result column="PRIZEDESC" property="bean.prizedesc" jdbcType="VARCHAR" />
+		<result column="PRIZEPRICE" property="bean.prizeprice"
+			jdbcType="DECIMAL" />
+		<result column="PRIZETOTALNUM" property="bean.prizetotalnum"
+			jdbcType="DECIMAL" />
+		<result column="PRIZERESTNUM" property="bean.prizerestnum"
+			jdbcType="DECIMAL" />
+		<result column="COUNTRYNO" property="bean.countryno" jdbcType="VARCHAR" />
+		<result column="TOPERATORID" property="bean.toperatorid"
+			jdbcType="VARCHAR" />
+		<result column="MODIFYMAN" property="bean.modifyman" jdbcType="VARCHAR" />
+		<result column="MODIFYDATE" property="bean.modifydate"
+			jdbcType="TIMESTAMP" />
+		<result column="SHOWDELETE" property="bean.showdelete"
+			jdbcType="VARCHAR" />
+	</resultMap>
+  <sql id="Base_Column_List" >
+    PRIZEID, PRIZENAME, PRIZEDESC, PRIZEPRICE, PRIZETOTALNUM, PRIZERESTNUM, COUNTRYNO, 
+    TOPERATORID, MODIFYMAN, MODIFYDATE, PRIZEUNIT, PRIZETYPE
+  </sql>
+  <sql id="Where_Clause">
+		<where>
+			1=1
+			<if test="null != bean.prizename and '' != bean.prizename">
+				and PRIZENAME like '%'||#{bean.prizename,jdbcType=VARCHAR}||'%'
+			</if>
+			<if test="null != bean.countryno and '' != bean.countryno">
+				and COUNTRYNO = #{bean.countryno,jdbcType=VARCHAR}
+			</if>
+			<if test="null != bean.toperatorid and '' != bean.toperatorid">
+				and TOPERATORID = #{bean.toperatorid,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from HD_PRIZEINFO
+    where PRIZEID = #{prizeid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from HD_PRIZEINFO
+    where PRIZEID = #{prizeid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.flash.toolbar.omp.model.HdPrizeInfo" >
+    insert into HD_PRIZEINFO (PRIZEID, PRIZENAME, PRIZEDESC, 
+      PRIZEPRICE, PRIZETOTALNUM, PRIZERESTNUM, 
+      COUNTRYNO, TOPERATORID, MODIFYMAN, 
+      MODIFYDATE, PRIZEUNIT, PRIZETYPE
+      )
+    values (#{prizeid,jdbcType=VARCHAR}, #{prizename,jdbcType=VARCHAR}, #{prizedesc,jdbcType=VARCHAR}, 
+      #{prizeprice,jdbcType=DECIMAL}, #{prizetotalnum,jdbcType=DECIMAL}, #{prizerestnum,jdbcType=DECIMAL}, 
+      #{countryno,jdbcType=VARCHAR}, #{toperatorid,jdbcType=VARCHAR}, #{modifyman,jdbcType=VARCHAR}, 
+      #{modifydate,jdbcType=TIMESTAMP}, #{prizeunit,jdbcType=VARCHAR}, #{prizetype,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.flash.toolbar.omp.model.HdPrizeInfo" >
+    insert into HD_PRIZEINFO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="prizeid != null" >
+        PRIZEID,
+      </if>
+      <if test="prizename != null" >
+        PRIZENAME,
+      </if>
+      <if test="prizedesc != null" >
+        PRIZEDESC,
+      </if>
+      <if test="prizeprice != null" >
+        PRIZEPRICE,
+      </if>
+      <if test="prizetotalnum != null" >
+        PRIZETOTALNUM,
+      </if>
+      <if test="prizerestnum != null" >
+        PRIZERESTNUM,
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO,
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID,
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN,
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE,
+      </if>
+      <if test="prizeunit != null" >
+        PRIZEUNIT,
+      </if>
+      <if test="prizetype != null" >
+        PRIZETYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="prizeid != null" >
+        #{prizeid,jdbcType=VARCHAR},
+      </if>
+      <if test="prizename != null" >
+        #{prizename,jdbcType=VARCHAR},
+      </if>
+      <if test="prizedesc != null" >
+        #{prizedesc,jdbcType=VARCHAR},
+      </if>
+      <if test="prizeprice != null" >
+        #{prizeprice,jdbcType=DECIMAL},
+      </if>
+      <if test="prizetotalnum != null" >
+        #{prizetotalnum,jdbcType=DECIMAL},
+      </if>
+      <if test="prizerestnum != null" >
+        #{prizerestnum,jdbcType=DECIMAL},
+      </if>
+      <if test="countryno != null" >
+        #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+        #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="prizeunit != null" >
+        #{prizeunit,jdbcType=VARCHAR},
+      </if>
+      <if test="prizetype != null" >
+        #{prizetype,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.flash.toolbar.omp.model.HdPrizeInfo" >
+    update HD_PRIZEINFO
+    <set >
+      <if test="prizename != null" >
+        PRIZENAME = #{prizename,jdbcType=VARCHAR},
+      </if>
+      <if test="prizedesc != null" >
+        PRIZEDESC = #{prizedesc,jdbcType=VARCHAR},
+      </if>
+      <if test="prizeprice != null" >
+        PRIZEPRICE = #{prizeprice,jdbcType=DECIMAL},
+      </if>
+      <if test="prizetotalnum != null" >
+        PRIZETOTALNUM = #{prizetotalnum,jdbcType=DECIMAL},
+      </if>
+      <if test="prizerestnum != null or prizetotalnum != null " >
+        PRIZERESTNUM = PRIZERESTNUM-(PRIZETOTALNUM-#{prizetotalnum,jdbcType=DECIMAL}),
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="prizeunit != null" >
+        PRIZEUNIT = #{prizeunit,jdbcType=VARCHAR},
+      </if>
+      <if test="prizetype != null" >
+        PRIZETYPE = #{prizetype,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PRIZEID = #{prizeid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.flash.toolbar.omp.model.HdPrizeInfo" >
+    update HD_PRIZEINFO
+    set PRIZENAME = #{prizename,jdbcType=VARCHAR},
+      PRIZEDESC = #{prizedesc,jdbcType=VARCHAR},
+      PRIZEPRICE = #{prizeprice,jdbcType=DECIMAL},
+      PRIZETOTALNUM = #{prizetotalnum,jdbcType=DECIMAL},
+      PRIZERESTNUM = #{prizerestnum,jdbcType=DECIMAL},
+      COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP},
+      PRIZEUNIT = #{prizeunit,jdbcType=VARCHAR},
+      PRIZETYPE = #{prizetype,jdbcType=VARCHAR}
+    where PRIZEID = #{prizeid,jdbcType=VARCHAR}
+  </update>
+  <select id="countByCondition" parameterType="Object" resultType="java.lang.Integer">
+		select count(*) from HD_PRIZEINFO
+		<if test="_parameter != null">
+			<include refid="Where_Clause" />
+		</if>
+	</select>
+  <select id="countPrizeInPromotion" parameterType="Object" resultType="java.lang.Integer">
+		select count(*) from hd_promotionprize where 1=1
+		<if test="null != prizeid and '' != prizeid">
+			and PRIZEID=#{prizeid,jdbcType=VARCHAR}
+		</if>
+	</select>
+	<select id="selectByPageSelective" resultMap="BaseResultMapModel"
+		parameterType="com.flash.toolbar.omp.promotionment.bo.PrizeModel">
+		SELECT
+		*
+		FROM (SELECT ROWNUM AS rowno, t.* FROM HD_PRIZEINFO t WHERE
+		1=1
+		<if test="null != bean.prizename and '' != bean.prizename">
+			and PRIZENAME = #{bean.prizename,jdbcType=VARCHAR}
+		</if>
+		<if test="null != bean.countryno and '' != bean.countryno">
+			and COUNTRYNO = #{bean.countryno,jdbcType=VARCHAR}
+		</if>
+		<if test="null != bean.toperatorid and '' != bean.toperatorid">
+			and TOPERATORID = #{bean.toperatorid,jdbcType=VARCHAR}
+		</if>
+		and ROWNUM <![CDATA[<=]]>
+		${pager.pageTail}) table_alias
+		WHERE table_alias.rowno <![CDATA[>=]]>
+		${pager.pageOffset}
+	</select>
+	<select id="selectByPage" resultMap="BaseResultMapModel"
+		parameterType="map">
+		SELECT
+		*
+		FROM (SELECT ROWNUM AS rowno, t.*,(SELECT CASE WHEN count(*) > 0 THEN '0' ELSE '1' END showdelete FROM hd_promotionprize where prizeid=t.prizeid) as showdelete FROM (select * from HD_PRIZEINFO order by MODIFYDATE desc) t WHERE
+		1=1
+		<if test="null != prizeModel.bean.prizename and '' != prizeModel.bean.prizename">
+			and PRIZENAME like '%'||#{prizeModel.bean.prizename,jdbcType=VARCHAR}||'%'
+		</if>
+		<if test="null != prizeModel.bean.countryno and '' != prizeModel.bean.countryno">
+			and COUNTRYNO = #{prizeModel.bean.countryno,jdbcType=VARCHAR}
+		</if>
+		<if test="null != prizeModel.bean.toperatorid and '' != prizeModel.bean.toperatorid">
+			and TOPERATORID = #{prizeModel.bean.toperatorid,jdbcType=VARCHAR}
+		</if>
+		and ROWNUM <![CDATA[<=]]>
+		${pager.endCount}) table_alias
+		WHERE table_alias.rowno <![CDATA[>=]]>
+		${pager.startCount} order by MODIFYDATE desc
+	</select>
+	<update id="reducePrize" parameterType="map" >
+    update HD_PRIZEINFO
+    set PRIZERESTNUM = PRIZERESTNUM-#{prizetotalnum,jdbcType=VARCHAR}
+    where PRIZEID = #{prizeid,jdbcType=VARCHAR}
+    </update>
+    <select id="getPrizeCombox" resultMap="BaseResultMap" parameterType="map" >
+    select 
+    <include refid="Base_Column_List" />
+    from HD_PRIZEINFO
+    where COUNTRYNO = #{countryno,jdbcType=VARCHAR} and TOPERATORID = #{toperatorid,jdbcType=VARCHAR} 
+    and PRIZEID not in(select prizeid from hd_promotionprize where promotionid=#{promotionid,jdbcType=VARCHAR})
+    </select>
+</mapper>

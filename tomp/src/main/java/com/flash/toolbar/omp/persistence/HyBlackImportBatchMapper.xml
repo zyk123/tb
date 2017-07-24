@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.omp.mapper.HyBlackImportBatchMapper" >
+	<cache></cache>
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.omp.model.HyBlackImportBatch" >
+    <id column="BATCHID" property="batchId" jdbcType="VARCHAR" />
+    <result column="BATCHNO" property="batchNo" jdbcType="VARCHAR" />
+    <result column="IMPORTDATE" property="importDate" jdbcType="DATE" />
+    <result column="IMPORTNUM" property="importNum" jdbcType="DECIMAL" />
+    <result column="COUNTRYNO" property="countryNo" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="tOperatorId" jdbcType="VARCHAR" />
+    <result column="TOPERATORNO" property="tOperatorNo" jdbcType="VARCHAR" />
+    <result column="TOPERATORNAME" property="tOperatorName" jdbcType="VARCHAR" />
+    <result column="MODIFYMAN" property="modifyMan" jdbcType="VARCHAR" />
+    <result column="MODIFYDATE" property="modifyDate" jdbcType="DATE" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    BATCHID, BATCHNO,IMPORTDATE,IMPORTNUM, COUNTRYNO, TOPERATORID,TOPERATORNO,TOPERATORNAME,MODIFYMAN,MODIFYDATE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from hy_BlackImportBatch
+    where BATCHID = #{batchId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByBatchNo" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from hy_BlackImportBatch
+    where BATCHNO = #{batchNo,jdbcType=VARCHAR}
+  </select>  
+  
+  <select id="selectByIdBatch" resultType="java.lang.String"  parameterType="java.util.List" >
+    select * from (
+     <foreach collection="list" item="item" index="index" separator="union all" >  
+          select batchNo from hy_BlackImportBatch where batchid=#{item}
+     </foreach>
+     )    
+  </select>   
+  <insert id="insert" parameterType="com.flash.toolbar.omp.model.HyBlackImportBatch" >
+  	<selectKey keyProperty="seqnum" resultType="java.lang.String" order="BEFORE">
+  		select concat(#{batchNo,jdbcType=VARCHAR},substr('0000'||SEQ_BLACKIMPORTBATCH.nextval,-3)) from dual
+  	</selectKey>    
+    insert into hy_BlackImportBatch (
+    <include refid="Base_Column_List" />
+    )
+    values (#{batchId,jdbcType=VARCHAR}, #{seqnum,jdbcType=VARCHAR},#{importDate,jdbcType=DATE},
+      #{importNum,jdbcType=DECIMAL},#{countryNo,jdbcType=VARCHAR},#{tOperatorId,jdbcType=VARCHAR}, 
+      #{tOperatorNo,jdbcType=VARCHAR},#{tOperatorName,jdbcType=VARCHAR},
+      #{modifyMan,jdbcType=VARCHAR},#{modifyDate,jdbcType=DATE}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.flash.toolbar.omp.model.HyBlackImportBatch" >
+    insert into hy_BlackImportBatch
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="batchId != null" >
+        BATCHID,
+      </if>
+      <if test="batchNo != null" >
+        BATCHNO,
+      </if>
+      <if test="importDate != null" >
+        IMPORTDATE,
+      </if>
+      <if test="importNum != null" >
+        IMPORTNUM,
+      </if>
+      <if test="countryNo != null" >
+        COUNTRYNO,
+      </if>
+      <if test="tOperatorId != null" >
+        TOPERATORID,
+      </if>
+      <if test="tOperatorNo != null" >
+        TOPERATORNO,
+      </if>
+      <if test="tOperatorName != null" >
+        TOPERATORNAME,
+      </if>
+      <if test="modifyMan != null" >
+        MODIFYMAN,
+      </if>
+      <if test="modifyDate != null" >
+        MODIFYDATE,
+      </if>      
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="batchId != null" >
+        #{batchId,jdbcType=VARCHAR},
+      </if>
+      <if test="batchNo != null" >
+        #{batchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="importDate != null" >
+        #{importDate,jdbcType=DATE},
+      </if>
+      <if test="importNum != null" >
+        #{importNum,jdbcType=DECIMAL},
+      </if>
+      <if test="countryNo != null" >
+        #{countryNo,jdbcType=VARCHAR},
+      </if>
+      <if test="tOperatorId != null" >
+        #{tOperatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="tOperatorNo != null" >
+        #{tOperatorNo,jdbcType=VARCHAR},
+      </if>
+      <if test="tOperatorName != null" >
+        #{tOperatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyMan != null" >
+        #{modifyMan,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyDate != null" >
+        #{modifyDate,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+ 
+</mapper>

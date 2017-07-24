@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.omp.mapper.PzBannerConfigMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.omp.model.PzBannerConfig" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="ORDERNO" property="orderno" jdbcType="DECIMAL" />
+    <result column="TYPE" property="type" jdbcType="CHAR" />
+    <result column="PAGETYPE" property="pagetype" jdbcType="DECIMAL" />
+    <result column="TURNURL" property="turnurl" jdbcType="VARCHAR" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.flash.toolbar.omp.model.PzBannerConfig" extends="BaseResultMap" >
+    <result column="ICON" property="icon" jdbcType="BLOB" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, ORDERNO, TYPE, PAGETYPE, TURNURL, COUNTRYNO, TOPERATORID
+  </sql>
+  <sql id="Blob_Column_List" >
+    ICON
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from PZ_BANNERCONFIG
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from PZ_BANNERCONFIG
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.flash.toolbar.omp.model.PzBannerConfig" >
+    insert into PZ_BANNERCONFIG (ID, ORDERNO, TYPE, 
+      PAGETYPE, TURNURL, COUNTRYNO, 
+      TOPERATORID, ICON)
+    values (#{id,jdbcType=VARCHAR}, #{orderno,jdbcType=DECIMAL}, #{type,jdbcType=CHAR}, 
+      #{pagetype,jdbcType=DECIMAL}, #{turnurl,jdbcType=VARCHAR}, #{countryno,jdbcType=VARCHAR}, 
+      #{toperatorid,jdbcType=VARCHAR}, #{icon,jdbcType=BLOB})
+  </insert>
+  <insert id="insertSelective" parameterType="com.flash.toolbar.omp.model.PzBannerConfig" >
+    insert into PZ_BANNERCONFIG
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="orderno != null" >
+        ORDERNO,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="pagetype != null" >
+        PAGETYPE,
+      </if>
+      <if test="turnurl != null" >
+        TURNURL,
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO,
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID,
+      </if>
+      <if test="icon != null" >
+        ICON,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="orderno != null" >
+        #{orderno,jdbcType=DECIMAL},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=CHAR},
+      </if>
+      <if test="pagetype != null" >
+        #{pagetype,jdbcType=DECIMAL},
+      </if>
+      <if test="turnurl != null" >
+        #{turnurl,jdbcType=VARCHAR},
+      </if>
+      <if test="countryno != null" >
+        #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null" >
+        #{icon,jdbcType=BLOB},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.flash.toolbar.omp.model.PzBannerConfig" >
+    update PZ_BANNERCONFIG
+    <set >
+      <if test="orderno != null" >
+        ORDERNO = #{orderno,jdbcType=DECIMAL},
+      </if>
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=CHAR},
+      </if>
+      <if test="pagetype != null" >
+        PAGETYPE = #{pagetype,jdbcType=DECIMAL},
+      </if>
+      <if test="turnurl != null" >
+        TURNURL = #{turnurl,jdbcType=VARCHAR},
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null" >
+        ICON = #{icon,jdbcType=BLOB},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.flash.toolbar.omp.model.PzBannerConfig" >
+    update PZ_BANNERCONFIG
+    set ORDERNO = #{orderno,jdbcType=DECIMAL},
+      TYPE = #{type,jdbcType=CHAR},
+      PAGETYPE = #{pagetype,jdbcType=DECIMAL},
+      TURNURL = #{turnurl,jdbcType=VARCHAR},
+      COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      ICON = #{icon,jdbcType=BLOB}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.flash.toolbar.omp.model.PzBannerConfig" >
+    update PZ_BANNERCONFIG
+    set ORDERNO = #{orderno,jdbcType=DECIMAL},
+      TYPE = #{type,jdbcType=CHAR},
+      PAGETYPE = #{pagetype,jdbcType=DECIMAL},
+      TURNURL = #{turnurl,jdbcType=VARCHAR},
+      COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      TOPERATORID = #{toperatorid,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="selectTotalCount" parameterType="com.flash.toolbar.omp.model.PzBannerConfig" resultType="integer">
+  	select count(0) from PZ_BANNERCONFIG where PAGETYPE=#{pagetype,jdbcType=DECIMAL} and COUNTRYNO=#{countryno,jdbcType=VARCHAR} and TOPERATORID=#{toperatorid,jdbcType=VARCHAR}
+  </select>
+  <select id="selectBannerconfigByPage" resultMap="BaseResultMap" parameterType="hashmap" >
+    select <include refid="Base_Column_List" /> from 
+    (select <include refid="Base_Column_List" />,ROWNUM rn from
+    (select 
+    <include refid="Base_Column_List" />
+    from PZ_BANNERCONFIG
+    where COUNTRYNO = #{config.countryno,jdbcType=VARCHAR}
+    and TOPERATORID = #{config.toperatorid,jdbcType=VARCHAR}
+    and PAGETYPE = #{config.pagetype,jdbcType=DECIMAL})
+    where ROWNUM <![CDATA[<=]]> #{page.endCount})
+    where rn <![CDATA[>=]]> #{page.startCount}
+    order by　orderno desc
+  </select>
+  <delete id="deleteBannerconfig" parameterType="hashmap" >
+    delete from PZ_BANNERCONFIG
+    <where>
+    	ID in
+    	<foreach collection="array" item="id" open="(" close=")" separator=",">    		
+    		#{id,jdbcType=VARCHAR}
+    	</foreach>
+  		<if test="null != config.countryno and '' != config.countryno">
+  			and COUNTRYNO = #{config.countryno,jdbcType=VARCHAR}
+  		</if>
+  		<if test="null != config.toperatorid and '' != config.toperatorid">
+  			and TOPERATORID = #{config.toperatorid,jdbcType=VARCHAR}
+  		</if>
+  	</where>
+  </delete>
+</mapper>

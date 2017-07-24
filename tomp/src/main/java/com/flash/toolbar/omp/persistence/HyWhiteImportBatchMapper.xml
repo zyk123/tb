@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.omp.mapper.HyWhiteImportBatchMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.omp.model.HyWhiteImportBatch" >
+    <id column="BATCHID" property="batchid" jdbcType="VARCHAR" />
+    <result column="BATCHNO" property="batchno" jdbcType="VARCHAR" />
+    <result column="IMPORTDATE" property="importdate" jdbcType="TIMESTAMP" />
+    <result column="IMPORTNUM" property="importnum" jdbcType="DECIMAL" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+    <result column="TOPERATORNO" property="toperatorno" jdbcType="VARCHAR" />
+    <result column="TOPERATORNAME" property="toperatorname" jdbcType="VARCHAR" />
+    <result column="MODIFYMAN" property="modifyman" jdbcType="VARCHAR" />
+    <result column="MODIFYDATE" property="modifydate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    BATCHID, BATCHNO, IMPORTDATE, IMPORTNUM, COUNTRYNO, TOPERATORID, TOPERATORNO, TOPERATORNAME, 
+    MODIFYMAN, MODIFYDATE
+  </sql>  
+  <!-- 添加白名单导入批次信息 -->
+  <insert id="insertHyWhiteImportBatch" parameterType="hyWhiteImportBatch" >
+  	<selectKey keyProperty="seqnum" resultType="java.lang.String" order="BEFORE">
+  		select concat(#{batchno,jdbcType=VARCHAR},substr('00'||SEQ_WHITEIMPORTBATCH.nextval,-3)) from dual
+  	</selectKey>
+    insert into HY_WHITEIMPORTBATCH (BATCHID, BATCHNO, IMPORTDATE, 
+      IMPORTNUM, COUNTRYNO, TOPERATORID, 
+      TOPERATORNO, TOPERATORNAME,
+      MODIFYMAN, MODIFYDATE)
+    values (#{batchid,jdbcType=VARCHAR}, #{seqnum,jdbcType=VARCHAR}, #{importdate,jdbcType=TIMESTAMP}, 
+      #{importnum,jdbcType=DECIMAL}, #{countryno,jdbcType=VARCHAR}, #{toperatorid,jdbcType=VARCHAR}, 
+      #{toperatorno,jdbcType=VARCHAR}, #{toperatorname,jdbcType=VARCHAR},#{modifyman,jdbcType=VARCHAR},
+      #{modifydate,jdbcType=TIMESTAMP})
+  </insert>
+</mapper>

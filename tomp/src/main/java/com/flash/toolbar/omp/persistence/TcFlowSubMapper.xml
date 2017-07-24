@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.flash.toolbar.omp.mapper.TcFlowSubMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.omp.model.TcFlowSub" >
+    <id column="FLOWSUBID" property="flowsubid" jdbcType="VARCHAR" />
+    <result column="ORDERNUMBER" property="ordernumber" jdbcType="VARCHAR" />
+    <result column="MEMBERID" property="memberid" jdbcType="VARCHAR" />
+    <result column="MOBILENO" property="mobileno" jdbcType="VARCHAR" />
+    <result column="FGID" property="fgid" jdbcType="VARCHAR" />
+    <result column="FGNAME" property="fgname" jdbcType="VARCHAR" />
+    <result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
+    <result column="CURRENCY" property="currency" jdbcType="VARCHAR" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+    <result column="OPERATORORDERNO" property="operatororderno" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="SUBDATE" property="subdate" jdbcType="TIMESTAMP" />
+    <result column="MODIFYMAN" property="modifyman" jdbcType="VARCHAR" />
+    <result column="MODIFYDATE" property="modifydate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    FLOWSUBID, ORDERNUMBER, MEMBERID, MOBILENO, FGID, FGNAME, AMOUNT, CURRENCY, COUNTRYNO, 
+    TOPERATORID, OPERATORORDERNO, STATUS, SUBDATE, MODIFYMAN, MODIFYDATE
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from TC_FLOWSUB
+    where FLOWSUBID = #{flowsubid,jdbcType=VARCHAR}
+  </select>
+  
+  
+  <!-- 查询套餐订单信息(通过页面查询 ) -->
+  <select id="selectByPageSelective" resultMap="BaseResultMap" 
+  							parameterType="com.flash.toolbar.omp.packagesub.bo.TcFlowSubModel" >
+	 select <include refid="Base_Column_List" />
+		from ( 
+			select <include refid="Base_Column_List" />
+				, rn 
+		      from ( 
+		      		select <include refid="Base_Column_List" />
+						, rownum as rn 
+				      from ( 
+							  select <include refid="Base_Column_List" />
+								from tc_flowSub t
+							   where 1 = 1
+							     <if test="tOperatorId != null and tOperatorId != ''" >
+							       and t.tOperatorId = #{tOperatorId,jdbcType=VARCHAR}
+							     </if>
+							     <if test="countryNo != null and countryNo !=''" >
+							       and t.countryNo = #{countryNo,jdbcType=VARCHAR}
+							     </if>
+							     <if test="mobileNo != null and mobileNo != ''" >
+							       and t.mobileNo like #{mobileNo,jdbcType=VARCHAR}||'%'
+							     </if>
+							      <if test="fGName != null and fGName != ''" >
+							       and t.fGName like '%'||#{fGName,jdbcType=VARCHAR}||'%'
+							     </if>
+							     <if test="operatorOrderNo != null and operatorOrderNo != ''" >
+							       and t.operatorOrderNo like #{operatorOrderNo,jdbcType=VARCHAR}||'%'
+							     </if>
+							     <if test="status != null and status != ''" >
+							       and t.status = #{status,jdbcType=VARCHAR}
+							     </if>
+							     <if test="startDate != null" >
+							       and t.subDate <![CDATA[>=]]> #{startDate,jdbcType=TIMESTAMP}
+							     </if>
+							     <if test="endDate != null" >
+							       and t.subDate  <![CDATA[<]]> #{endDate,jdbcType=TIMESTAMP} +1
+							     </if>
+							    order by subdate
+						)
+				) 
+			  where rn <![CDATA[<=]]> ${pager.pageTail} 
+		) where rn <![CDATA[>=]]> ${pager.pageOffset}  
+  </select>
+  
+  
+  <!-- 统计套餐订单数(通过页面查询 ) -->
+  <select id="countByPageSelective" resultType="java.lang.Integer" 
+  							parameterType="com.flash.toolbar.omp.packagesub.bo.TcFlowSubModel" >
+		 select count(1)
+			from tc_flowSub t
+		   where 1 = 1
+		     <if test="tOperatorId != null and tOperatorId != ''" >
+		       and t.tOperatorId = #{tOperatorId,jdbcType=VARCHAR}
+		     </if>
+		     <if test="countryNo != null and countryNo !=''" >
+		       and t.countryNo = #{countryNo,jdbcType=VARCHAR}
+		     </if>
+		     <if test="mobileNo != null and mobileNo != ''" >
+		       and t.mobileNo like #{mobileNo,jdbcType=VARCHAR}||'%'
+		     </if>
+		      <if test="fGName != null and fGName != ''" >
+		       and t.fGName like '%'||#{fGName,jdbcType=VARCHAR}||'%'
+		     </if>
+		     <if test="operatorOrderNo != null and operatorOrderNo != ''" >
+		       and t.operatorOrderNo like #{operatorOrderNo,jdbcType=VARCHAR}||'%'
+		     </if>
+		     <if test="status != null and status != ''" >
+		       and t.status = #{status,jdbcType=VARCHAR}
+		     </if>
+		     <if test="startDate != null" >
+		       and t.subDate <![CDATA[>=]]> #{startDate,jdbcType=TIMESTAMP}
+		     </if>
+		     <if test="endDate != null" >
+		       and t.subDate  <![CDATA[<]]> #{endDate,jdbcType=TIMESTAMP} +1
+		     </if>
+  </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from TC_FLOWSUB
+    where FLOWSUBID = #{flowsubid,jdbcType=VARCHAR}
+  </delete>
+  
+  
+  <insert id="insert" parameterType="com.flash.toolbar.omp.model.TcFlowSub" >
+    insert into TC_FLOWSUB (FLOWSUBID, ORDERNUMBER, MEMBERID, 
+      MOBILENO, FGID, FGNAME, 
+      AMOUNT, CURRENCY, COUNTRYNO, 
+      TOPERATORID, OPERATORORDERNO, STATUS, 
+      SUBDATE, MODIFYMAN, MODIFYDATE
+      )
+    values (#{flowsubid,jdbcType=VARCHAR}, #{ordernumber,jdbcType=VARCHAR}, #{memberid,jdbcType=VARCHAR}, 
+      #{mobileno,jdbcType=VARCHAR}, #{fgid,jdbcType=VARCHAR}, #{fgname,jdbcType=VARCHAR}, 
+      #{amount,jdbcType=DECIMAL}, #{currency,jdbcType=VARCHAR}, #{countryno,jdbcType=VARCHAR}, 
+      #{toperatorid,jdbcType=VARCHAR}, #{operatororderno,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{subdate,jdbcType=TIMESTAMP}, #{modifyman,jdbcType=VARCHAR}, #{modifydate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  
+  
+  <insert id="insertSelective" parameterType="com.flash.toolbar.omp.model.TcFlowSub" >
+    insert into TC_FLOWSUB
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="flowsubid != null" >
+        FLOWSUBID,
+      </if>
+      <if test="ordernumber != null" >
+        ORDERNUMBER,
+      </if>
+      <if test="memberid != null" >
+        MEMBERID,
+      </if>
+      <if test="mobileno != null" >
+        MOBILENO,
+      </if>
+      <if test="fgid != null" >
+        FGID,
+      </if>
+      <if test="fgname != null" >
+        FGNAME,
+      </if>
+      <if test="amount != null" >
+        AMOUNT,
+      </if>
+      <if test="currency != null" >
+        CURRENCY,
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO,
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID,
+      </if>
+      <if test="operatororderno != null" >
+        OPERATORORDERNO,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="subdate != null" >
+        SUBDATE,
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN,
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="flowsubid != null" >
+        #{flowsubid,jdbcType=VARCHAR},
+      </if>
+      <if test="ordernumber != null" >
+        #{ordernumber,jdbcType=VARCHAR},
+      </if>
+      <if test="memberid != null" >
+        #{memberid,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileno != null" >
+        #{mobileno,jdbcType=VARCHAR},
+      </if>
+      <if test="fgid != null" >
+        #{fgid,jdbcType=VARCHAR},
+      </if>
+      <if test="fgname != null" >
+        #{fgname,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="currency != null" >
+        #{currency,jdbcType=VARCHAR},
+      </if>
+      <if test="countryno != null" >
+        #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="operatororderno != null" >
+        #{operatororderno,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="subdate != null" >
+        #{subdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyman != null" >
+        #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.flash.toolbar.omp.model.TcFlowSub" >
+    update TC_FLOWSUB
+    <set >
+      <if test="ordernumber != null" >
+        ORDERNUMBER = #{ordernumber,jdbcType=VARCHAR},
+      </if>
+      <if test="memberid != null" >
+        MEMBERID = #{memberid,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileno != null" >
+        MOBILENO = #{mobileno,jdbcType=VARCHAR},
+      </if>
+      <if test="fgid != null" >
+        FGID = #{fgid,jdbcType=VARCHAR},
+      </if>
+      <if test="fgname != null" >
+        FGNAME = #{fgname,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        AMOUNT = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="currency != null" >
+        CURRENCY = #{currency,jdbcType=VARCHAR},
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="operatororderno != null" >
+        OPERATORORDERNO = #{operatororderno,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="subdate != null" >
+        SUBDATE = #{subdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where FLOWSUBID = #{flowsubid,jdbcType=VARCHAR}
+  </update>
+  
+  
+  <update id="updateByPrimaryKey" parameterType="com.flash.toolbar.omp.model.TcFlowSub" >
+    update TC_FLOWSUB
+    set ORDERNUMBER = #{ordernumber,jdbcType=VARCHAR},
+      MEMBERID = #{memberid,jdbcType=VARCHAR},
+      MOBILENO = #{mobileno,jdbcType=VARCHAR},
+      FGID = #{fgid,jdbcType=VARCHAR},
+      FGNAME = #{fgname,jdbcType=VARCHAR},
+      AMOUNT = #{amount,jdbcType=DECIMAL},
+      CURRENCY = #{currency,jdbcType=VARCHAR},
+      COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      OPERATORORDERNO = #{operatororderno,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      SUBDATE = #{subdate,jdbcType=TIMESTAMP},
+      MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP}
+    where FLOWSUBID = #{flowsubid,jdbcType=VARCHAR}
+  </update>
+  
+  
+</mapper>

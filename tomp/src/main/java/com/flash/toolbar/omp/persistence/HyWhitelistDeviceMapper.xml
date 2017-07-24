@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.omp.mapper.HyWhitelistDeviceMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.omp.model.HyWhitelistDevice" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="CREATEDATE" property="createdate" jdbcType="DATE" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR"/>
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID,NAME,TYPE,CREATEDATE,COUNTRYNO,TOPERATORID
+  </sql>
+  <select id="selectTotalCount" parameterType="com.flash.toolbar.omp.model.HyWhitelistDevice" resultType="integer">
+  	select count(0) from HY_WHITELISTDEVICE
+  	 <where>
+  	 	<if test="null != name and ''!= name">
+		    NAME = #{name,jdbcType=VARCHAR}
+    	</if>  
+    	<if test="null != type and ''!= type">
+    		TYPE = #{type,jdbcType=VARCHAR}
+    	</if>  	
+	     and COUNTRYNO = #{countryno,jdbcType=VARCHAR}
+		 and TOPERATORID = #{toperatorid,jdbcType=VARCHAR}
+  	 </where>
+  </select>
+  <select id="selectByPage" resultMap="BaseResultMap" parameterType="hashmap" >
+	select <include refid="Base_Column_List"/> from
+	    (select <include refid="Base_Column_List"/>,ROWNUM rn from 
+		    (select <include refid="Base_Column_List"/> from HY_WHITELISTDEVICE
+		    <where>
+		    	<if test="null != wDevice.name and ''!= wDevice.name">
+		    		NAME = #{wDevice.name,jdbcType=VARCHAR}
+		    	</if>
+		    	<if test="null != wDevice.type and ''!= wDevice.type">
+		    		TYPE = #{wDevice.type,jdbcType=VARCHAR}
+		    	</if>
+			     and COUNTRYNO = #{wDevice.countryno,jdbcType=VARCHAR}
+	    		 and TOPERATORID = #{wDevice.toperatorid,jdbcType=VARCHAR})
+		    </where> 
+		where ROWNUM <![CDATA[<=]]> #{page.endCount})
+	where rn <![CDATA[>=]]> #{page.startCount}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="hashmap" >
+    delete from HY_WHITELISTDEVICE
+    where ID in
+    <foreach collection="array" item="id" open="(" close=")" separator=",">
+     	#{id,jdbcType=VARCHAR}
+    </foreach>
+    and COUNTRYNO = #{wDevice.countryno,jdbcType=VARCHAR}
+    and TOPERATORID = #{wDevice.toperatorid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.flash.toolbar.omp.model.HyWhitelistDevice" >
+    insert into HY_WHITELISTDEVICE (ID,NAME,TYPE,CREATEDATE,COUNTRYNO,TOPERATORID)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},#{type,jdbcType=VARCHAR},
+    #{createdate,jdbcType=DATE},#{countryno,jdbcType=VARCHAR},#{toperatorid,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.flash.toolbar.omp.model.HyWhitelistDevice" >
+    update HY_WHITELISTDEVICE
+    set NAME = #{name,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+    and COUNTRYNO = #{countryno,jdbcType=VARCHAR}
+    and TOPERATORID = #{toperatorid,jdbcType=VARCHAR}
+  </update>
+</mapper>

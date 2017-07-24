@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.omp.mapper.RpClickEventReportMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.omp.model.RpClickEventReport" >
+    <id column="WSRID" property="wsrid" jdbcType="VARCHAR" />
+    <result column="DATATYPE" property="datatype" jdbcType="VARCHAR" />
+    <result column="DATADATE" property="datadate" jdbcType="TIMESTAMP" />
+    <result column="CLICKURL" property="clickurl" jdbcType="VARCHAR" />
+    <result column="TOTNUM" property="totnum" jdbcType="DECIMAL" />
+    <result column="CONSNUM" property="consnum" jdbcType="DECIMAL" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    WSRID, DATATYPE, DATADATE, CLICKURL, TOTNUM, CONSNUM, COUNTRYNO, TOPERATORID
+  </sql>
+	<sql id="Example_Where_Clause">
+		<where>
+			1=1
+			<if test="bean.wsrid != null and bean.wsrid != ''">
+				and wsrid = #{bean.wsrid,jdbcType=VARCHAR}
+			</if>
+			<if test="bean.datatype != null and bean.datatype != ''">
+				and datatype = #{bean.datatype,jdbcType=VARCHAR}
+			</if>
+			<if test="bean.clickurl != null and bean.clickurl != ''">
+				and clickurl = #{bean.clickurl,jdbcType=VARCHAR}
+			</if>
+			<if test="bean.countryno != null and bean.countryno!= ''">
+				and countryNo = #{bean.countryno,jdbcType=VARCHAR}
+			</if>
+			<if test="bean.toperatorid != null and bean.toperatorid!= ''">
+				and toperatorid = #{bean.toperatorid,jdbcType=VARCHAR}
+			</if>
+			<if test="startTime != null">
+				and datadate <![CDATA[>=]]>
+				#{startTime,jdbcType=TIMESTAMP}
+			</if>			
+			<if test="endTime != null">
+				and datadate <![CDATA[<=]]>
+				#{endTime,jdbcType=TIMESTAMP}
+			</if>
+		</where>
+	</sql> 
+	<sql id="Example_Where_Clause_No_Date">
+		<where>
+			1=1
+			<if test="bean.wsrid != null and bean.wsrid != ''">
+				and wsrid = #{bean.wsrid,jdbcType=VARCHAR}
+			</if>
+			<if test="bean.datatype != null and bean.datatype != ''">
+				and datatype = #{bean.datatype,jdbcType=VARCHAR}
+			</if>
+			<if test="bean.clickurl != null and bean.clickurl != ''">
+				and clickurl = #{bean.clickurl,jdbcType=VARCHAR}
+			</if>
+			<if test="bean.countryno != null and bean.countryno!= ''">
+				and countryNo = #{bean.countryno,jdbcType=VARCHAR}
+			</if>
+			<if test="bean.toperatorid != null and bean.toperatorid!= ''">
+				and toperatorid = #{bean.toperatorid,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</sql>	 
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from RP_CLICKEVENTREPORT
+    where WSRID = #{wsrid,jdbcType=VARCHAR}
+  </select>
+  
+  
+  <select id="selectMinMaxDate" resultType="java.util.HashMap"  parameterType="com.flash.toolbar.omp.reportstatistic.bo.RpClickEventReportModel">
+    select min(datadate) mindate,max(datadate) maxdate    from RP_CLICKEVENTREPORT 
+    <include refid="Example_Where_Clause_No_Date" />
+  </select>  
+  
+  
+  <select id="selectByPageSelective" resultMap="BaseResultMap" parameterType="com.flash.toolbar.omp.reportstatistic.bo.RpClickEventReportModel">
+		select
+		*
+		from ( 
+			select
+				<include refid="Base_Column_List" />
+				, ROWNUM RN from 
+					( select <include refid="Base_Column_List" />,rownum rn from (
+						select
+						<include refid="Base_Column_List" />
+						from RP_CLICKEVENTREPORT
+						<if test="_parameter != null">
+							<include refid="Example_Where_Clause" />
+						</if>						
+						order by datadate desc
+						) 
+					) WHERE rn <![CDATA[<=]]> ${pager.pageTail} 
+		) WHERE RN <![CDATA[>=]]>
+		${pager.pageOffset}  
+  </select>  
+  
+  
+  <select id="selectBySelective" resultMap="BaseResultMap" parameterType="com.flash.toolbar.omp.reportstatistic.bo.RpClickEventReportModel">
+						select
+						<include refid="Base_Column_List" />
+						from RP_CLICKEVENTREPORT
+						<if test="_parameter != null">
+							<include refid="Example_Where_Clause" />
+						</if>						
+						order by datadate desc
+  </select>  
+  
+  
+	<select id="countByCondition" parameterType="Object" resultType="java.lang.Integer"> 
+		select count(1) from RP_CLICKEVENTREPORT
+						<if test="_parameter != null">
+							<include refid="Example_Where_Clause" />
+						</if>						
+	</select>    
+</mapper>

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.omp.mapper.RpWindowStatReportMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.omp.model.RpWindowStatReport" >
+    <id column="WSRID" property="wsrid" jdbcType="VARCHAR" />
+    <result column="DATATYPE" property="datatype" jdbcType="VARCHAR" />
+    <result column="DATADATE" property="datadate" jdbcType="TIMESTAMP" />
+    <result column="ACCESSURL" property="accessurl" jdbcType="VARCHAR" />
+    <result column="TOTNUM" property="totnum" jdbcType="DECIMAL" />
+    <result column="CONSNUM" property="consnum" jdbcType="DECIMAL" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    WSRID, DATATYPE, DATADATE, ACCESSURL, TOTNUM, CONSNUM, COUNTRYNO, TOPERATORID
+  </sql>
+	<sql id="Example_Where_Clause">
+		<where>
+			1=1
+			<if test="bean.datatype != null and bean.datatype != ''">
+				and datatype = #{bean.datatype,jdbcType=VARCHAR}
+			</if>
+			<if test="bean.accessurl != null and bean.accessurl != ''">
+				and accessurl = #{bean.accessurl,jdbcType=VARCHAR}
+			</if>
+			<if test="bean.countryno != null and bean.countryno != ''">
+				and countryno = #{bean.countryno,jdbcType=VARCHAR}
+			</if>			
+			<if test="bean.toperatorid != null and bean.toperatorid !=''">
+				and toperatorid = #{bean.toperatorid,jdbcType=VARCHAR}
+			</if>
+			<if test="startTime != null">
+				and datadate <![CDATA[>=]]>
+				#{startTime,jdbcType=DATE}
+			</if>			
+			<if test="endTime != null">
+				and datadate <![CDATA[<=]]>
+				#{endTime,jdbcType=DATE}
+			</if>			
+		</where>
+	</sql>
+	<sql id="Example_Where_Clause_No_Date">
+		<where>
+			1=1
+			<if test="bean.datatype != null and bean.datatype != ''">
+				and datatype = #{bean.datatype,jdbcType=VARCHAR}
+			</if>
+			<if test="bean.accessurl != null and bean.accessurl != ''">
+				and accessurl = #{bean.accessurl,jdbcType=VARCHAR}
+			</if>
+			<if test="bean.countryno != null and bean.countryno != ''">
+				and countryno = #{bean.countryno,jdbcType=VARCHAR}
+			</if>			
+			<if test="bean.toperatorid != null and bean.toperatorid !=''">
+				and toperatorid = #{bean.toperatorid,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</sql>
+	
+	<sql id="Page_View">
+							with all_type as ( 
+							   select distinct accessurl from rp_windowstatreport
+							   <include refid="Example_Where_Clause" />
+							)  
+							, dd as (
+							select
+					                <if test="startTime != null">
+					                       #{startTime,jdbcType=DATE}
+					                </if>
+							  + level -1 as de
+							  from dual
+							 connect by
+					                <if test="startTime != null">
+					                       #{startTime,jdbcType=DATE}
+					                </if>
+							 + level -1 <![CDATA[<=]]> 
+					                <if test="endTime != null">
+					                       #{endTime,jdbcType=DATE}
+					                </if>
+							)
+							, fmt_data as (
+							select dd.de,all_type.*
+							  from all_type,dd
+							)
+							, all_data as (
+							  select * from rp_windowstatreport
+							  <include refid="Example_Where_Clause" />
+							)
+							select s1.de datadate,s1.accessurl,s2.totnum,s2.consnum from 
+							(select de,max(accessurl) accessurl from (
+							(select fmt_data.de,wm_concat(fmt_data.accessurl) over(partition by fmt_data.de order by fmt_data.accessurl) accessurl
+							  from fmt_data,all_data
+							 where fmt_data.de = all_data.datadate(+)
+							   and fmt_data.accessurl = all_data.accessurl(+))) group by de order by de desc)  s1,
+							(select de,max(totnum) totnum,max(consnum) consnum from (
+							( select  fmt_data.de,
+							 wm_concat(decode(all_data.totnum,'','empty',null,'empty',all_data.totnum)) over(partition by fmt_data.de order by fmt_data.accessurl) totnum,
+							       wm_concat(decode(all_data.consnum,'','empty',null,'empty',all_data.consnum)) over(partition by fmt_data.de order by fmt_data.accessurl)  consnum
+							  from fmt_data,all_data
+							 where fmt_data.de = all_data.datadate(+)
+							   and fmt_data.accessurl = all_data.accessurl(+))) group by de order by de desc) s2
+							where s1.de=s2.de
+							order by s1.de desc  	
+	</sql>
+		  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from RP_WINDOWSTATREPORT
+    where WSRID = #{wsrid,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectMinMaxDate" resultType="java.util.HashMap"  parameterType="com.flash.toolbar.omp.reportstatistic.bo.RpWindowStatReportModel">
+    select min(datadate) mindate,max(datadate) maxdate    from RP_WINDOWSTATREPORT 
+    <include refid="Example_Where_Clause_No_Date" />
+  </select>
+  
+  
+  <select id="selectByPageSelective" resultMap="BaseResultMap" parameterType="com.flash.toolbar.omp.reportstatistic.bo.RpWindowStatReportModel">
+		select
+		*
+		from ( 
+			select
+				a.*
+				, ROWNUM RN from 
+					(
+ 	 					<include refid="Page_View" />
+					) a WHERE ROWNUM <![CDATA[<=]]> ${pager.pageTail} 
+		) WHERE RN <![CDATA[>=]]>
+		${pager.pageOffset}
+  </select>
+   
+  <select id="selectBySelective" resultMap="BaseResultMap" parameterType="com.flash.toolbar.omp.reportstatistic.bo.RpWindowStatReportModel">
+		select
+		* from 
+					(
+ 	 					<include refid="Page_View" />
+					)
+  </select> 
+  
+	<select id="countByCondition" parameterType="Object" resultType="java.lang.Integer"> 
+		select count(1) from (
+			<include refid="Page_View" />		
+		)
+	</select>     
+</mapper>

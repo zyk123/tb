@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.omp.mapper.HyWhiteSectionMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.omp.model.HyWhiteSection" >
+    <id column="WSECTIONID" property="wsectionid" jdbcType="VARCHAR" />
+    <result column="BATCHID" property="batchid" jdbcType="VARCHAR" />
+    <result column="MOBILENOSTART" property="mobilenostart" jdbcType="VARCHAR" />
+    <result column="MOBILENOEND" property="mobilenoend" jdbcType="VARCHAR" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+    <result column="ADDDATE" property="adddate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    WSECTIONID, BATCHID, MOBILENOSTART, MOBILENOEND, COUNTRYNO, TOPERATORID, ADDDATE
+  </sql>
+  <sql id="Where_Clause">
+  	<where>
+  		<if test="null != section.mobileNo and '' != section.mobileNo">
+  			substr(s.mobilenostart,1,length(#{section.mobileNo,jdbcType=VARCHAR})) <![CDATA[<=]]> #{section.mobileNo,jdbcType=VARCHAR}
+  			and substr(s.mobilenoend,1,length(#{section.mobileNo,jdbcType=VARCHAR})) <![CDATA[>=]]> #{section.mobileNo,jdbcType=VARCHAR}
+  		</if>
+  		<if test="null != section.startTime">
+  			and s.adddate <![CDATA[>=]]> #{section.startTime,jdbcType=DATE}
+  		</if>
+  		<if test="null != section.endTime">
+  			and s.adddate <![CDATA[<=]]> #{section.endTime,jdbcType=TIMESTAMP}
+  		</if>
+  		<if test="null != section.batchNo and '' != section.batchNo">
+  			and b.batchno = #{section.batchNo,jdbcType=VARCHAR}
+  		</if>
+  		<if test="null != section.countryno and '' != section.countryno">
+  			and s.countryno = #{section.countryno,jdbcType=VARCHAR}
+  		</if>
+  		<if test="null != section.toperatorid and '' != section.toperatorid">
+  			and s.toperatorid = #{section.toperatorid,jdbcType=VARCHAR}
+  		</if>
+  	</where>
+  </sql>
+  <!-- 查询号段总数 -->
+  <select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+   select count(0) from hy_whitesection s
+   inner join hy_whiteimportbatch b on s.batchid = b.batchid <include refid = "Where_Clause" />
+  </select>
+  <!-- 分页查询白名单号段 -->
+  <select id="selectHyWhiteSection" parameterType="java.util.Map" resultType="hyWhiteSection">
+  	select <include refid = "Base_Column_List" />, batchno
+  	from (select <include refid = "Base_Column_List" />, batchno, rownum rn
+          from (select s.WSECTIONID, s.BATCHID, s.MOBILENOSTART, s.MOBILENOEND, s.COUNTRYNO, s.TOPERATORID, s.ADDDATE, b.batchno
+                from hy_whitesection s
+                inner join hy_whiteimportbatch b
+                on s.batchid = b.batchid <include refid = "Where_Clause" />
+                order by adddate)
+         where rownum <![CDATA[<= ]]> #{page.endCount,
+         jdbcType = INTEGER})
+ 	where rn <![CDATA[>=]]> #{page.startCount, jdbcType = INTEGER}
+  </select>
+  <!-- 保存白名单号段信息 -->
+  <insert id="insertHyWhiteSection" parameterType="java.util.List">
+  	insert into hy_whitesection (<include refid="Base_Column_List" />)
+  	<foreach collection="list" item="sec" separator="union">
+  		select #{sec.wsectionid,jdbcType=VARCHAR}, #{sec.batchid,jdbcType=VARCHAR}, 
+  		#{sec.mobilenostart,jdbcType=VARCHAR}, #{sec.mobilenoend,jdbcType=VARCHAR}, 
+  		#{sec.countryno,jdbcType=VARCHAR}, #{sec.toperatorid,jdbcType=VARCHAR}, 
+  		#{sec.adddate,jdbcType=DATE} from dual
+  	</foreach>
+  </insert>
+  <!-- 删除白名单信息 -->
+	<delete id="delHyWhiteSection" parameterType="java.util.Map">
+		delete from hy_whitesection
+		<where>
+			<if test="null != array">
+				wsectionid in
+				<foreach collection="array" item="id" separator="," open="(" close=")">
+					#{id,jdbcType=VARCHAR}
+				</foreach>
+			</if>
+			<if test="null != countryno and '' != countryno">
+				and countryno = #{countryno,jdbcType=VARCHAR}
+			</if>
+			<if test="null != toperatorid and '' != toperatorid">
+				and toperatorid = #{toperatorid,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</delete>
+	<!-- 删除mobileno重复的记录 -->
+	<delete id="delDuplicateHyWhiteSection" parameterType="java.util.Map">
+		delete from hy_whitesection
+		<where>
+			<if test="null != list">
+				wsectionid in (select t.wsectionid from
+				<foreach collection="list" item="sec" separator="union" open="(" close=")">
+					select wsectionid from hy_whitesection 
+					where mobilenostart=#{sec.mobilenostart,jdbcType=VARCHAR} 
+					and mobilenoend =#{sec.mobilenoend,jdbcType=VARCHAR}					
+					<if test="null != hwib.countryno and '' != hwib.countryno">
+						and countryno = #{hwib.countryno,jdbcType=VARCHAR}
+					</if>
+					<if test="null != hwib.toperatorid and '' != hwib.toperatorid">
+						and toperatorid = #{hwib.toperatorid,jdbcType=VARCHAR}
+					</if>
+				</foreach>
+				t)
+			</if>
+		</where>
+	</delete>
+</mapper>

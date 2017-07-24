@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.omp.mapper.HyWhiteListMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.omp.model.HyWhiteList" >
+    <id column="WLISTID" property="wlistid" jdbcType="VARCHAR" />
+    <result column="BATCHID" property="batchid" jdbcType="VARCHAR" />
+    <result column="BATCHNO" property="batchno" jdbcType="VARCHAR"/>
+    <result column="MOBILENO" property="mobileno" jdbcType="VARCHAR" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+    <result column="ADDDATE" property="adddate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    WLISTID, BATCHID, MOBILENO, COUNTRYNO, TOPERATORID, ADDDATE
+  </sql>
+  <sql id="Where_Clause">
+		<where>
+			<if test="null != hwl.mobileno and '' != hwl.mobileno">
+				w.MOBILENO like concat(#{hwl.mobileno,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="null != hwl.startTime">
+				and w.ADDDATE <![CDATA[>=]]>
+				#{hwl.startTime,jdbcType=TIMESTAMP}
+			</if>			
+			<if test="null != hwl.endTime">
+				and w.ADDDATE <![CDATA[<=]]>
+				#{hwl.endTime,jdbcType=TIMESTAMP}
+			</if>
+			<if test="null != hwl.batchno and '' != hwl.batchno">
+				and b.BATCHNO = #{hwl.batchno,jdbcType=VARCHAR}
+			</if>
+			<if test="null != hwl.countryno and '' != hwl.countryno">
+	  			and w.countryno = #{hwl.countryno,jdbcType=VARCHAR}
+	  		</if>
+	  		<if test="null != hwl.toperatorid and '' != hwl.toperatorid">
+	  			and w.toperatorid = #{hwl.toperatorid,jdbcType=VARCHAR}
+	  		</if>
+		</where>
+	</sql>  
+	<!-- 查询白名单总数 -->
+	<select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(0) from hy_whitelist w inner join hy_whiteimportbatch b on w.batchid = b.batchid <include refid="Where_Clause" />
+	</select>
+	<!-- 分页查询白名单信息 -->
+	<select id="selectHyWhiteList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List" />,BATCHNO
+		from (
+			select <include refid="Base_Column_List" />,BATCHNO,rownum rn 
+			from (
+				select w.WLISTID, w.BATCHID, w.MOBILENO,w.COUNTRYNO,
+				w.TOPERATORID, w.ADDDATE,b.BATCHNO
+				from hy_whitelist w inner join hy_whiteimportbatch b on w.batchid = b.batchid
+				<include refid="Where_Clause" /> order by w.adddate desc
+			) where rownum <![CDATA[<=]]> #{page.endCount,jdbcType=INTEGER})
+		where rn <![CDATA[>=]]> #{page.startCount,jdbcType=INTEGER}
+	</select>
+	<!-- 批量导入白名单 -->
+	<insert id="insertHyWhiteList" parameterType="hyWhiteList">
+		insert into hy_whitelist (<include refid="Base_Column_List"/>)
+		<foreach collection="list" item="wl" separator="union">
+			select #{wl.wlistid},#{wl.batchid,jdbcType=VARCHAR},#{wl.mobileno,jdbcType=VARCHAR},
+			#{wl.countryno,jdbcType=VARCHAR},#{wl.toperatorid,jdbcType=VARCHAR},#{wl.adddate,jdbcType=TIMESTAMP} from dual
+		</foreach>
+	</insert>
+	<!-- 删除白名单信息 -->
+	<delete id="delHyWhiteList" parameterType="java.util.Map">
+		delete from hy_whitelist 
+		<where>
+			<if test="null != array">
+				wlistid in
+				<foreach collection="array" item="id" separator="," open="(" close=")">
+					#{id,jdbcType=VARCHAR}
+				</foreach>
+			</if>
+			<if test="null != countryno and '' != countryno">
+				and countryno = #{countryno,jdbcType=VARCHAR}
+			</if>
+			<if test="null != toperatorid and '' != toperatorid">
+				and toperatorid = #{toperatorid,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</delete>
+	<!-- 删除mobileno重复的记录 -->
+	<delete id="delDuplicateHyWhiteList">
+		delete from hy_whitelist
+		<where>
+			<if test="null != list">
+				mobileno in 
+				<foreach collection="list" item="hwlist" separator="union" open="(" close=")">
+					select #{hwlist.mobileno,jdbcType=VARCHAR} from dual
+				</foreach>
+			</if><if test="null != hwib.countryno and '' != hwib.countryno">
+				and countryno = #{hwib.countryno,jdbcType=VARCHAR}
+			</if>
+			<if test="null != hwib.toperatorid and '' != hwib.toperatorid">
+				and toperatorid = #{hwib.toperatorid,jdbcType=VARCHAR}
+			</if>
+		</where>		
+	</delete>
+	
+  	<insert id="insert" parameterType="com.flash.toolbar.omp.model.HyWhiteList" >
+    	insert into hy_whitelist 
+    	values (#{wlistid,jdbcType=VARCHAR}, #{batchid,jdbcType=VARCHAR}, #{mobileno,jdbcType=VARCHAR}, 
+      	#{countryno,jdbcType=VARCHAR},#{toperatorid,jdbcType=VARCHAR}, #{adddate,jdbcType=DATE})
+  	</insert>
+  
+    <insert id="insertBatch" useGeneratedKeys="false" parameterType="java.util.List">  
+        insert into hy_whitelist (
+        <include refid="Base_Column_List" />
+        ) 
+        <foreach collection="list" item="item" index="index" separator="union all" >  
+            (select #{item.wlistid},#{item.batchid},#{item.mobileno},#{item.countryno},#{item.toperatorid},#{item.adddate,jdbcType=DATE} from dual)
+        </foreach>
+    </insert>
+  
+  <delete id="deleteExistMobileNo" parameterType="map" >
+	DELETE FROM hy_whitelist where 1=1 
+	<if test="qxUserModel.bean.countryno != null and qxUserModel.bean.countryno != ''">
+		and countryno = #{qxUserModel.bean.countryno,jdbcType=VARCHAR}
+	</if>	
+	<if test="qxUserModel.bean.toperatorid != null and qxUserModel.bean.toperatorid != ''">
+		and toperatorid = #{qxUserModel.bean.toperatorid,jdbcType=VARCHAR}
+	</if>	
+	and mobileno in
+	<foreach item="idItem" collection="bListIds" open="(" separator="union" close=")">
+	select #{idItem} from dual
+	</foreach>  
+  </delete>  
+  
+  <select id="selectCountByMobileno" resultType="java.lang.Integer">
+		select count(0) from hy_whitelist where  mobileno = #{mobileno,jdbcType=VARCHAR}
+	</select>
+</mapper>

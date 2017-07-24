@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.omp.mapper.SysDictionaryTypeMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.omp.model.SysDictionaryType" >
+    <id column="DICTIONARYTYPEID" property="dictionarytypeid" jdbcType="VARCHAR" />
+    <result column="DICTTYPE" property="dicttype" jdbcType="VARCHAR" />
+    <result column="DICTTYPENAME" property="dicttypename" jdbcType="VARCHAR" />
+    <result column="DICTTYPEDESC" property="dicttypedesc" jdbcType="VARCHAR" />
+    <result column="DELFLAG" property="delflag" jdbcType="VARCHAR" />
+    <result column="MODIFYMAN" property="modifyman" jdbcType="VARCHAR" />
+    <result column="MODIFYDATE" property="modifydate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    DICTIONARYTYPEID, DICTTYPE, DICTTYPENAME, DICTTYPEDESC, DELFLAG, MODIFYMAN, MODIFYDATE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from SYS_DICTIONARYTYPE
+    where DICTIONARYTYPEID = #{dictionarytypeid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from SYS_DICTIONARYTYPE
+    where DICTIONARYTYPEID = #{dictionarytypeid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.flash.toolbar.omp.model.SysDictionaryType" >
+    insert into SYS_DICTIONARYTYPE (DICTIONARYTYPEID, DICTTYPE, DICTTYPENAME, 
+      DICTTYPEDESC, DELFLAG, MODIFYMAN, 
+      MODIFYDATE)
+    values (#{dictionarytypeid,jdbcType=VARCHAR}, #{dicttype,jdbcType=VARCHAR}, #{dicttypename,jdbcType=VARCHAR}, 
+      #{dicttypedesc,jdbcType=VARCHAR}, #{delflag,jdbcType=VARCHAR}, #{modifyman,jdbcType=VARCHAR}, 
+      #{modifydate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.flash.toolbar.omp.model.SysDictionaryType" >
+    insert into SYS_DICTIONARYTYPE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="dictionarytypeid != null" >
+        DICTIONARYTYPEID,
+      </if>
+      <if test="dicttype != null" >
+        DICTTYPE,
+      </if>
+      <if test="dicttypename != null" >
+        DICTTYPENAME,
+      </if>
+      <if test="dicttypedesc != null" >
+        DICTTYPEDESC,
+      </if>
+      <if test="delflag != null" >
+        DELFLAG,
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN,
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="dictionarytypeid != null" >
+        #{dictionarytypeid,jdbcType=VARCHAR},
+      </if>
+      <if test="dicttype != null" >
+        #{dicttype,jdbcType=VARCHAR},
+      </if>
+      <if test="dicttypename != null" >
+        #{dicttypename,jdbcType=VARCHAR},
+      </if>
+      <if test="dicttypedesc != null" >
+        #{dicttypedesc,jdbcType=VARCHAR},
+      </if>
+      <if test="delflag != null" >
+        #{delflag,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+        #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.flash.toolbar.omp.model.SysDictionaryType" >
+    update SYS_DICTIONARYTYPE
+    <set >
+      <if test="dicttype != null" >
+        DICTTYPE = #{dicttype,jdbcType=VARCHAR},
+      </if>
+      <if test="dicttypename != null" >
+        DICTTYPENAME = #{dicttypename,jdbcType=VARCHAR},
+      </if>
+      <if test="dicttypedesc != null" >
+        DICTTYPEDESC = #{dicttypedesc,jdbcType=VARCHAR},
+      </if>
+      <if test="delflag != null" >
+        DELFLAG = #{delflag,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where DICTIONARYTYPEID = #{dictionarytypeid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.flash.toolbar.omp.model.SysDictionaryType" >
+    update SYS_DICTIONARYTYPE
+    set DICTTYPE = #{dicttype,jdbcType=VARCHAR},
+      DICTTYPENAME = #{dicttypename,jdbcType=VARCHAR},
+      DICTTYPEDESC = #{dicttypedesc,jdbcType=VARCHAR},
+      DELFLAG = #{delflag,jdbcType=VARCHAR},
+      MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP}
+    where DICTIONARYTYPEID = #{dictionarytypeid,jdbcType=VARCHAR}
+  </update>
+</mapper>

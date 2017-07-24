@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.omp.mapper.SysRemindConfigMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.omp.model.SysRemindConfig" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="REMINDVAL" property="remindval" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="CHAR" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+    <result column="PREPOSINDICATOR" property="preposindicator" jdbcType="VARCHAR" />
+    <result column="ISOPEN" property="isopen" jdbcType="CHAR" />
+    <result column="MODIFYMAN" property="modifyman" jdbcType="CHAR" />
+    <result column="MODIFYDATE" property="modifydate" jdbcType="TIMESTAMP" />
+    <result column="BRAND" property="brand" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, REMINDVAL, TYPE, COUNTRYNO, TOPERATORID,PREPOSINDICATOR,ISOPEN,MODIFYMAN,MODIFYDATE,BRAND
+  </sql>
+  <sql id="Example_Where_Clause">
+		<where>
+			1=1
+			<if test="bean.id != null and bean.id != ''">
+				and id = #{bean.id,jdbcType=VARCHAR}
+			</if>
+			<if test="bean.remindval != null and bean.remindval != ''">
+				and remindval = #{bean.remindval,jdbcType=VARCHAR}
+			</if>
+			<if test="bean.countryno != null and bean.countryno != ''">
+				and countryno = #{bean.countryno,jdbcType=VARCHAR}
+			</if>
+			<if test="bean.type != null and bean.type != ''">
+				and type = #{bean.type,jdbcType=VARCHAR}
+			</if>
+			<if test="bean.toperatorid != null and bean.toperatorid != ''">
+				and toperatorid = #{bean.toperatorid,jdbcType=VARCHAR}
+			</if>
+			<if test="bean.preposindicator != null and bean.preposindicator != ''">
+				and preposindicator = #{bean.preposindicator,jdbcType=VARCHAR}
+			</if>
+			<if test="bean.isopen != null and bean.isopen != ''">
+				and isopen = #{bean.isopen,jdbcType=VARCHAR}
+			</if>
+			<if test="bean.brand != null and bean.brand != ''">
+				and brand like '%'|| #{bean.brand,jdbcType=VARCHAR} || '%'
+			</if>
+		</where>
+  </sql>   
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from SYS_REMINDCONFIG
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectBySelective" resultMap="BaseResultMap" parameterType="com.flash.toolbar.omp.remind.bo.SysRemindConfigModel">
+  		select
+		*
+		from ( 
+			select
+				<include refid="Base_Column_List" />
+				, ROWNUM RN from 
+					( select <include refid="Base_Column_List" />,rownum rn from (
+						select
+						<include refid="Base_Column_List" />
+						from SYS_REMINDCONFIG
+						<if test="_parameter != null">
+							<include refid="Example_Where_Clause" />
+						</if>
+						and type!='1'						
+						order by brand,preposindicator,type
+						) 
+					) WHERE rn <![CDATA[<=]]> ${pager.pageTail} 
+		) WHERE RN <![CDATA[>=]]>
+		${pager.pageOffset}  						
+  </select>   
+	<select id="countByCondition" parameterType="Object" resultType="java.lang.Integer"> 
+		select count(*) from SYS_REMINDCONFIG
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		and type!='1'
+	</select>   
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from SYS_REMINDCONFIG
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.flash.toolbar.omp.model.SysRemindConfig" >
+    insert into SYS_REMINDCONFIG (ID, REMINDVAL, TYPE, 
+      COUNTRYNO, TOPERATORID,PREPOSINDICATOR,ISOPEN,MODIFYMAN,MODIFYDATE,BRAND)
+    values (#{id,jdbcType=VARCHAR}, #{remindval,jdbcType=VARCHAR}, #{type,jdbcType=CHAR}, 
+      #{countryno,jdbcType=VARCHAR}, #{toperatorid,jdbcType=VARCHAR}, #{preposindicator,jdbcType=VARCHAR}
+      , #{isopen,jdbcType=VARCHAR}, #{modifyman,jdbcType=VARCHAR}, #{modifydate,jdbcType=TIMESTAMP}
+      , #{brand,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.flash.toolbar.omp.model.SysRemindConfig" >
+    insert into SYS_REMINDCONFIG
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="remindval != null" >
+        REMINDVAL,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO,
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID,
+      </if>
+      <if test="preposindicator != null" >
+        PREPOSINDICATOR,
+      </if>
+      <if test="isopen != null" >
+        ISOPEN,
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN,
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE,
+      </if>
+      <if test="brand != null" >
+        BRAND,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="remindval != null" >
+        #{remindval,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=CHAR},
+      </if>
+      <if test="countryno != null" >
+        #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="preposindicator != null" >
+        #{preposindicator,jdbcType=VARCHAR},
+      </if>
+      <if test="isopen != null" >
+        #{isopen,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+        #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="brand != null" >
+        #{brand,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.flash.toolbar.omp.model.SysRemindConfig" >
+    update SYS_REMINDCONFIG
+    <set >
+      <if test="remindval != null" >
+        REMINDVAL = #{remindval,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=CHAR},
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="preposindicator != null" >
+        PREPOSINDICATOR = #{preposindicator,jdbcType=VARCHAR},
+      </if>
+      <if test="isopen != null" >
+        ISOPEN = #{isopen,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+       	MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="brand != null" >
+        BRAND = #{brand,jdbcType=VARCHAR},
+      </if>      
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.flash.toolbar.omp.model.SysRemindConfig" >
+    update SYS_REMINDCONFIG
+    set REMINDVAL = #{remindval,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=CHAR},
+      COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      PREPOSINDICATOR = #{preposindicator,jdbcType=VARCHAR},
+      ISOPEN = #{isopen,jdbcType=VARCHAR},
+      MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP},
+      BRAND = #{brand,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateRemindListBatch" parameterType="map">
+	update SYS_REMINDCONFIG set isOpen = #{type,jdbcType=VARCHAR}
+	where 1=1
+	<if test="qxUserModel.bean.countryno != null and qxUserModel.bean.countryno != ''">
+		and countryNo = #{qxUserModel.bean.countryno,jdbcType=VARCHAR}
+	</if>	
+	<if test="qxUserModel.bean.toperatorid != null and qxUserModel.bean.toperatorid != ''">
+		and tOperatorId = #{qxUserModel.bean.toperatorid,jdbcType=VARCHAR}
+	</if>	
+	and id in
+	<foreach item="idItem" collection="batchIds" open="(" separator="union" close=")">
+	select #{idItem} from dual
+	</foreach>
+  </update>  
+  <update id="updateTimeIntervalBatch" parameterType="map">
+	update SYS_REMINDCONFIG set remindVal = #{remindVal,jdbcType=VARCHAR}
+	where 1=1
+	<if test="qxUserModel.bean.countryno != null and qxUserModel.bean.countryno != ''">
+		and countryNo = #{qxUserModel.bean.countryno,jdbcType=VARCHAR}
+	</if>	
+	<if test="qxUserModel.bean.toperatorid != null and qxUserModel.bean.toperatorid != ''">
+		and tOperatorId = #{qxUserModel.bean.toperatorid,jdbcType=VARCHAR}
+	</if>	
+	and id in
+	<foreach item="idItem" collection="batchIds" open="(" separator="union" close=")">
+	select #{idItem} from dual
+	</foreach>
+  </update>  
+  <delete id="deleteRemindList" parameterType="map">
+	DELETE FROM SYS_REMINDCONFIG where 1=1
+	<if test="qxUserModel.bean.countryno != null and qxUserModel.bean.countryno != ''">
+		and countryNo = #{qxUserModel.bean.countryno,jdbcType=VARCHAR}
+	</if>	
+	<if test="qxUserModel.bean.toperatorid != null and qxUserModel.bean.toperatorid != ''">
+		and tOperatorId = #{qxUserModel.bean.toperatorid,jdbcType=VARCHAR}
+	</if>	
+	and id in
+	<foreach item="idItem" collection="bListIds" open="(" separator="union" close=")">
+	select #{idItem} from dual
+	</foreach>
+  </delete>  
+</mapper>

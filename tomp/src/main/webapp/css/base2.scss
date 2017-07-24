@@ -1,0 +1,43 @@
+/**
+ * Created by JarvisC on 2017/1/23.
+ */
+/*statement s*/
+.table_search{
+  .bgcolor{
+    display: inline-block;
+    width:35px;
+    height:15px;
+    margin-right: 10px;
+  }
+  .row2{
+    display: block;
+    line-height:20px;
+    margin-bottom: 30px;
+    li{
+      margin-right: 50px;
+    }
+  }
+}
+.table_search.statement{
+  background-color: #f3f7f8;
+}
+.table{
+  .pie_statement{
+    float: left;
+  }
+}
+.table.statement{
+  background-color: #f3f7f8;
+}
+.pie_statement{
+  opacity:.56;
+}
+.pie_statement:hover{
+  opacity:1;
+  background-color: #fff!important;
+}
+.pie_statement.active{
+  opacity:1;
+  background-color: #fff!important;;
+}
+/*statement e*/

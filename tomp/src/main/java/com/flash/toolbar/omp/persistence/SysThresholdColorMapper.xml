@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.omp.mapper.SysThresholdColorMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.omp.model.SysThresholdColor" >
+    <id column="THRESHOLDCOLORID" property="thresholdcolorid" jdbcType="VARCHAR" />
+    <result column="BEGINFLOWVALUE" property="beginflowvalue" jdbcType="DECIMAL" />
+    <result column="ENDFLOWVALUE" property="endflowvalue" jdbcType="DECIMAL" />
+    <result column="COLORVALUE" property="colorvalue" jdbcType="VARCHAR" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+    <result column="DELFLAG" property="delflag" jdbcType="VARCHAR" />
+    <result column="MODIFYMAN" property="modifyman" jdbcType="VARCHAR" />
+    <result column="MODIFYDATE" property="modifydate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    THRESHOLDCOLORID, BEGINFLOWVALUE, ENDFLOWVALUE, COLORVALUE, COUNTRYNO, TOPERATORID, 
+    DELFLAG, MODIFYMAN, MODIFYDATE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from SYS_THRESHOLDCOLOR
+    where THRESHOLDCOLORID = #{thresholdcolorid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from SYS_THRESHOLDCOLOR
+    where THRESHOLDCOLORID = #{thresholdcolorid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.flash.toolbar.omp.model.SysThresholdColor" >
+    insert into SYS_THRESHOLDCOLOR (THRESHOLDCOLORID, BEGINFLOWVALUE, 
+      ENDFLOWVALUE, COLORVALUE, COUNTRYNO, 
+      TOPERATORID, DELFLAG, MODIFYMAN, 
+      MODIFYDATE)
+    values (#{thresholdcolorid,jdbcType=VARCHAR}, #{beginflowvalue,jdbcType=DECIMAL}, 
+      #{endflowvalue,jdbcType=DECIMAL}, #{colorvalue,jdbcType=VARCHAR}, #{countryno,jdbcType=VARCHAR}, 
+      #{toperatorid,jdbcType=VARCHAR}, #{delflag,jdbcType=VARCHAR}, #{modifyman,jdbcType=VARCHAR}, 
+      #{modifydate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.flash.toolbar.omp.model.SysThresholdColor" >
+    insert into SYS_THRESHOLDCOLOR
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="thresholdcolorid != null" >
+        THRESHOLDCOLORID,
+      </if>
+      <if test="beginflowvalue != null" >
+        BEGINFLOWVALUE,
+      </if>
+      <if test="endflowvalue != null" >
+        ENDFLOWVALUE,
+      </if>
+      <if test="colorvalue != null" >
+        COLORVALUE,
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO,
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID,
+      </if>
+      <if test="delflag != null" >
+        DELFLAG,
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN,
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="thresholdcolorid != null" >
+        #{thresholdcolorid,jdbcType=VARCHAR},
+      </if>
+      <if test="beginflowvalue != null" >
+        #{beginflowvalue,jdbcType=DECIMAL},
+      </if>
+      <if test="endflowvalue != null" >
+        #{endflowvalue,jdbcType=DECIMAL},
+      </if>
+      <if test="colorvalue != null" >
+        #{colorvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="countryno != null" >
+        #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="delflag != null" >
+        #{delflag,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+        #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.flash.toolbar.omp.model.SysThresholdColor" >
+    update SYS_THRESHOLDCOLOR
+    <set >
+      <if test="beginflowvalue != null" >
+        BEGINFLOWVALUE = #{beginflowvalue,jdbcType=DECIMAL},
+      </if>
+      <if test="endflowvalue != null" >
+        ENDFLOWVALUE = #{endflowvalue,jdbcType=DECIMAL},
+      </if>
+      <if test="colorvalue != null" >
+        COLORVALUE = #{colorvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="delflag != null" >
+        DELFLAG = #{delflag,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where THRESHOLDCOLORID = #{thresholdcolorid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.flash.toolbar.omp.model.SysThresholdColor" >
+    update SYS_THRESHOLDCOLOR
+    set BEGINFLOWVALUE = #{beginflowvalue,jdbcType=DECIMAL},
+      ENDFLOWVALUE = #{endflowvalue,jdbcType=DECIMAL},
+      COLORVALUE = #{colorvalue,jdbcType=VARCHAR},
+      COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      DELFLAG = #{delflag,jdbcType=VARCHAR},
+      MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP}
+    where THRESHOLDCOLORID = #{thresholdcolorid,jdbcType=VARCHAR}
+  </update>
+</mapper>

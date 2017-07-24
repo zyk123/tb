@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.omp.mapper.SysMainInterfaceIconConfigMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.omp.model.SysMainInterfaceIconConfig" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="ICON" property="icon" jdbcType="BLOB" />
+    <result column="LINKURL" property="linkurl" jdbcType="VARCHAR"/>
+    <result column="SIGN" property="sign" jdbcType="CHAR"/>
+    <result column="TYPE" property="type" jdbcType="CHAR"/>
+    <result column="PERCENT" property="percent" jdbcType="VARCHAR"/>
+    <result column="MARK" property="mark" jdbcType="CHAR"/>
+	<result column="POPUP" property="popup" jdbcType="BLOB"/>
+    <result column="CREATEDATE" property="createdate" jdbcType="DATE" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID,LINKURL,SIGN,TYPE,PERCENT,MARK,CREATEDATE, COUNTRYNO, TOPERATORID
+  </sql>
+  <sql id="Where_Clause">
+  	<where>
+  		<if test="null != countryno and '' != countryno">
+  			COUNTRYNO = #{countryno,jdbcType=VARCHAR}
+  		</if>
+  		<if test="null != toperatorid and '' != toperatorid">
+  			and TOPERATORID = #{toperatorid,jdbcType=VARCHAR}
+  		</if>
+  	</where>
+  </sql>
+  <select id="selectTotalCount" parameterType="com.flash.toolbar.omp.model.SysMainInterfaceIconConfig" resultType="integer">
+  	select count(0) from SYS_MAININTERFACEICONCONFIG <include refid="Where_Clause"/>
+  </select>
+  <select id="selectIconByPage" resultMap="BaseResultMap" parameterType="hashmap" >
+    select <include refid="Base_Column_List" /> from 
+    (select <include refid="Base_Column_List" />,ROWNUM rn from
+    (select 
+    <include refid="Base_Column_List" />
+    from SYS_MAININTERFACEICONCONFIG
+    where COUNTRYNO = #{config.countryno,jdbcType=VARCHAR}
+    and TOPERATORID = #{config.toperatorid,jdbcType=VARCHAR})
+    where ROWNUM <![CDATA[<=]]> #{page.endCount})
+    where rn <![CDATA[>=]]> #{page.startCount}
+    order by createdate desc
+  </select>
+  <select id="selectIconByPrimaryKey" parameterType="com.flash.toolbar.omp.model.SysMainInterfaceIconConfig" resultType="com.flash.toolbar.omp.model.SysMainInterfaceIconConfig">
+  	select icon from SYS_MAININTERFACEICONCONFIG
+  	<where>
+    	ID = #{id,jdbcType=VARCHAR}
+  		<if test="null != countryno and '' != countryno">
+  			and COUNTRYNO = #{countryno,jdbcType=VARCHAR}
+  		</if>
+  		<if test="null != toperatorid and '' != toperatorid">
+  			and TOPERATORID = #{toperatorid,jdbcType=VARCHAR}
+  		</if>
+  	</where>
+  </select>
+	<select id="selectPopupByPrimaryKey" parameterType="com.flash.toolbar.omp.model.SysMainInterfaceIconConfig" resultType="com.flash.toolbar.omp.model.SysMainInterfaceIconConfig">
+		select popup from SYS_MAININTERFACEICONCONFIG
+		<where>
+			ID = #{id,jdbcType=VARCHAR}
+			<if test="null != countryno and '' != countryno">
+				and COUNTRYNO = #{countryno,jdbcType=VARCHAR}
+			</if>
+			<if test="null != toperatorid and '' != toperatorid">
+				and TOPERATORID = #{toperatorid,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</select>
+  <delete id="deleteIcon" parameterType="hashmap" >
+    delete from SYS_MAININTERFACEICONCONFIG
+    <where>
+    	ID in
+    	<foreach collection="array" item="id" open="(" close=")" separator=",">    		
+    		#{id,jdbcType=VARCHAR}
+    	</foreach>
+  		<if test="null != config.countryno and '' != config.countryno">
+  			and COUNTRYNO = #{config.countryno,jdbcType=VARCHAR}
+  		</if>
+  		<if test="null != config.toperatorid and '' != config.toperatorid">
+  			and TOPERATORID = #{config.toperatorid,jdbcType=VARCHAR}
+  		</if>
+  	</where>
+  </delete>
+  <insert id="insertIcon" parameterType="com.flash.toolbar.omp.model.SysMainInterfaceIconConfig" >
+    insert into SYS_MAININTERFACEICONCONFIG (ID,ICON,LINKURL,SIGN,TYPE,PERCENT,MARK,
+    POPUP,CREATEDATE,COUNTRYNO,TOPERATORID
+      )
+    values (#{id,jdbcType=VARCHAR},#{icon,jdbcType=BLOB},#{linkurl,jdbcType=VARCHAR},
+    #{sign,jdbcType=CHAR},#{type,jdbcType=CHAR},#{percent,jdbcType=VARCHAR},#{mark,jdbcType=CHAR},#{popup,jdbcType=BLOB},
+    #{createdate,jdbcType=DATE}, #{countryno,jdbcType=VARCHAR}, #{toperatorid,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateIcon" parameterType="com.flash.toolbar.omp.model.SysMainInterfaceIconConfig" >
+    update SYS_MAININTERFACEICONCONFIG
+    <set>
+    	<if test="null != icon">
+    		ICON = #{icon,jdbcType=BLOB},
+    	</if>
+    	<if test="null != linkurl and '' != linkurl">
+    		LINKURL = #{linkurl,jdbcType=VARCHAR},
+    	</if>
+    	<if test="null != sign and '' != sign">
+    		SIGN = #{sign,jdbcType=CHAR},
+    	</if>
+    	<if test="null != type and '' != type">
+    		TYPE = #{type,jdbcType=CHAR},
+    	</if>
+    	<if test="null != percent and '' != percent">
+    		PERCENT = #{percent,jdbcType=VARCHAR}
+    	</if>
+    	<if test="null != mark and '' != mark">
+    		MARK = #{mark,jdbcType=CHAR},
+    	</if>
+		<if test="null != popup">
+			POPUP = #{popup,jdbcType=CHAR}
+		</if>
+    </set>      
+    <where>
+    	ID = #{id,jdbcType=VARCHAR}
+  		<if test="null != countryno and '' != countryno">
+  			and COUNTRYNO = #{countryno,jdbcType=VARCHAR}
+  		</if>
+  		<if test="null != toperatorid and '' != toperatorid">
+  			and TOPERATORID = #{toperatorid,jdbcType=VARCHAR}
+  		</if>
+  	</where>
+  </update>
+	<select id="selectAllIcon" resultMap="BaseResultMap" parameterType="com.flash.toolbar.omp.model.SysMainInterfaceIconConfig" >
+		select *
+		from SYS_MAININTERFACEICONCONFIG
+		<where>
+			sign in (1,2,3)
+			<if test="null !=type and '' != type">
+				and TYPE = #{type,jdbcType=VARCHAR}
+			</if>
+			<if test="null != countryno and '' != countryno">
+				and COUNTRYNO = #{countryno,jdbcType=VARCHAR}
+			</if>
+			<if test="null != toperatorid and '' != toperatorid">
+				and TOPERATORID = #{toperatorid,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</select>
+</mapper>

@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.omp.mapper.HyBlackSectionMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.omp.model.HyBlackSection" >
+    <id column="BSECTIONID" property="bSectionId" jdbcType="VARCHAR" />
+    <result column="BATCHID" property="batchId" jdbcType="VARCHAR" />
+    <result column="MOBILENOSTART" property="mobileNoStart" jdbcType="VARCHAR" />
+    <result column="MOBILENOEND" property="mobileNoEnd" jdbcType="VARCHAR" />
+    <result column="COUNTRYNO" property="countryNo" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="tOperatorId" jdbcType="VARCHAR" />
+    <result column="ADDDATE" property="addDate" jdbcType="DATE" />
+  </resultMap>
+  <resultMap id="BaseResultMapModel" type="com.flash.toolbar.omp.blacksegmentlist.bo.HyBlackSectionModel" >
+    <result column="BATCHNO" property="batchNo" jdbcType="VARCHAR" />
+    <result column="BSECTIONID" property="bean.bSectionId" jdbcType="VARCHAR" />
+    <result column="BATCHID" property="bean.batchId" jdbcType="VARCHAR" />
+    <result column="MOBILENOSTART" property="bean.mobileNoStart" jdbcType="VARCHAR" />
+    <result column="MOBILENOEND" property="bean.mobileNoEnd" jdbcType="VARCHAR" />
+    <result column="COUNTRYNO" property="bean.countryNo" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="bean.tOperatorId" jdbcType="VARCHAR" />
+    <result column="ADDDATE" property="bean.addDate" jdbcType="DATE" />
+  </resultMap>  
+  <sql id="Base_Column_List" >
+    BSECTIONID, BATCHID, MOBILENOSTART, MOBILENOEND, COUNTRYNO, TOPERATORID, ADDDATE
+  </sql>
+  
+	<sql id="Example_Where_Clause">
+		<where>
+			1=1
+			<if test="bean.bSectionId != null and bean.bSectionId != ''">
+				and bSectionId = #{bean.bSectionId,jdbcType=VARCHAR}
+			</if>
+			<if test="bean.batchId != null and bean.batchId != ''">
+				and batchId = #{bean.batchId,jdbcType=VARCHAR}
+			</if>
+			<if test="bean.countryNo != null and bean.countryNo != ''">
+				and countryNo = #{bean.countryNo,jdbcType=VARCHAR}
+			</if>
+			<if test="bean.tOperatorId != null and bean.tOperatorId!= ''">
+				and tOperatorId = #{bean.tOperatorId,jdbcType=VARCHAR}
+			</if>
+			<if test="mobileNo != null and mobileNo!= ''">
+				and substr(mobilenostart,1,length(#{mobileNo,jdbcType=VARCHAR})) <![CDATA[<=]]> #{mobileNo,jdbcType=VARCHAR}
+				  	and substr(mobilenoend,1,length(#{mobileNo,jdbcType=VARCHAR})) <![CDATA[>=]]> #{mobileNo,jdbcType=VARCHAR}
+			</if>
+			<if test="startTime != null">
+				and addDate <![CDATA[>=]]>
+				#{startTime,jdbcType=DATE}
+			</if>			
+			<if test="endTime != null">
+				and addDate <![CDATA[<=]]>
+				#{endTime,jdbcType=DATE}
+			</if>
+		</where>
+	</sql>  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from HY_BLACKSECTION
+    where BSECTIONID = #{bSectionId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByPageSelective" resultMap="BaseResultMapModel" parameterType="com.flash.toolbar.omp.blacksegmentlist.bo.HyBlackSectionModel" >
+		select
+		*
+		from ( 
+			select
+				<include refid="Base_Column_List" />,batchno
+				, ROWNUM RN from 
+					( select <include refid="Base_Column_List" />,batchno,rownum rn from (
+						select
+						a.*,b.batchno,rownum
+						from HY_BLACKSECTION a inner join hy_blackimportbatch b on a.batchid=b.batchid where 1=1
+							<if test="bean.bSectionId != null and bean.bSectionId != ''">
+								and a.bSectionId = #{bean.bSectionId,jdbcType=VARCHAR}
+							</if>
+							<if test="bean.batchId != null and bean.batchId != ''">
+								and a.batchId = #{bean.batchId,jdbcType=VARCHAR}
+							</if>
+							<if test="bean.countryNo != null and bean.countryNo != ''">
+								and a.countryNo = #{bean.countryNo,jdbcType=VARCHAR}
+							</if>
+							<if test="bean.tOperatorId != null and bean.tOperatorId!= ''">
+								and a.tOperatorId = #{bean.tOperatorId,jdbcType=VARCHAR}
+							</if>
+							<if test="mobileNo != null and mobileNo!= ''">
+								and substr(a.mobilenostart,1,length(#{mobileNo,jdbcType=VARCHAR})) <![CDATA[<=]]> #{mobileNo,jdbcType=VARCHAR}
+								  	and substr(a.mobilenoend,1,length(#{mobileNo,jdbcType=VARCHAR})) <![CDATA[>=]]> #{mobileNo,jdbcType=VARCHAR}
+							</if>
+							<if test="startTime != null">
+								and a.addDate <![CDATA[>=]]>
+								#{startTime,jdbcType=DATE}
+							</if>			
+							<if test="endTime != null">
+								and a.addDate <![CDATA[<=]]>
+								#{endTime,jdbcType=DATE}
+							</if>
+							<if test="batchNo != null and batchNo!= ''">
+								and b.batchno = #{batchNo,jdbcType=VARCHAR}
+							</if>						
+						order by batchno desc
+						) 
+					) WHERE rn <![CDATA[<=]]> ${pager.pageTail} 
+		) WHERE RN <![CDATA[>=]]>
+		${pager.pageOffset}    
+  	</select> 
+	<select id="countByCondition" parameterType="Object" resultType="java.lang.Integer">
+		select count(*) from HY_BLACKSECTION
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>     
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from HY_BLACKSECTION
+    where BSECTIONID = #{bSectionId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteBlackSectionListBatch" parameterType="map">
+	DELETE FROM HY_BLACKSECTION where 1=1
+	<if test="qxUserModel.bean.countryno != null and qxUserModel.bean.countryno != ''">
+		and countryNo = #{qxUserModel.bean.countryno,jdbcType=VARCHAR}
+	</if>	
+	<if test="qxUserModel.bean.toperatorid != null and qxUserModel.bean.toperatorid != ''">
+		and tOperatorId = #{qxUserModel.bean.toperatorid,jdbcType=VARCHAR}
+	</if>	
+	and BSECTIONID in
+	<foreach item="idItem" collection="bSectionListIds" open="(" separator="union" close=")">
+	select #{idItem} from dual
+	</foreach>
+  </delete>
+  <delete id="deleteExistSection" parameterType="java.util.List">  
+        delete from  HY_BLACKSECTION where bsectionid in ( select a.bsectionid from (
+        <foreach collection="list" item="item" index="index" separator="union all" >  
+           ( select bsectionid from HY_BLACKSECTION where 1=1
+			<if test="item.countryNo != null and item.countryNo != ''">
+				and countryNo = #{item.countryNo,jdbcType=VARCHAR}
+			</if>
+			<if test="item.tOperatorId != null and item.tOperatorId != ''">
+				and tOperatorId = #{item.tOperatorId,jdbcType=VARCHAR}
+			</if>            
+			<if test="item.mobileNoStart != null and item.mobileNoStart != ''">
+				and mobileNoStart = #{item.mobileNoStart,jdbcType=VARCHAR}
+			</if>            
+			<if test="item.mobileNoEnd != null and item.mobileNoEnd != ''">
+				and mobileNoEnd = #{item.mobileNoEnd,jdbcType=VARCHAR}
+			</if>            
+            )
+        </foreach>
+        ) a 
+        )
+  </delete>     
+  <insert id="insert" parameterType="com.flash.toolbar.omp.model.HyBlackSection" >
+    insert into HY_BLACKSECTION (BSECTIONID, BATCHID, MOBILENOSTART, 
+      MOBILENOEND, COUNTRYNO, TOPERATORID, 
+      ADDDATE)
+    values (#{bSectionId,jdbcType=VARCHAR}, #{batchId,jdbcType=VARCHAR}, #{mobileNoStart,jdbcType=VARCHAR}, 
+      #{mobileNoEnd,jdbcType=VARCHAR}, #{countryNo,jdbcType=VARCHAR}, #{tOperatorId,jdbcType=VARCHAR}, 
+      #{addDate,jdbcType=DATE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.flash.toolbar.omp.model.HyBlackSection" >
+    insert into HY_BLACKSECTION
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="bSectionId != null" >
+        BSECTIONID,
+      </if>
+      <if test="batchId != null" >
+        BATCHID,
+      </if>
+      <if test="mobileNoStart != null" >
+        MOBILENOSTART,
+      </if>
+      <if test="mobileNoEnd != null" >
+        MOBILENOEND,
+      </if>
+      <if test="countryNo != null" >
+        COUNTRYNO,
+      </if>
+      <if test="tOperatorId != null" >
+        TOPERATORID,
+      </if>
+      <if test="addDate != null" >
+        ADDDATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="bSectionId != null" >
+        #{bSectionId,jdbcType=VARCHAR},
+      </if>
+      <if test="batchId != null" >
+        #{batchId,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileNoStart != null" >
+        #{mobileNoStart,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileNoEnd != null" >
+        #{mobileNoEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="countryNo != null" >
+        #{countryNo,jdbcType=VARCHAR},
+      </if>
+      <if test="tOperatorId != null" >
+        #{tOperatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="addDate != null" >
+        #{addDate,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+    <insert id="insertBlackSectionListBatch" useGeneratedKeys="false" parameterType="java.util.List">  
+        insert into HY_BLACKSECTION (
+        <include refid="Base_Column_List" />
+        ) select a.* from (
+        <foreach collection="list" item="item" index="index" separator="union all" >  
+            select #{item.bSectionId},#{item.batchId},#{item.mobileNoStart},#{item.mobileNoEnd},#{item.countryNo},#{item.tOperatorId},#{item.addDate,jdbcType=DATE} from dual
+        </foreach>
+        ) a 
+    </insert> 
+</mapper>

@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.omp.mapper.RpPackageSubReportMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.omp.model.RpPackageSubReport" >
+    <id column="PSID" property="psid" jdbcType="VARCHAR" />
+    <result column="DATATYPE" property="datatype" jdbcType="VARCHAR" />
+    <result column="DATADATE" property="datadate" jdbcType="TIMESTAMP" />
+    <result column="FGNO" property="fgno" jdbcType="VARCHAR" />
+    <result column="FGNAME" property="fgname" jdbcType="VARCHAR" />
+    <result column="TOTNUM" property="totnum" jdbcType="DECIMAL" />
+    <result column="CONSNUM" property="consnum" jdbcType="DECIMAL" />
+    <result column="PAYNUM" property="paynum" jdbcType="DECIMAL" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="BaseResultMapModel" type="com.flash.toolbar.omp.reportstatistic.bo.RpPackageSubReportModel" >
+    <result column="PSID" property="bean.psid" jdbcType="VARCHAR" />
+    <result column="DATATYPE" property="bean.datatype" jdbcType="VARCHAR" />
+    <result column="DATADATE" property="bean.datadate" jdbcType="TIMESTAMP" />
+    <result column="FGNO" property="bean.fgno" jdbcType="VARCHAR" />
+    <result column="FGNAME" property="bean.fgname" jdbcType="VARCHAR" />
+    <result column="TOTNUM" property="bean.totnum" jdbcType="DECIMAL" />
+    <result column="CONSNUM" property="bean.consnum" jdbcType="DECIMAL" />
+    <result column="PAYNUM" property="bean.paynum" jdbcType="DECIMAL" />
+    <result column="COUNTRYNO" property="bean.countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="bean.toperatorid" jdbcType="VARCHAR" />
+    <result column="ALLTOTNUM" property="alltotnum" jdbcType="VARCHAR" />
+    <result column="ALLCONSNUM" property="allconsnum" jdbcType="VARCHAR" />
+    <result column="ALLPAYNUM" property="allpaynum" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PSID, DATATYPE, DATADATE, FGNO, FGNAME, TOTNUM, CONSNUM, PAYNUM, COUNTRYNO, TOPERATORID
+  </sql>
+	<sql id="Example_Where_Clause">
+		<where>
+			1=1
+			<if test="bean.datatype != null and bean.datatype != ''">
+				and datatype = #{bean.datatype,jdbcType=VARCHAR}
+			</if>
+			<if test="bean.fgno != null and bean.fgno != ''">
+				and fgno = #{bean.fgno,jdbcType=VARCHAR}
+			</if>
+			<if test="bean.fgname != null and bean.fgname != ''">
+				and fgname = #{bean.fgname,jdbcType=VARCHAR}
+			</if>
+			<if test="bean.countryno != null and bean.countryno != ''">
+				and countryno = #{bean.countryno,jdbcType=VARCHAR}
+			</if>			
+			<if test="bean.toperatorid != null and bean.toperatorid !=''">
+				and toperatorid = #{bean.toperatorid,jdbcType=VARCHAR}
+			</if>
+			<if test="startTime != null">
+				and datadate <![CDATA[>=]]>
+				#{startTime,jdbcType=DATE}
+			</if>			
+			<if test="endTime != null">
+				and datadate <![CDATA[<=]]>
+				#{endTime,jdbcType=DATE}
+			</if>			
+		</where>
+	</sql>
+	
+	
+	<sql id="Example_Where_Clause_No_Date">
+		<where>
+			1=1
+			<if test="bean.datatype != null and bean.datatype != ''">
+				and datatype = #{bean.datatype,jdbcType=VARCHAR}
+			</if>
+			<if test="bean.fgno != null and bean.fgno != ''">
+				and fgno = #{bean.fgno,jdbcType=VARCHAR}
+			</if>
+			<if test="bean.fgname != null and bean.fgname != ''">
+				and fgname = #{bean.fgname,jdbcType=VARCHAR}
+			</if>
+			<if test="bean.countryno != null and bean.countryno != ''">
+				and countryno = #{bean.countryno,jdbcType=VARCHAR}
+			</if>			
+			<if test="bean.toperatorid != null and bean.toperatorid !=''">
+				and toperatorid = #{bean.toperatorid,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</sql>
+	
+	<sql id="Page_View">
+							with all_type as ( 
+							   select distinct fgno,fgname from RP_PACKAGESUBREPORT
+							   <include refid="Example_Where_Clause" />
+							)  
+							, dd as (
+							select
+					                <if test="startTime != null">
+					                       #{startTime,jdbcType=DATE}
+					                </if>
+							  + level -1 as de
+							  from dual
+							 connect by
+					                <if test="startTime != null">
+					                       #{startTime,jdbcType=DATE}
+					                </if>
+							 + level -1 <![CDATA[<=]]> 
+					                <if test="endTime != null">
+					                       #{endTime,jdbcType=DATE}
+					                </if>
+							)
+							, fmt_data as (
+							select dd.de,all_type.*
+							  from all_type,dd
+							)
+							, all_data as (
+							  select * from RP_PACKAGESUBREPORT
+							  <include refid="Example_Where_Clause" />
+							)
+							select s1.de datadate,
+							       s1.fgname,
+							       s3.allconsNum,
+							       s1.alltotnum,
+							       s2.allpayNum,
+							       s3.consNum,
+							       s1.totnum,
+							       s2.payNum
+							  from ( select de,max(fgname) fgname, max(totnum) totnum,max(alltotnum) alltotnum from
+							  (select fmt_data.de,
+							               wm_concat(fmt_data.fgname) over(partition by fmt_data.de order by fmt_data.fgno) fgname,
+							              sum(decode(all_data.totnum,
+							                                                         '',
+							                                                         0,
+							                                                         null,
+							                                                         0,
+							                                                         all_data.totnum)) over(partition by fmt_data.de) alltotnum,               
+							               wm_concat(decode(all_data.totnum,
+							                                '',
+							                                'empty',
+							                                null,
+							                                'empty',
+							                                all_data.totnum)) over(partition by fmt_data.de order by fmt_data.fgno) totnum                              
+							          from fmt_data, all_data
+							         where fmt_data.de = all_data.datadate(+)
+							           and fmt_data.fgno = all_data.fgno(+))
+							 group by de
+							 order by de desc
+							) s1,
+							(select de, max(payNum) payNum ,max(allpayNum) allpayNum from
+							 (select fmt_data.de,
+							              sum(decode(all_data.payNum,
+							                                                         '',
+							                                                         0,
+							                                                         null,
+							                                                         0,
+							                                                         all_data.payNum)) over(partition by fmt_data.de) allpayNum,   
+							               wm_concat(decode(all_data.payNum,
+							                                '',
+							                                'empty',
+							                                null,
+							                                'empty',
+							                                all_data.payNum)) over(partition by fmt_data.de order by fmt_data.fgno) payNum                                
+							          from fmt_data, all_data
+							         where fmt_data.de = all_data.datadate(+)
+							           and fmt_data.fgno = all_data.fgno(+))
+							 group by de
+							 order by de desc
+							) s2,
+							(select de, max(consNum) consNum ,max(allconsNum) allconsNum from
+							 (select fmt_data.de,
+							              sum(decode(all_data.consNum,
+							                                                         '',
+							                                                         0,
+							                                                         null,
+							                                                         0,
+							                                                         all_data.consNum)) over(partition by fmt_data.de) allconsNum,   
+							               wm_concat(decode(all_data.consNum,
+							                                '',
+							                                'empty',
+							                                null,
+							                                'empty',
+							                                all_data.consNum)) over(partition by fmt_data.de order by fmt_data.fgno) consNum                                
+							          from fmt_data, all_data
+							         where fmt_data.de = all_data.datadate(+)
+							           and fmt_data.fgno = all_data.fgno(+))
+							 group by de
+							 order by de desc
+							) s3
+							 where s1.de = s2.de
+							 and s2.de = s3.de
+							 order by s1.de desc	
+	</sql>	  	  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from RP_PACKAGESUBREPORT
+    where PSID = #{psid,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectMinMaxDate" resultType="java.util.HashMap"  parameterType="com.flash.toolbar.omp.reportstatistic.bo.RpPackageSubReportModel">
+    select min(datadate) mindate,max(datadate) maxdate    from RP_PACKAGESUBREPORT 
+    <include refid="Example_Where_Clause_No_Date" />
+  </select>
+  
+  
+  <select id="selectByPageSelective" resultMap="BaseResultMapModel" parameterType="com.flash.toolbar.omp.reportstatistic.bo.RpPackageSubReportModel">
+		select
+		*
+		from ( 
+			select
+				a.*
+				, ROWNUM RN from 
+					(
+ 	 					<include refid="Page_View" />
+					) a WHERE ROWNUM <![CDATA[<=]]> ${pager.pageTail} 
+		) WHERE RN <![CDATA[>=]]>
+		${pager.pageOffset}
+  </select> 
+  
+  
+  <select id="selectBySelective" resultMap="BaseResultMapModel" parameterType="com.flash.toolbar.omp.reportstatistic.bo.RpPackageSubReportModel">
+		select
+		* from 
+					(
+ 	 					<include refid="Page_View" />
+					) 
+  </select> 
+  
+	<select id="countByCondition" parameterType="Object" resultType="java.lang.Integer"> 
+		select count(1) from (
+			<include refid="Page_View" />		
+		)
+	</select>       
+  
+</mapper>

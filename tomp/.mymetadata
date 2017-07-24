@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="tomp"
+  id="myeclipse.1470979463484"
+  context-root="/tomp"
+  j2ee-spec="1.7"
+  archive="tomp.war">
+  <attributes>
+    <attribute name="webrootdir" value="src/main/webapp" />
+  </attributes>
+</project-module>
+

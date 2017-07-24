@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.omp.mapper.TcFlowpackageDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.omp.model.TcFlowpackageDetail" >
+    <id column="PACKAGEDETAILID" property="packagedetailid" jdbcType="VARCHAR" />
+    <result column="PACKAGEID" property="packageid" jdbcType="VARCHAR" />
+    <result column="DETAILNAME" property="detailname" jdbcType="VARCHAR" />
+    <result column="ITEMNAME" property="itemname" jdbcType="VARCHAR" />
+    <result column="ITEMVALUE" property="itemvalue" jdbcType="VARCHAR" />
+    <result column="ORDERNO" property="orderno" jdbcType="DECIMAL" />
+    <result column="PARENTID" property="parentid" jdbcType="VARCHAR" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+    <result column="DELFLAG" property="delflag" jdbcType="VARCHAR" />
+    <result column="MODIFYMAN" property="modifyman" jdbcType="VARCHAR" />
+    <result column="MODIFYDATE" property="modifydate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="BaseResultMapModel" type="com.flash.toolbar.omp.packagemange.bo.TcFlowpackageDetailModel" >
+    <result column="PACKAGEDETAILID" property="bean.packagedetailid" jdbcType="VARCHAR" />
+    <result column="PACKAGEID" property="bean.packageid" jdbcType="VARCHAR" />
+    <result column="PACKAGENAME" property="packagename" jdbcType="VARCHAR" />
+    <result column="DETAILNAME" property="bean.detailname" jdbcType="VARCHAR" />
+    <result column="ITEMNAME" property="bean.itemname" jdbcType="VARCHAR" />
+    <result column="ITEMVALUE" property="bean.itemvalue" jdbcType="VARCHAR" />
+    <result column="ORDERNO" property="bean.orderno" jdbcType="DECIMAL" />
+    <result column="PARENTID" property="bean.parentid" jdbcType="VARCHAR" />
+    <result column="COUNTRYNO" property="bean.countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="bean.toperatorid" jdbcType="VARCHAR" />
+    <result column="DELFLAG" property="bean.delflag" jdbcType="VARCHAR" />
+    <result column="MODIFYMAN" property="bean.modifyman" jdbcType="VARCHAR" />
+    <result column="MODIFYDATE" property="bean.modifydate" jdbcType="TIMESTAMP" />
+  </resultMap>  
+  <resultMap id="BaseResultMapRec" type="com.flash.toolbar.omp.packagemange.bo.TcFlowpackageDetailRec" >
+    <result column="PACKAGEDETAILID" property="packagedetailid" jdbcType="VARCHAR" />
+    <result column="PACKAGEID" property="packageid" jdbcType="VARCHAR" />
+    <result column="PACKAGENAME" property="packagename" jdbcType="VARCHAR" />
+    <result column="DETAILNAME" property="detailname" jdbcType="VARCHAR" />
+    <result column="ITEMNAME" property="itemname" jdbcType="VARCHAR" />
+    <result column="ITEMVALUE" property="itemvalue" jdbcType="VARCHAR" />
+    <result column="ORDERNO" property="orderno" jdbcType="DECIMAL" />
+    <result column="PARENTID" property="parentid" jdbcType="VARCHAR" />
+    <collection property="childDetail"  column="PACKAGEDETAILID"  ofType="com.flash.toolbar.omp.packagemange.bo.TcFlowpackageDetailRec"  select="queryChidDetailsByParentId"    />
+  </resultMap>  
+  <sql id="Base_Column_List" >
+    PACKAGEDETAILID, PACKAGEID, DETAILNAME, ITEMNAME, ITEMVALUE, ORDERNO, PARENTID, COUNTRYNO, 
+    TOPERATORID, DELFLAG, MODIFYMAN, MODIFYDATE
+  </sql>
+  <sql id="Example_Where_Clause">
+		<where>
+			1=1
+			<if test="bean.packagedetailid != null and bean.packagedetailid != ''">
+				and packagedetailid = #{bean.packagedetailid,jdbcType=VARCHAR}
+			</if>
+			<if test="bean.packageid != null and bean.packageid != ''">
+				and packageid like '%'||#{bean.packageid,jdbcType=VARCHAR}||'%'
+			</if>
+			<if test="bean.countryno != null and bean.countryno != ''">
+				and countryNo = #{bean.countryno,jdbcType=VARCHAR}
+			</if>
+			<if test="bean.toperatorid != null and bean.toperatorid !=''">
+				and tOperatorId = #{bean.toperatorid,jdbcType=VARCHAR}
+			</if>				
+		</where>
+  </sql>  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from TC_FLOWPACKAGE_DETAIL
+    where PACKAGEDETAILID = #{packagedetailid,jdbcType=VARCHAR}
+  </select>
+  <select id="selectParent" resultType="java.util.Map" parameterType="map" >
+    select a.PACKAGEDETAILID id,b.fGName||'_'||a.DETAILNAME text
+    from TC_FLOWPACKAGE_DETAIL a left join tc_flowpackage b on a.PACKAGEID=b.PACKAGEID where a.PARENTID='-1'
+							<if test="record.countryno != null and record.countryno != ''">
+								and a.countryNo = #{record.countryno,jdbcType=VARCHAR}
+							</if>
+							<if test="record.toperatorid != null and record.toperatorid != ''">
+								and a.tOperatorId = #{record.toperatorid,jdbcType=VARCHAR}
+							</if>    
+							<if test="term != null and term != ''">
+								and b.fGName||'_'||a.DETAILNAME like '%'||#{term,jdbcType=VARCHAR}||'%'
+							</if>    
+  </select>
+  <select id="getFlowPackageDetailRec" resultMap="BaseResultMapRec" parameterType="com.flash.toolbar.omp.model.TcFlowpackageDetail" >
+    select a.PACKAGEDETAILID packagedetailid,a.PACKAGEID,b.fGName||'_'||a.DETAILNAME packagename,a.DETAILNAME,a.ITEMNAME,a.ITEMVALUE,a.ORDERNO,a.PARENTID
+    from TC_FLOWPACKAGE_DETAIL a left join tc_flowpackage b on a.PACKAGEID=b.PACKAGEID where a.PARENTID='-1'
+		<if test="countryno != null and countryno != ''">
+			and a.countryNo = #{countryno,jdbcType=VARCHAR}
+		</if>	
+		<if test="toperatorid != null and toperatorid != ''">
+			and a.tOperatorId = #{toperatorid,jdbcType=VARCHAR}
+		</if>  
+		order by a.orderno
+  </select>
+  <select id="queryChidDetailsByParentId" resultMap="BaseResultMapRec">
+    select a.PACKAGEDETAILID packagedetailid,a.PACKAGEID,b.fGName||'_'||a.DETAILNAME packagename,a.DETAILNAME,a.ITEMNAME,a.ITEMVALUE,a.ORDERNO,a.PARENTID
+    from TC_FLOWPACKAGE_DETAIL a left join tc_flowpackage b on a.PACKAGEID=b.PACKAGEID where a.PARENTID=#{packagedetailid,jdbcType=VARCHAR}
+		order by a.orderno 
+  </select>
+  <select id="selectBySelective" resultMap="BaseResultMapModel" parameterType="com.flash.toolbar.omp.model.TcFlowpackageDetail">
+							select a.*, b.fGName || '_' || a.DETAILNAME packagename
+							  from tc_flowpackage_detail a
+							  left join tc_flowpackage b
+							    on a.packageid = b.packageid
+							    where delflag = '1'					
+							<if test="countryno != null and countryno != ''">
+								and countryNo = #{countryno,jdbcType=VARCHAR}
+							</if>
+							<if test=".toperatorid!= null and toperatorid!= ''">
+								and tOperatorId = #{toperatorid,jdbcType=VARCHAR}
+							</if>
+							 start with a.parentid='-1'
+							connect by prior a.packagedetailid  = a.parentid
+							order by a.parentid	
+  </select>
+  <select id="selectByPageSelective" resultMap="BaseResultMapModel" parameterType="com.flash.toolbar.omp.packagemange.bo.TcFlowpackageDetailModel">
+		select
+		*
+		from ( 
+			select
+				<include refid="Base_Column_List" />,packagename
+				, ROWNUM RN from 
+					( select <include refid="Base_Column_List" />,packagename,rownum rn from (
+						select
+						a.*,b.fGName packagename,rownum
+						from TC_FLOWPACKAGE_DETAIL a left join tc_flowpackage b on a.PACKAGEID=b.PACKAGEID where 1=1
+							<if test="bean.packagedetailid != null and bean.packagedetailid != ''">
+								and a.packagedetailid = #{bean.packagedetailid,jdbcType=VARCHAR}
+							</if>
+							<if test="bean.packageid != null and bean.packageid != ''">
+								and a.packageid like '%'||#{bean.packageid,jdbcType=VARCHAR}||'%'
+							</if>
+							<if test="bean.countryno != null and bean.countryno != ''">
+								and a.countryNo = #{bean.countryno,jdbcType=VARCHAR}
+							</if>
+							<if test="bean.toperatorid!= null and bean.toperatorid!= ''">
+								and a.tOperatorId = #{bean.toperatorid,jdbcType=VARCHAR}
+							</if>
+							<if test="packagename != null and packagename != ''">
+								and b.fgname like '%'||#{packagename,jdbcType=VARCHAR}||'%'
+							</if>
+							start with a.parentid='-1'
+							connect by prior a.packagedetailid = a.parentid							
+						order siblings by a.orderno
+						) 
+					) WHERE rn <![CDATA[<=]]> ${pager.pageTail} 
+		) WHERE RN <![CDATA[>=]]>
+		${pager.pageOffset}  
+  </select>       
+	<select id="countByCondition" parameterType="Object" resultType="java.lang.Integer"> 
+		select count(1) from TC_FLOWPACKAGE_DETAIL a left join tc_flowpackage b on a.PACKAGEID=b.PACKAGEID WHERE 1=1
+							<if test="bean.packagedetailid != null and bean.packagedetailid != ''">
+								and a.packagedetailid = #{bean.packagedetailid,jdbcType=VARCHAR}
+							</if>
+							<if test="bean.packageid != null and bean.packageid != ''">
+								and a.packageid like '%'||#{bean.packageid,jdbcType=VARCHAR}||'%'
+							</if>
+							<if test="bean.countryno != null and bean.countryno != ''">
+								and a.countryNo = #{bean.countryno,jdbcType=VARCHAR}
+							</if>
+							<if test="bean.toperatorid != null and bean.toperatorid != ''">
+								and a.tOperatorId = #{bean.toperatorid,jdbcType=VARCHAR}
+							</if>
+							<if test="packagename != null and packagename != ''">
+								and b.fgname like '%'||#{packagename,jdbcType=VARCHAR}||'%'
+							</if>
+							start with a.parentid='-1'
+							connect by prior a.packagedetailid = a.parentid									
+	</select>   
+	<select id="countBySelective" parameterType="Object" resultType="java.lang.Integer"> 
+		select count(1) from TC_FLOWPACKAGE_DETAIL a left join tc_flowpackage b on a.PACKAGEID=b.PACKAGEID WHERE 1=1
+							<if test="bean.countryno != null and bean.countryno != ''">
+								and a.countryNo = #{bean.countryno,jdbcType=VARCHAR}
+							</if>
+							<if test="bean.toperatorid != null and bean.toperatorid != ''">
+								and a.tOperatorId = #{bean.toperatorid,jdbcType=VARCHAR}
+							</if>
+							<if test="bean.parentid != null and bean.parentid != ''">
+								and a.parentid = #{bean.parentid,jdbcType=VARCHAR}
+							</if>							
+	</select>   
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from TC_FLOWPACKAGE_DETAIL
+    where PACKAGEDETAILID = #{packagedetailid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteDetailList" parameterType="map">
+	DELETE FROM TC_FLOWPACKAGE_DETAIL where 1=1
+	<if test="qxUserModel.bean.countryno != null and qxUserModel.bean.countryno != ''">
+		and countryNo = #{qxUserModel.bean.countryno,jdbcType=VARCHAR}
+	</if>	
+	<if test="qxUserModel.bean.toperatorid != null and qxUserModel.bean.toperatorid != ''">
+		and tOperatorId = #{qxUserModel.bean.toperatorid,jdbcType=VARCHAR}
+	</if>	
+	and PACKAGEDETAILID in
+	<foreach item="idItem" collection="bListIds" open="(" separator="union" close=")">
+	select #{idItem} from dual
+	</foreach>
+  </delete>   
+  <insert id="insert" parameterType="com.flash.toolbar.omp.model.TcFlowpackageDetail" >
+    insert into TC_FLOWPACKAGE_DETAIL (PACKAGEDETAILID, PACKAGEID, DETAILNAME, 
+      ITEMNAME, ITEMVALUE, ORDERNO, 
+      PARENTID, COUNTRYNO, TOPERATORID, 
+      DELFLAG, MODIFYMAN, MODIFYDATE
+      )
+    values (#{packagedetailid,jdbcType=VARCHAR}, #{packageid,jdbcType=VARCHAR}, #{detailname,jdbcType=VARCHAR}, 
+      #{itemname,jdbcType=VARCHAR}, #{itemvalue,jdbcType=VARCHAR}, #{orderno,jdbcType=DECIMAL}, 
+      #{parentid,jdbcType=VARCHAR}, #{countryno,jdbcType=VARCHAR}, #{toperatorid,jdbcType=VARCHAR}, 
+      #{delflag,jdbcType=VARCHAR}, #{modifyman,jdbcType=VARCHAR}, #{modifydate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.flash.toolbar.omp.model.TcFlowpackageDetail" >
+    insert into TC_FLOWPACKAGE_DETAIL
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="packagedetailid != null" >
+        PACKAGEDETAILID,
+      </if>
+      <if test="packageid != null" >
+        PACKAGEID,
+      </if>
+      <if test="detailname != null" >
+        DETAILNAME,
+      </if>
+      <if test="itemname != null" >
+        ITEMNAME,
+      </if>
+      <if test="itemvalue != null" >
+        ITEMVALUE,
+      </if>
+      <if test="orderno != null" >
+        ORDERNO,
+      </if>
+      <if test="parentid != null" >
+        PARENTID,
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO,
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID,
+      </if>
+      <if test="delflag != null" >
+        DELFLAG,
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN,
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="packagedetailid != null" >
+        #{packagedetailid,jdbcType=VARCHAR},
+      </if>
+      <if test="packageid != null" >
+        #{packageid,jdbcType=VARCHAR},
+      </if>
+      <if test="detailname != null" >
+        #{detailname,jdbcType=VARCHAR},
+      </if>
+      <if test="itemname != null" >
+        #{itemname,jdbcType=VARCHAR},
+      </if>
+      <if test="itemvalue != null" >
+        #{itemvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="orderno != null" >
+        #{orderno,jdbcType=DECIMAL},
+      </if>
+      <if test="parentid != null" >
+        #{parentid,jdbcType=VARCHAR},
+      </if>
+      <if test="countryno != null" >
+        #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="delflag != null" >
+        #{delflag,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+        #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.flash.toolbar.omp.model.TcFlowpackageDetail" >
+    update TC_FLOWPACKAGE_DETAIL
+    <set >
+      <if test="packageid != null" >
+        PACKAGEID = #{packageid,jdbcType=VARCHAR},
+      </if>
+      <if test="detailname != null" >
+        DETAILNAME = #{detailname,jdbcType=VARCHAR},
+      </if>
+      <if test="itemname != null" >
+        ITEMNAME = #{itemname,jdbcType=VARCHAR},
+      </if>
+      <if test="itemvalue != null" >
+        ITEMVALUE = #{itemvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="orderno != null" >
+        ORDERNO = #{orderno,jdbcType=DECIMAL},
+      </if>
+      <if test="parentid != null" >
+        PARENTID = #{parentid,jdbcType=VARCHAR},
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="delflag != null" >
+        DELFLAG = #{delflag,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PACKAGEDETAILID = #{packagedetailid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.flash.toolbar.omp.model.TcFlowpackageDetail" >
+    update TC_FLOWPACKAGE_DETAIL
+    set PACKAGEID = #{packageid,jdbcType=VARCHAR},
+      DETAILNAME = #{detailname,jdbcType=VARCHAR},
+      ITEMNAME = #{itemname,jdbcType=VARCHAR},
+      ITEMVALUE = #{itemvalue,jdbcType=VARCHAR},
+      ORDERNO = #{orderno,jdbcType=DECIMAL},
+      PARENTID = #{parentid,jdbcType=VARCHAR},
+      COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      DELFLAG = #{delflag,jdbcType=VARCHAR},
+      MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP}
+    where PACKAGEDETAILID = #{packagedetailid,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateRelationBatch" parameterType="map">
+	UPDATE TC_FLOWPACKAGE_DETAIL SET PACKAGEID=#{packageid,jdbcType=VARCHAR} where 1=1
+	<if test="qxUserModel.bean.countryno != null and qxUserModel.bean.countryno != ''">
+		and countryNo = #{qxUserModel.bean.countryno,jdbcType=VARCHAR}
+	</if>	
+	<if test="qxUserModel.bean.toperatorid != null and qxUserModel.bean.toperatorid != ''">
+		and tOperatorId = #{qxUserModel.bean.toperatorid,jdbcType=VARCHAR}
+	</if>	
+	and PACKAGEDETAILID in
+	<foreach item="idItem" collection="packageDetailIds" open="(" separator="union" close=")">
+	select #{idItem} from dual
+	</foreach>
+  </update>
+  
+  <update id="updateOrginal" parameterType="map">
+	UPDATE TC_FLOWPACKAGE_DETAIL SET PACKAGEID='' where PACKAGEID=#{packageid,jdbcType=VARCHAR}
+	<if test="qxUserModel.bean.countryno != null and qxUserModel.bean.countryno != ''">
+		and countryNo = #{qxUserModel.bean.countryno,jdbcType=VARCHAR}
+	</if>	
+	<if test="qxUserModel.bean.toperatorid != null and qxUserModel.bean.toperatorid != ''">
+		and tOperatorId = #{qxUserModel.bean.toperatorid,jdbcType=VARCHAR}
+	</if>	
+  </update>
+</mapper>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.omp.mapper.JqOuterIpAuthMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.omp.model.JqOuterIpAuth" >
+    <id column="IPAUTHID" property="ipauthid" jdbcType="VARCHAR" />
+    <result column="OUTERID" property="outerid" jdbcType="VARCHAR" />
+    <result column="IP" property="ip" jdbcType="VARCHAR" />
+    <result column="MODIFYMAN" property="modifyman" jdbcType="VARCHAR" />
+    <result column="MODIFYDATE" property="modifydate" jdbcType="TIMESTAMP" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    IPAUTHID, OUTERID, IP, MODIFYMAN, MODIFYDATE, COUNTRYNO, TOPERATORID
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from JQ_OUTERIPAUTH
+    where IPAUTHID = #{ipauthid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from JQ_OUTERIPAUTH
+    where IPAUTHID = #{ipauthid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.flash.toolbar.omp.model.JqOuterIpAuth" >
+    insert into JQ_OUTERIPAUTH (IPAUTHID, OUTERID, IP, 
+      MODIFYMAN, MODIFYDATE, COUNTRYNO, 
+      TOPERATORID)
+    values (#{ipauthid,jdbcType=VARCHAR}, #{outerid,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, 
+      #{modifyman,jdbcType=VARCHAR}, #{modifydate,jdbcType=TIMESTAMP}, #{countryno,jdbcType=VARCHAR}, 
+      #{toperatorid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.flash.toolbar.omp.model.JqOuterIpAuth" >
+    insert into JQ_OUTERIPAUTH
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ipauthid != null" >
+        IPAUTHID,
+      </if>
+      <if test="outerid != null" >
+        OUTERID,
+      </if>
+      <if test="ip != null" >
+        IP,
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN,
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE,
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO,
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ipauthid != null" >
+        #{ipauthid,jdbcType=VARCHAR},
+      </if>
+      <if test="outerid != null" >
+        #{outerid,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null" >
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+        #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="countryno != null" >
+        #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        #{toperatorid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.flash.toolbar.omp.model.JqOuterIpAuth" >
+    update JQ_OUTERIPAUTH
+    <set >
+      <if test="outerid != null" >
+        OUTERID = #{outerid,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null" >
+        IP = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where IPAUTHID = #{ipauthid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.flash.toolbar.omp.model.JqOuterIpAuth" >
+    update JQ_OUTERIPAUTH
+    set OUTERID = #{outerid,jdbcType=VARCHAR},
+      IP = #{ip,jdbcType=VARCHAR},
+      MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP},
+      COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      TOPERATORID = #{toperatorid,jdbcType=VARCHAR}
+    where IPAUTHID = #{ipauthid,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.omp.mapper.HyAlertThresholdMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.omp.model.HyAlertThreshold" >
+    <id column="THRESHOLDID" property="thresholdid" jdbcType="VARCHAR" />
+    <result column="MEMBERID" property="memberid" jdbcType="VARCHAR" />
+    <result column="MOBILENO" property="mobileno" jdbcType="VARCHAR" />
+    <result column="FIRSTFLOWVALUE" property="firstflowvalue" jdbcType="DECIMAL" />
+    <result column="SECONDFLOWVALUE" property="secondflowvalue" jdbcType="DECIMAL" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+    <result column="SETDATE" property="setdate" jdbcType="TIMESTAMP" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="MODIFYMAN" property="modifyman" jdbcType="VARCHAR" />
+    <result column="MODIFYDATE" property="modifydate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    THRESHOLDID, MEMBERID, MOBILENO, FIRSTFLOWVALUE, SECONDFLOWVALUE, COUNTRYNO, TOPERATORID, 
+    SETDATE, STATUS, MODIFYMAN, MODIFYDATE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from HY_ALERTTHRESHOLD
+    where THRESHOLDID = #{thresholdid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from HY_ALERTTHRESHOLD
+    where THRESHOLDID = #{thresholdid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.flash.toolbar.omp.model.HyAlertThreshold" >
+    insert into HY_ALERTTHRESHOLD (THRESHOLDID, MEMBERID, MOBILENO, 
+      FIRSTFLOWVALUE, SECONDFLOWVALUE, COUNTRYNO, 
+      TOPERATORID, SETDATE, STATUS, 
+      MODIFYMAN, MODIFYDATE)
+    values (#{thresholdid,jdbcType=VARCHAR}, #{memberid,jdbcType=VARCHAR}, #{mobileno,jdbcType=VARCHAR}, 
+      #{firstflowvalue,jdbcType=DECIMAL}, #{secondflowvalue,jdbcType=DECIMAL}, #{countryno,jdbcType=VARCHAR}, 
+      #{toperatorid,jdbcType=VARCHAR}, #{setdate,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}, 
+      #{modifyman,jdbcType=VARCHAR}, #{modifydate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.flash.toolbar.omp.model.HyAlertThreshold" >
+    insert into HY_ALERTTHRESHOLD
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="thresholdid != null" >
+        THRESHOLDID,
+      </if>
+      <if test="memberid != null" >
+        MEMBERID,
+      </if>
+      <if test="mobileno != null" >
+        MOBILENO,
+      </if>
+      <if test="firstflowvalue != null" >
+        FIRSTFLOWVALUE,
+      </if>
+      <if test="secondflowvalue != null" >
+        SECONDFLOWVALUE,
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO,
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID,
+      </if>
+      <if test="setdate != null" >
+        SETDATE,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN,
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="thresholdid != null" >
+        #{thresholdid,jdbcType=VARCHAR},
+      </if>
+      <if test="memberid != null" >
+        #{memberid,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileno != null" >
+        #{mobileno,jdbcType=VARCHAR},
+      </if>
+      <if test="firstflowvalue != null" >
+        #{firstflowvalue,jdbcType=DECIMAL},
+      </if>
+      <if test="secondflowvalue != null" >
+        #{secondflowvalue,jdbcType=DECIMAL},
+      </if>
+      <if test="countryno != null" >
+        #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="setdate != null" >
+        #{setdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+        #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.flash.toolbar.omp.model.HyAlertThreshold" >
+    update HY_ALERTTHRESHOLD
+    <set >
+      <if test="memberid != null" >
+        MEMBERID = #{memberid,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileno != null" >
+        MOBILENO = #{mobileno,jdbcType=VARCHAR},
+      </if>
+      <if test="firstflowvalue != null" >
+        FIRSTFLOWVALUE = #{firstflowvalue,jdbcType=DECIMAL},
+      </if>
+      <if test="secondflowvalue != null" >
+        SECONDFLOWVALUE = #{secondflowvalue,jdbcType=DECIMAL},
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="setdate != null" >
+        SETDATE = #{setdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where THRESHOLDID = #{thresholdid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.flash.toolbar.omp.model.HyAlertThreshold" >
+    update HY_ALERTTHRESHOLD
+    set MEMBERID = #{memberid,jdbcType=VARCHAR},
+      MOBILENO = #{mobileno,jdbcType=VARCHAR},
+      FIRSTFLOWVALUE = #{firstflowvalue,jdbcType=DECIMAL},
+      SECONDFLOWVALUE = #{secondflowvalue,jdbcType=DECIMAL},
+      COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      SETDATE = #{setdate,jdbcType=TIMESTAMP},
+      STATUS = #{status,jdbcType=VARCHAR},
+      MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP}
+    where THRESHOLDID = #{thresholdid,jdbcType=VARCHAR}
+  </update>
+</mapper>

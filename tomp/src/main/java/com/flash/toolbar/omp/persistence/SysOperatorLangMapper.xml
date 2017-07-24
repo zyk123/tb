@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.omp.mapper.SysOperatorLangMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.omp.model.SysOperatorLang" >
+    <id column="OPERATORLANGID" property="operatorlangid" jdbcType="VARCHAR" />
+    <result column="TOPERATORNO" property="toperatorno" jdbcType="VARCHAR" />
+    <result column="LANGNO" property="langno" jdbcType="VARCHAR" />
+    <result column="LANGNAME" property="langname" jdbcType="VARCHAR" />
+    <result column="ADDDATE" property="adddate" jdbcType="TIMESTAMP" />
+    <result column="DELFLAG" property="delflag" jdbcType="VARCHAR" />
+    <result column="MODIFYMAN" property="modifyman" jdbcType="VARCHAR" />
+    <result column="MODIFYDATE" property="modifydate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    OPERATORLANGID, TOPERATORNO, LANGNO, LANGNAME, ADDDATE, DELFLAG, MODIFYMAN, MODIFYDATE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from SYS_OPERATORLANG
+    where OPERATORLANGID = #{operatorlangid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from SYS_OPERATORLANG
+    where OPERATORLANGID = #{operatorlangid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.flash.toolbar.omp.model.SysOperatorLang" >
+    insert into SYS_OPERATORLANG (OPERATORLANGID, TOPERATORNO, LANGNO, 
+      LANGNAME, ADDDATE, DELFLAG, 
+      MODIFYMAN, MODIFYDATE)
+    values (#{operatorlangid,jdbcType=VARCHAR}, #{toperatorno,jdbcType=VARCHAR}, #{langno,jdbcType=VARCHAR}, 
+      #{langname,jdbcType=VARCHAR}, #{adddate,jdbcType=TIMESTAMP}, #{delflag,jdbcType=VARCHAR}, 
+      #{modifyman,jdbcType=VARCHAR}, #{modifydate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.flash.toolbar.omp.model.SysOperatorLang" >
+    insert into SYS_OPERATORLANG
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="operatorlangid != null" >
+        OPERATORLANGID,
+      </if>
+      <if test="toperatorno != null" >
+        TOPERATORNO,
+      </if>
+      <if test="langno != null" >
+        LANGNO,
+      </if>
+      <if test="langname != null" >
+        LANGNAME,
+      </if>
+      <if test="adddate != null" >
+        ADDDATE,
+      </if>
+      <if test="delflag != null" >
+        DELFLAG,
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN,
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="operatorlangid != null" >
+        #{operatorlangid,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorno != null" >
+        #{toperatorno,jdbcType=VARCHAR},
+      </if>
+      <if test="langno != null" >
+        #{langno,jdbcType=VARCHAR},
+      </if>
+      <if test="langname != null" >
+        #{langname,jdbcType=VARCHAR},
+      </if>
+      <if test="adddate != null" >
+        #{adddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delflag != null" >
+        #{delflag,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+        #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.flash.toolbar.omp.model.SysOperatorLang" >
+    update SYS_OPERATORLANG
+    <set >
+      <if test="toperatorno != null" >
+        TOPERATORNO = #{toperatorno,jdbcType=VARCHAR},
+      </if>
+      <if test="langno != null" >
+        LANGNO = #{langno,jdbcType=VARCHAR},
+      </if>
+      <if test="langname != null" >
+        LANGNAME = #{langname,jdbcType=VARCHAR},
+      </if>
+      <if test="adddate != null" >
+        ADDDATE = #{adddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="delflag != null" >
+        DELFLAG = #{delflag,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where OPERATORLANGID = #{operatorlangid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.flash.toolbar.omp.model.SysOperatorLang" >
+    update SYS_OPERATORLANG
+    set TOPERATORNO = #{toperatorno,jdbcType=VARCHAR},
+      LANGNO = #{langno,jdbcType=VARCHAR},
+      LANGNAME = #{langname,jdbcType=VARCHAR},
+      ADDDATE = #{adddate,jdbcType=TIMESTAMP},
+      DELFLAG = #{delflag,jdbcType=VARCHAR},
+      MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP}
+    where OPERATORLANGID = #{operatorlangid,jdbcType=VARCHAR}
+  </update>
+</mapper>

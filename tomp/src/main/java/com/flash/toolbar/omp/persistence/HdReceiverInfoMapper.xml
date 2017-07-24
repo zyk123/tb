@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.omp.mapper.HdReceiverInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.omp.model.HdReceiverInfo" >
+    <id column="RECEIVERID" property="receiverid" jdbcType="VARCHAR" />
+    <result column="MEMBERID" property="memberid" jdbcType="VARCHAR" />
+    <result column="RECEIVERNAME" property="receivername" jdbcType="VARCHAR" />
+    <result column="MOBILENO" property="mobileno" jdbcType="VARCHAR" />
+    <result column="GENDER" property="gender" jdbcType="VARCHAR" />
+    <result column="EMAIL" property="email" jdbcType="VARCHAR" />
+    <result column="IDENTITYCARD" property="identitycard" jdbcType="VARCHAR" />
+    <result column="AGE" property="age" jdbcType="VARCHAR" />
+    <result column="RECEIVERADDRESS" property="receiveraddress" jdbcType="VARCHAR" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+    <result column="MODIFYMAN" property="modifyman" jdbcType="VARCHAR" />
+    <result column="MODIFYDATE" property="modifydate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    RECEIVERID, MEMBERID, RECEIVERNAME, MOBILENO, GENDER, EMAIL, IDENTITYCARD, AGE, RECEIVERADDRESS, 
+    COUNTRYNO, TOPERATORID, MODIFYMAN, MODIFYDATE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from HD_RECEIVERINFO
+    where RECEIVERID = #{receiverid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from HD_RECEIVERINFO
+    where RECEIVERID = #{receiverid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.flash.toolbar.omp.model.HdReceiverInfo" >
+    insert into HD_RECEIVERINFO (RECEIVERID, MEMBERID, RECEIVERNAME, 
+      MOBILENO, GENDER, EMAIL, 
+      IDENTITYCARD, AGE, RECEIVERADDRESS, 
+      COUNTRYNO, TOPERATORID, MODIFYMAN, 
+      MODIFYDATE)
+    values (#{receiverid,jdbcType=VARCHAR}, #{memberid,jdbcType=VARCHAR}, #{receivername,jdbcType=VARCHAR}, 
+      #{mobileno,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{identitycard,jdbcType=VARCHAR}, #{age,jdbcType=VARCHAR}, #{receiveraddress,jdbcType=VARCHAR}, 
+      #{countryno,jdbcType=VARCHAR}, #{toperatorid,jdbcType=VARCHAR}, #{modifyman,jdbcType=VARCHAR}, 
+      #{modifydate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.flash.toolbar.omp.model.HdReceiverInfo" >
+    insert into HD_RECEIVERINFO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="receiverid != null" >
+        RECEIVERID,
+      </if>
+      <if test="memberid != null" >
+        MEMBERID,
+      </if>
+      <if test="receivername != null" >
+        RECEIVERNAME,
+      </if>
+      <if test="mobileno != null" >
+        MOBILENO,
+      </if>
+      <if test="gender != null" >
+        GENDER,
+      </if>
+      <if test="email != null" >
+        EMAIL,
+      </if>
+      <if test="identitycard != null" >
+        IDENTITYCARD,
+      </if>
+      <if test="age != null" >
+        AGE,
+      </if>
+      <if test="receiveraddress != null" >
+        RECEIVERADDRESS,
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO,
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID,
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN,
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="receiverid != null" >
+        #{receiverid,jdbcType=VARCHAR},
+      </if>
+      <if test="memberid != null" >
+        #{memberid,jdbcType=VARCHAR},
+      </if>
+      <if test="receivername != null" >
+        #{receivername,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileno != null" >
+        #{mobileno,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="identitycard != null" >
+        #{identitycard,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        #{age,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveraddress != null" >
+        #{receiveraddress,jdbcType=VARCHAR},
+      </if>
+      <if test="countryno != null" >
+        #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+        #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.flash.toolbar.omp.model.HdReceiverInfo" >
+    update HD_RECEIVERINFO
+    <set >
+      <if test="memberid != null" >
+        MEMBERID = #{memberid,jdbcType=VARCHAR},
+      </if>
+      <if test="receivername != null" >
+        RECEIVERNAME = #{receivername,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileno != null" >
+        MOBILENO = #{mobileno,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        GENDER = #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        EMAIL = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="identitycard != null" >
+        IDENTITYCARD = #{identitycard,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        AGE = #{age,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveraddress != null" >
+        RECEIVERADDRESS = #{receiveraddress,jdbcType=VARCHAR},
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where RECEIVERID = #{receiverid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.flash.toolbar.omp.model.HdReceiverInfo" >
+    update HD_RECEIVERINFO
+    set MEMBERID = #{memberid,jdbcType=VARCHAR},
+      RECEIVERNAME = #{receivername,jdbcType=VARCHAR},
+      MOBILENO = #{mobileno,jdbcType=VARCHAR},
+      GENDER = #{gender,jdbcType=VARCHAR},
+      EMAIL = #{email,jdbcType=VARCHAR},
+      IDENTITYCARD = #{identitycard,jdbcType=VARCHAR},
+      AGE = #{age,jdbcType=VARCHAR},
+      RECEIVERADDRESS = #{receiveraddress,jdbcType=VARCHAR},
+      COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP}
+    where RECEIVERID = #{receiverid,jdbcType=VARCHAR}
+  </update>
+</mapper>

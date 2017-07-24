@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.omp.mapper.JqOuterSystemInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.omp.model.JqOuterSystemInfo" >
+    <id column="OUTERID" property="outerid" jdbcType="VARCHAR" />
+    <result column="OUTERNAME" property="outername" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="MODIFYMAN" property="modifyman" jdbcType="VARCHAR" />
+    <result column="MODIFYDATE" property="modifydate" jdbcType="TIMESTAMP" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    OUTERID, OUTERNAME, REMARK, MODIFYMAN, MODIFYDATE, COUNTRYNO, TOPERATORID
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from JQ_OUTERSYSTEMINFO
+    where OUTERID = #{outerid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from JQ_OUTERSYSTEMINFO
+    where OUTERID = #{outerid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.flash.toolbar.omp.model.JqOuterSystemInfo" >
+    insert into JQ_OUTERSYSTEMINFO (OUTERID, OUTERNAME, REMARK, 
+      MODIFYMAN, MODIFYDATE, COUNTRYNO, 
+      TOPERATORID)
+    values (#{outerid,jdbcType=VARCHAR}, #{outername,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{modifyman,jdbcType=VARCHAR}, #{modifydate,jdbcType=TIMESTAMP}, #{countryno,jdbcType=VARCHAR}, 
+      #{toperatorid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.flash.toolbar.omp.model.JqOuterSystemInfo" >
+    insert into JQ_OUTERSYSTEMINFO
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="outerid != null" >
+        OUTERID,
+      </if>
+      <if test="outername != null" >
+        OUTERNAME,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN,
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE,
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO,
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="outerid != null" >
+        #{outerid,jdbcType=VARCHAR},
+      </if>
+      <if test="outername != null" >
+        #{outername,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+        #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="countryno != null" >
+        #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        #{toperatorid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.flash.toolbar.omp.model.JqOuterSystemInfo" >
+    update JQ_OUTERSYSTEMINFO
+    <set >
+      <if test="outername != null" >
+        OUTERNAME = #{outername,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where OUTERID = #{outerid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.flash.toolbar.omp.model.JqOuterSystemInfo" >
+    update JQ_OUTERSYSTEMINFO
+    set OUTERNAME = #{outername,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP},
+      COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      TOPERATORID = #{toperatorid,jdbcType=VARCHAR}
+    where OUTERID = #{outerid,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.omp.mapper.QxMenuPrivilegeMapper" >
+  <resultMap id="BaseResultMap" type="qxMenuPrivilege" >
+    <id column="MENUPRIVILEGEID" property="menuprivilegeid" jdbcType="VARCHAR" />
+    <result column="MENUID" property="menuid" jdbcType="VARCHAR" />
+    <result column="PRIVILEGEID" property="privilegeid" jdbcType="VARCHAR" />
+    <result column="CREATEDATE" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    MENUPRIVILEGEID, MENUID, PRIVILEGEID, CREATEDATE, COUNTRYNO, TOPERATORID
+  </sql>
+  <sql id="where_clause">
+  	<where>
+  			MENUID = #{menuid,jdbcType=VARCHAR}
+  		<if test="null != countryno and '' != countryno">
+  			and COUNTRYNO = #{countryno,jdbcType=VARCHAR}
+  		</if>
+  		<if test="null != toperatorid and '' != toperatorid">
+  			and TOPERATORID = #{toperatorid,jdbcType=VARCHAR}
+  		</if>
+  	</where>
+  </sql>
+  <!-- 查询菜单关联的权限 -->
+  <select id="selectPrivilegeByMenu" parameterType="qxMenuPrivilege" resultType="qxPrivilege">
+	  select p.PRIVILEGEID,
+	       p.PRIVILEGENO,
+	       p.PRIVILEGENAME,
+	       p.CREATEDATE,
+	       p.COUNTRYNO,
+	       p.TOPERATORID,
+	       p.MODIFYMAN,
+	       p.MODIFYDATE,
+	       mp.MENUID
+	  from QX_PRIVILEGE p
+	 	left outer join (select MENUID,PRIVILEGEID 
+	 	from QX_MENUPRIVILEGE where MENUID = #{menuid,jdbcType=VARCHAR}) mp
+	    on p.PRIVILEGEID = mp.PRIVILEGEID
+  	<where>
+  		p.DELFLAG = 1  			
+  		<if test="null != countryno and '' != countryno">
+  			and p.COUNTRYNO = #{countryno,jdbcType=VARCHAR}
+  		</if>
+  		<if test="null != toperatorid and '' != toperatorid">
+  			and p.TOPERATORID = #{toperatorid,jdbcType=VARCHAR}
+  		</if>
+  	</where>
+  </select>
+  <!-- 删除菜单权限关联关系 -->
+  <delete id="deleteMenuPrivilege" parameterType="qxMenuPrivilege" >
+    delete from QX_MENUPRIVILEGE
+    <include refid="where_clause"/>
+  </delete>
+  <!-- 新增菜单权限关联关系 -->
+  <insert id="insertMenuPrivilege" parameterType="qxMenuPrivilege" >
+    insert into QX_MENUPRIVILEGE
+    (<include refid="Base_Column_List"/>)
+    <foreach collection="list" item="mp" separator="union">
+		select #{mp.menuprivilegeid,jdbcType=VARCHAR},#{mp.menuid,jdbcType=VARCHAR},
+		#{mp.privilegeid,jdbcType=VARCHAR},#{mp.createdate,jdbcType=TIMESTAMP},
+		#{mp.countryno,jdbcType=VARCHAR},#{mp.toperatorid,jdbcType=VARCHAR} from dual
+	</foreach>
+  </insert>
+</mapper>

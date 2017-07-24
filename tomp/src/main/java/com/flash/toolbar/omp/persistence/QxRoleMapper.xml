@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.omp.mapper.QxRoleMapper" >
+  <resultMap id="BaseResultMap" type="qxRole" >
+    <id column="ROLEID" property="roleid" jdbcType="VARCHAR" />
+    <result column="ROLENO" property="roleno" jdbcType="VARCHAR" />
+    <result column="ROLENAME" property="rolename" jdbcType="VARCHAR" />
+    <result column="CREATEDATE" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+    <result column="MODIFYMAN" property="modifyman" jdbcType="VARCHAR" />
+    <result column="MODIFYDATE" property="modifydate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ROLEID, ROLENO, ROLENAME, CREATEDATE, COUNTRYNO, TOPERATORID, MODIFYMAN, MODIFYDATE
+  </sql>
+  <sql id="where_clause">
+  	<where>
+  		DELFLAG = 1
+	  	<if test="null != roleid and '' != roleid">
+	  		and ROLEID = #{roleid,jdbcType=VARCHAR}  		
+	  	</if>
+	  	<if test="null != countryno and '' != countryno">
+	  		and COUNTRYNO = #{countryno,jdbcType=VARCHAR}
+	  	</if>
+	  	<if test="null != toperatorid and '' != toperatorid">
+	  		and TOPERATORID = #{toperatorid,jdbcType=VARCHAR}
+	  	</if>
+  	</where>
+  </sql>
+  <sql id="where_condition_clause">
+  	<where>
+	  	DELFLAG = 1
+	  	<if test="null != role.roleno and '' != role.roleno">
+	  		and ROLENO = #{role.roleno,jdbcType=VARCHAR}  		
+	  	</if>
+	  	<if test="null != role.rolename and '' != role.rolename">
+	  		and ROLENAME like concat(#{role.rolename,jdbcType=VARCHAR},'%')
+	  	</if>
+	  	<if test="null != role.countryno and '' != role.countryno">
+	  		and COUNTRYNO = #{role.countryno,jdbcType=VARCHAR}
+	  	</if>
+	  	<if test="null != role.toperatorid and '' != role.toperatorid">
+	  		and TOPERATORID = #{role.toperatorid,jdbcType=VARCHAR}
+	  	</if>
+  	</where>
+  </sql>
+  <!-- 查询角色数 -->
+  <select id="selectRoleCount" parameterType="qxRole" resultType="_int">
+  	select count(0) from QX_ROLE
+  	<include refid="where_condition_clause"/>
+  </select>
+  <!-- 主键查询角色 -->
+  <select id="selectRoleByPrimaryKey" resultMap="BaseResultMap" parameterType="qxRole" >
+    select 
+    <include refid="Base_Column_List" />
+    from QX_ROLE
+    <include refid="where_clause"/>
+  </select>
+  <!-- 分页查询角色列表 -->
+  <select id="selectRoleListByPage" parameterType="map" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List"/>
+  	from
+  		(select <include refid="Base_Column_List"/>,ROWNUM rn
+  		from
+		  	(select <include refid="Base_Column_List"/>
+		  	from QX_ROLE
+		  	<include refid="where_condition_clause"/>
+		  	order by CREATEDATE desc)
+		where ROWNUM <![CDATA[<=]]> ${page.endCount})
+	where rn <![CDATA[>=]]> ${page.startCount}
+  </select>
+  <!-- 删除角色 -->
+  <delete id="deleteByPrimaryKey" parameterType="map" >
+    update QX_ROLE set DELFLAG = 0
+    <where>
+    	ROLEID in
+    	<foreach collection="array" item="id" open="(" close=")" separator=",">
+    		#{id,jdbcType=VARCHAR}
+    	</foreach>
+    	<if test="null != countryno and '' != countryno">
+	  		and COUNTRYNO = #{countryno,jdbcType=VARCHAR}
+	  	</if>
+	  	<if test="null != toperatorid and '' != toperatorid">
+	  		and TOPERATORID = #{toperatorid,jdbcType=VARCHAR}
+	  	</if>
+    </where>
+  </delete>
+  <!-- 新增角色 -->
+  <insert id="insertRole" parameterType="qxRole" >
+  	<selectKey keyProperty="roleno" resultType="string" order="BEFORE">
+  		select concat(#{roleno,jdbcType=VARCHAR},substr('00' || SEQ_ROLE.nextval,-3)) from dual
+  	</selectKey>
+    insert into QX_ROLE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="roleid != null" >
+        ROLEID,
+      </if>
+      <if test="roleno != null" >
+        ROLENO,
+      </if>
+      <if test="rolename != null" >
+        ROLENAME,
+      </if>
+      <if test="createdate != null" >
+        CREATEDATE,
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO,
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID,
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN,
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE,
+      </if>
+      DELFLAG
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="roleid != null" >
+        #{roleid,jdbcType=VARCHAR},
+      </if>
+      <if test="roleno != null" >
+        #{roleno,jdbcType=VARCHAR},
+      </if>
+      <if test="rolename != null" >
+        #{rolename,jdbcType=VARCHAR},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="countryno != null" >
+        #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+        #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+      1
+    </trim>
+  </insert>
+  <!-- 更新角色 -->
+  <update id="updateRole" parameterType="qxRole" >
+    update QX_ROLE
+    <set >
+      <if test="roleno != null" >
+        ROLENO = #{roleno,jdbcType=VARCHAR},
+      </if>
+      <if test="rolename != null" >
+        ROLENAME = #{rolename,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <include refid="where_clause"/>
+  </update>
+  <!-- 删除角色 -->
+  <update id="deleteRole" parameterType="map">
+  	update QX_Role set DELFLAG = 0
+  	<where>
+  		ROLEID in
+  		<foreach collection="array" item="id" open="(" close=")" separator=",">
+  			#{id,jdbcType=VARCHAR}
+  		</foreach>
+  		<if test="null != role.countryno and '' != role.countryno">
+  			and COUNTRYNO = #{role.countryno,jdbcType=VARCHAR}
+  		</if>
+  		<if test="null != role.toperatorid and '' != role.toperatorid">
+  			and TOPERATORID = #{role.toperatorid,jdbcType=VARCHAR}
+  		</if>
+  	</where>
+  </update>
+  <select id="selectTotalCount" parameterType="com.flash.toolbar.omp.model.QxRole" resultType="integer">
+  	select count(0) from QX_ROLE
+  	 <where>
+  	 	<if test="null != rolename and ''!= rolename">
+		    ROLENAME = #{rolename,jdbcType=VARCHAR}
+    	</if> 
+	     and COUNTRYNO = #{countryno,jdbcType=VARCHAR}
+		 and TOPERATORID = #{toperatorid,jdbcType=VARCHAR}
+  	 </where>
+  </select>
+</mapper>

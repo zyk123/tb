@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.omp.mapper.BrowsermobileosreportMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.omp.model.Browsermobileosreport" >
+    <id column="BMOID" property="bmoid" jdbcType="VARCHAR" />
+    <result column="DATATYPE" property="datatype" jdbcType="VARCHAR" />
+    <result column="DATADATE" property="datadate" jdbcType="DATE" />
+    <result column="NAMETYPE" property="nametype" jdbcType="VARCHAR" />
+    <result column="USENAME" property="usename" jdbcType="VARCHAR" />
+    <result column="USENUM" property="usenum" jdbcType="DECIMAL" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="KeyAndValue"
+		type="com.flash.toolbar.omp.reportstatistic.bo.KeyAndValue">
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="value" property="value" jdbcType="VARCHAR" />
+	</resultMap>
+  <resultMap id="KeyAndValueStr"
+		type="com.flash.toolbar.omp.reportstatistic.bo.KeyAndValueStr">
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="value" property="value" jdbcType="VARCHAR" />
+	</resultMap>
+  <sql id="Base_Column_List" >
+    BMOID, DATATYPE, DATADATE, NAMETYPE, USENAME, USENUM, COUNTRYNO, TOPERATORID
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from RP_BROWSERMOBILEOSREPORT
+    where BMOID = #{bmoid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from RP_BROWSERMOBILEOSREPORT
+    where BMOID = #{bmoid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.flash.toolbar.omp.model.Browsermobileosreport" >
+    insert into RP_BROWSERMOBILEOSREPORT (BMOID, DATATYPE, DATADATE, 
+      NAMETYPE, USENAME, USENUM, 
+      COUNTRYNO, TOPERATORID)
+    values (#{bmoid,jdbcType=VARCHAR}, #{datatype,jdbcType=VARCHAR}, #{datadate,jdbcType=DATE}, 
+      #{nametype,jdbcType=VARCHAR}, #{usename,jdbcType=VARCHAR}, #{usenum,jdbcType=DECIMAL}, 
+      #{countryno,jdbcType=VARCHAR}, #{toperatorid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.flash.toolbar.omp.model.Browsermobileosreport" >
+    insert into RP_BROWSERMOBILEOSREPORT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="bmoid != null" >
+        BMOID,
+      </if>
+      <if test="datatype != null" >
+        DATATYPE,
+      </if>
+      <if test="datadate != null" >
+        DATADATE,
+      </if>
+      <if test="nametype != null" >
+        NAMETYPE,
+      </if>
+      <if test="usename != null" >
+        USENAME,
+      </if>
+      <if test="usenum != null" >
+        USENUM,
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO,
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="bmoid != null" >
+        #{bmoid,jdbcType=VARCHAR},
+      </if>
+      <if test="datatype != null" >
+        #{datatype,jdbcType=VARCHAR},
+      </if>
+      <if test="datadate != null" >
+        #{datadate,jdbcType=DATE},
+      </if>
+      <if test="nametype != null" >
+        #{nametype,jdbcType=VARCHAR},
+      </if>
+      <if test="usename != null" >
+        #{usename,jdbcType=VARCHAR},
+      </if>
+      <if test="usenum != null" >
+        #{usenum,jdbcType=DECIMAL},
+      </if>
+      <if test="countryno != null" >
+        #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        #{toperatorid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.flash.toolbar.omp.model.Browsermobileosreport" >
+    update RP_BROWSERMOBILEOSREPORT
+    <set >
+      <if test="datatype != null" >
+        DATATYPE = #{datatype,jdbcType=VARCHAR},
+      </if>
+      <if test="datadate != null" >
+        DATADATE = #{datadate,jdbcType=DATE},
+      </if>
+      <if test="nametype != null" >
+        NAMETYPE = #{nametype,jdbcType=VARCHAR},
+      </if>
+      <if test="usename != null" >
+        USENAME = #{usename,jdbcType=VARCHAR},
+      </if>
+      <if test="usenum != null" >
+        USENUM = #{usenum,jdbcType=DECIMAL},
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where BMOID = #{bmoid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.flash.toolbar.omp.model.Browsermobileosreport" >
+    update RP_BROWSERMOBILEOSREPORT
+    set DATATYPE = #{datatype,jdbcType=VARCHAR},
+      DATADATE = #{datadate,jdbcType=DATE},
+      NAMETYPE = #{nametype,jdbcType=VARCHAR},
+      USENAME = #{usename,jdbcType=VARCHAR},
+      USENUM = #{usenum,jdbcType=DECIMAL},
+      COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      TOPERATORID = #{toperatorid,jdbcType=VARCHAR}
+    where BMOID = #{bmoid,jdbcType=VARCHAR}
+  </update>
+  <select id="loadData"  resultMap="KeyAndValue" parameterType="com.flash.toolbar.omp.reportstatistic.bo.BrowsermobileosreportModel" >
+    select usename as name,count(usenum) as value from rp_BrowserMobileOSReport where nametype=#{flag,jdbcType=VARCHAR} <![CDATA[and datadate>=to_date(#{beginDate,jdbcType=VARCHAR},'yyyy/MM/dd') and datadate<=to_date(#{endDate,jdbcType=VARCHAR},'yyyy/MM/dd')]]> group by usename
+  </select>
+  <select id="loadData4"  resultMap="KeyAndValueStr" parameterType="com.flash.toolbar.omp.reportstatistic.bo.BrowsermobileosreportModel" >
+    <![CDATA[with totType as (
+  select distinct bmo.usename 
+    from rp_BrowserMobileOSReport bmo
+   where bmo.datatype = '0'
+     and bmo.datadate between to_date(#{beginDate,jdbcType=VARCHAR},'yyyy-MM-dd') and to_date(#{endDate,jdbcType=VARCHAR},'yyyy-MM-dd')
+     and bmo.nametype = #{flag,jdbcType=VARCHAR}
+)
+, totDate as (
+  select to_date(#{beginDate,jdbcType=VARCHAR},'yyyy-MM-dd') + level -1 as dd
+    from dual
+   connect by to_date(#{beginDate,jdbcType=VARCHAR},'yyyy-MM-dd') + level -1 <= to_date(#{endDate,jdbcType=VARCHAR},'yyyy-MM-dd')
+)
+, totcom as (
+  select totType.usename,
+         totDate.dd
+    from totType,totDate
+)
+, tmp as (
+  select totcom.dd,totcom.usename,
+         nvl(b.usenum,-1) as usenum
+    from totcom,
+         rp_BrowserMobileOSReport b
+   where totcom.usename = b.usename(+)
+     and totcom.dd = b.datadate(+)
+     and b.nametype(+) = '2' --值类型  操作系统
+) 
+select usename as name,max(usenums) as value
+  from (
+  select usename,
+         wmsys.wm_concat(usenum) over (partition by usename order by dd) as usenums
+    from tmp
+  ) group by usename]]>
+  </select>
+</mapper>

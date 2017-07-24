@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.omp.mapper.ReloadreportMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.omp.model.Reloadreport" >
+    <id column="RRID" property="rrid" jdbcType="VARCHAR" />
+    <result column="DATATYPE" property="datatype" jdbcType="VARCHAR" />
+    <result column="DATADATE" property="datadate" jdbcType="DATE" />
+    <result column="TOTNUM" property="totnum" jdbcType="DECIMAL" />
+    <result column="CONSNUM" property="consnum" jdbcType="DECIMAL" />
+    <result column="PAYNUM" property="paynum" jdbcType="DECIMAL" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    RRID, DATATYPE, DATADATE, TOTNUM, CONSNUM, PAYNUM, COUNTRYNO, TOPERATORID
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from RP_RELOADREPORT
+    where RRID = #{rrid,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByPageSelective" resultMap="BaseResultMap" parameterType="com.flash.toolbar.omp.reportstatistic.bo.ReloadreportModel" >
+    select 
+    <include refid="Base_Column_List" />
+    from RP_RELOADREPORT
+    where datadate between  #{startTime,jdbcType=DATE} and #{endTime,jdbcType=DATE} order by datadate desc
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from RP_RELOADREPORT
+    where RRID = #{rrid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.flash.toolbar.omp.model.Reloadreport" >
+    insert into RP_RELOADREPORT (RRID, DATATYPE, DATADATE, 
+      TOTNUM, CONSNUM, PAYNUM, 
+      COUNTRYNO, TOPERATORID)
+    values (#{rrid,jdbcType=VARCHAR}, #{datatype,jdbcType=VARCHAR}, #{datadate,jdbcType=DATE}, 
+      #{totnum,jdbcType=DECIMAL}, #{consnum,jdbcType=DECIMAL}, #{paynum,jdbcType=DECIMAL}, 
+      #{countryno,jdbcType=VARCHAR}, #{toperatorid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.flash.toolbar.omp.model.Reloadreport" >
+    insert into RP_RELOADREPORT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="rrid != null" >
+        RRID,
+      </if>
+      <if test="datatype != null" >
+        DATATYPE,
+      </if>
+      <if test="datadate != null" >
+        DATADATE,
+      </if>
+      <if test="totnum != null" >
+        TOTNUM,
+      </if>
+      <if test="consnum != null" >
+        CONSNUM,
+      </if>
+      <if test="paynum != null" >
+        PAYNUM,
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO,
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="rrid != null" >
+        #{rrid,jdbcType=VARCHAR},
+      </if>
+      <if test="datatype != null" >
+        #{datatype,jdbcType=VARCHAR},
+      </if>
+      <if test="datadate != null" >
+        #{datadate,jdbcType=DATE},
+      </if>
+      <if test="totnum != null" >
+        #{totnum,jdbcType=DECIMAL},
+      </if>
+      <if test="consnum != null" >
+        #{consnum,jdbcType=DECIMAL},
+      </if>
+      <if test="paynum != null" >
+        #{paynum,jdbcType=DECIMAL},
+      </if>
+      <if test="countryno != null" >
+        #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        #{toperatorid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.flash.toolbar.omp.model.Reloadreport" >
+    update RP_RELOADREPORT
+    <set >
+      <if test="datatype != null" >
+        DATATYPE = #{datatype,jdbcType=VARCHAR},
+      </if>
+      <if test="datadate != null" >
+        DATADATE = #{datadate,jdbcType=DATE},
+      </if>
+      <if test="totnum != null" >
+        TOTNUM = #{totnum,jdbcType=DECIMAL},
+      </if>
+      <if test="consnum != null" >
+        CONSNUM = #{consnum,jdbcType=DECIMAL},
+      </if>
+      <if test="paynum != null" >
+        PAYNUM = #{paynum,jdbcType=DECIMAL},
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where RRID = #{rrid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.flash.toolbar.omp.model.Reloadreport" >
+    update RP_RELOADREPORT
+    set DATATYPE = #{datatype,jdbcType=VARCHAR},
+      DATADATE = #{datadate,jdbcType=DATE},
+      TOTNUM = #{totnum,jdbcType=DECIMAL},
+      CONSNUM = #{consnum,jdbcType=DECIMAL},
+      PAYNUM = #{paynum,jdbcType=DECIMAL},
+      COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      TOPERATORID = #{toperatorid,jdbcType=VARCHAR}
+    where RRID = #{rrid,jdbcType=VARCHAR}
+  </update>
+  <select id="countByCondition" parameterType="com.flash.toolbar.omp.reportstatistic.bo.ReloadreportModel" resultType="java.lang.Integer"> 
+		select count(*) from RP_RELOADREPORT where datadate between  #{startTime,jdbcType=DATE} and #{endTime,jdbcType=DATE}					
+	</select>
+</mapper>

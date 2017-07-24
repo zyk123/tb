@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.omp.mapper.TcFlowPackageMarketMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.omp.model.TcFlowPackageMarket" >
+    <id column="PACKAGEMARKETID" property="packagemarketid" jdbcType="VARCHAR" />
+    <result column="FGNO" property="fgno" jdbcType="VARCHAR" />
+    <result column="FGNAME" property="fgname" jdbcType="VARCHAR" />
+    <result column="FGREMARK" property="fgremark" jdbcType="VARCHAR" />
+    <result column="FGURL" property="fgurl" jdbcType="VARCHAR" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+    <result column="LANGNO" property="langno" jdbcType="VARCHAR" />
+    <result column="BEGINDATE" property="begindate" jdbcType="TIMESTAMP" />
+    <result column="ENDDATE" property="enddate" jdbcType="TIMESTAMP" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="ADDDATE" property="adddate" jdbcType="DATE" />
+    <result column="DELFLAG" property="delflag" jdbcType="VARCHAR" />
+    <result column="MODIFYMAN" property="modifyman" jdbcType="VARCHAR" />
+    <result column="MODIFYDATE" property="modifydate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PACKAGEMARKETID, FGNO, FGNAME, FGREMARK, FGURL, COUNTRYNO, TOPERATORID, LANGNO, BEGINDATE, 
+    ENDDATE, STATUS, REMARK, ADDDATE, DELFLAG, MODIFYMAN, MODIFYDATE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from TC_FLOWPACKAGEMARKET
+    where PACKAGEMARKETID = #{packagemarketid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from TC_FLOWPACKAGEMARKET
+    where PACKAGEMARKETID = #{packagemarketid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.flash.toolbar.omp.model.TcFlowPackageMarket" >
+    insert into TC_FLOWPACKAGEMARKET (PACKAGEMARKETID, FGNO, FGNAME, 
+      FGREMARK, FGURL, COUNTRYNO, 
+      TOPERATORID, LANGNO, BEGINDATE, 
+      ENDDATE, STATUS, REMARK, 
+      ADDDATE, DELFLAG, MODIFYMAN, 
+      MODIFYDATE)
+    values (#{packagemarketid,jdbcType=VARCHAR}, #{fgno,jdbcType=VARCHAR}, #{fgname,jdbcType=VARCHAR}, 
+      #{fgremark,jdbcType=VARCHAR}, #{fgurl,jdbcType=VARCHAR}, #{countryno,jdbcType=VARCHAR}, 
+      #{toperatorid,jdbcType=VARCHAR}, #{langno,jdbcType=VARCHAR}, #{begindate,jdbcType=TIMESTAMP}, 
+      #{enddate,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{adddate,jdbcType=DATE}, #{delflag,jdbcType=VARCHAR}, #{modifyman,jdbcType=VARCHAR}, 
+      #{modifydate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.flash.toolbar.omp.model.TcFlowPackageMarket" >
+    insert into TC_FLOWPACKAGEMARKET
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="packagemarketid != null" >
+        PACKAGEMARKETID,
+      </if>
+      <if test="fgno != null" >
+        FGNO,
+      </if>
+      <if test="fgname != null" >
+        FGNAME,
+      </if>
+      <if test="fgremark != null" >
+        FGREMARK,
+      </if>
+      <if test="fgurl != null" >
+        FGURL,
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO,
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID,
+      </if>
+      <if test="langno != null" >
+        LANGNO,
+      </if>
+      <if test="begindate != null" >
+        BEGINDATE,
+      </if>
+      <if test="enddate != null" >
+        ENDDATE,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="adddate != null" >
+        ADDDATE,
+      </if>
+      <if test="delflag != null" >
+        DELFLAG,
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN,
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="packagemarketid != null" >
+        #{packagemarketid,jdbcType=VARCHAR},
+      </if>
+      <if test="fgno != null" >
+        #{fgno,jdbcType=VARCHAR},
+      </if>
+      <if test="fgname != null" >
+        #{fgname,jdbcType=VARCHAR},
+      </if>
+      <if test="fgremark != null" >
+        #{fgremark,jdbcType=VARCHAR},
+      </if>
+      <if test="fgurl != null" >
+        #{fgurl,jdbcType=VARCHAR},
+      </if>
+      <if test="countryno != null" >
+        #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="langno != null" >
+        #{langno,jdbcType=VARCHAR},
+      </if>
+      <if test="begindate != null" >
+        #{begindate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enddate != null" >
+        #{enddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="adddate != null" >
+        #{adddate,jdbcType=DATE},
+      </if>
+      <if test="delflag != null" >
+        #{delflag,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+        #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.flash.toolbar.omp.model.TcFlowPackageMarket" >
+    update TC_FLOWPACKAGEMARKET
+    <set >
+      <if test="fgno != null" >
+        FGNO = #{fgno,jdbcType=VARCHAR},
+      </if>
+      <if test="fgname != null" >
+        FGNAME = #{fgname,jdbcType=VARCHAR},
+      </if>
+      <if test="fgremark != null" >
+        FGREMARK = #{fgremark,jdbcType=VARCHAR},
+      </if>
+      <if test="fgurl != null" >
+        FGURL = #{fgurl,jdbcType=VARCHAR},
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      <if test="langno != null" >
+        LANGNO = #{langno,jdbcType=VARCHAR},
+      </if>
+      <if test="begindate != null" >
+        BEGINDATE = #{begindate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enddate != null" >
+        ENDDATE = #{enddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="adddate != null" >
+        ADDDATE = #{adddate,jdbcType=DATE},
+      </if>
+      <if test="delflag != null" >
+        DELFLAG = #{delflag,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PACKAGEMARKETID = #{packagemarketid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.flash.toolbar.omp.model.TcFlowPackageMarket" >
+    update TC_FLOWPACKAGEMARKET
+    set FGNO = #{fgno,jdbcType=VARCHAR},
+      FGNAME = #{fgname,jdbcType=VARCHAR},
+      FGREMARK = #{fgremark,jdbcType=VARCHAR},
+      FGURL = #{fgurl,jdbcType=VARCHAR},
+      COUNTRYNO = #{countryno,jdbcType=VARCHAR},
+      TOPERATORID = #{toperatorid,jdbcType=VARCHAR},
+      LANGNO = #{langno,jdbcType=VARCHAR},
+      BEGINDATE = #{begindate,jdbcType=TIMESTAMP},
+      ENDDATE = #{enddate,jdbcType=TIMESTAMP},
+      STATUS = #{status,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      ADDDATE = #{adddate,jdbcType=DATE},
+      DELFLAG = #{delflag,jdbcType=VARCHAR},
+      MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP}
+    where PACKAGEMARKETID = #{packagemarketid,jdbcType=VARCHAR}
+  </update>
+</mapper>

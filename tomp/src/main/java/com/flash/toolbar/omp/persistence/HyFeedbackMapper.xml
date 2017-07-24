@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.omp.mapper.HyFeedbackMapper" >
+  <resultMap id="BaseResultMap" type="com.flash.toolbar.omp.model.HyFeedback" >
+    <id column="FEEDBACKID" property="feedbackid" jdbcType="VARCHAR" />
+    <result column="MEMBERID" property="memberid" jdbcType="VARCHAR" />
+    <result column="MOBILENO" property="mobileno" jdbcType="VARCHAR" />
+    <result column="FEEDBACK" property="feedback" jdbcType="VARCHAR" />
+    <result column="FEEDDATE" property="feeddate" jdbcType="DATE" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="STATE" property="state" jdbcType="VARCHAR" />
+    <result column="EMAIL" property="email" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    FEEDBACKID, MEMBERID, MOBILENO, FEEDBACK, FEEDDATE, COUNTRYNO, TOPERATORID,NAME,STATE,EMAIL
+  </sql>
+  
+	<sql id="Example_Where_Clause">
+		<where>
+			1=1
+			<if test="bean.feedbackid != null and bean.feedbackid != ''">
+				and feedbackid = #{bean.feedbackid,jdbcType=VARCHAR}
+			</if>
+			<if test="bean.memberid != null and bean.memberid != ''">
+				and memberid = #{bean.memberid,jdbcType=VARCHAR}
+			</if>
+			<if test="bean.countryno != null and bean.countryno != ''">
+				and countryno = #{bean.countryno,jdbcType=VARCHAR}
+			</if>
+			<if test="bean.mobileno != null and bean.mobileno != ''">
+				and mobileno like  #{bean.mobileno,jdbcType=VARCHAR} || '%'
+			</if>
+			<if test="bean.toperatorid != null and bean.toperatorid !=''">
+				and toperatorid = #{bean.toperatorid,jdbcType=VARCHAR}
+			</if>
+			<if test="startTime != null">
+				and feeddate <![CDATA[>=]]>
+				#{startTime,jdbcType=DATE}
+			</if>			
+			<if test="endTime != null">
+				and feeddate <![CDATA[<=]]>
+				#{endTime,jdbcType=DATE}
+			</if>
+		</where>
+	</sql>   
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from HY_FEEDBACK
+    where FEEDBACKID = #{feedbackid,jdbcType=VARCHAR}
+  </select>
+  
+	<select id="countByCondition" parameterType="Object" resultType="java.lang.Integer"> 
+		select count(*) from HY_FEEDBACK
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select> 
+	
+  <select id="selectByPageSelective" resultMap="BaseResultMap" parameterType="com.flash.toolbar.omp.feedback.bo.HyFeedBackModel">
+		select
+		*
+		from ( 
+			select
+				<include refid="Base_Column_List" />
+				, ROWNUM RN from 
+					( select <include refid="Base_Column_List" />,rownum rn from (
+						select
+						<include refid="Base_Column_List" />,rownum
+						from HY_FEEDBACK 
+						<include refid="Example_Where_Clause" />					
+						order by feeddate desc
+						) 
+					) WHERE rn <![CDATA[<=]]> ${pager.pageTail} 
+		) WHERE RN <![CDATA[>=]]>
+		${pager.pageOffset}  
+  </select>	  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from HY_FEEDBACK
+    where FEEDBACKID = #{feedbackid,jdbcType=VARCHAR}
+  </delete>
+  
+  <delete id="deleteFeedListBatch" parameterType="map">
+	DELETE FROM HY_FEEDBACK where 1=1
+	<if test="qxUserModel.bean.countryno != null and qxUserModel.bean.countryno != ''">
+		and countryNo = #{qxUserModel.bean.countryno,jdbcType=VARCHAR}
+	</if>	
+	<if test="qxUserModel.bean.toperatorid != null and qxUserModel.bean.toperatorid != ''">
+		and tOperatorId = #{qxUserModel.bean.toperatorid,jdbcType=VARCHAR}
+	</if>	
+	and feedbackid in
+	<foreach item="idItem" collection="fListIds" open="(" separator="union" close=")">
+	select #{idItem} from dual
+	</foreach>
+  </delete>   
+
+</mapper>

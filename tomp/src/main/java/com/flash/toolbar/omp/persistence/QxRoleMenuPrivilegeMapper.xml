@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.omp.mapper.QxRoleMenuPrivilegeMapper" >
+  <resultMap id="BaseResultMap" type="qxRoleMenuPrivilege" >
+    <id column="RMPID" property="rmpid" jdbcType="VARCHAR" />
+    <result column="ROLEID" property="roleid" jdbcType="VARCHAR" />
+    <result column="PRIVILEGEID" property="privilegeid" jdbcType="VARCHAR" />
+    <result column="MENUID" property="menuid" jdbcType="VARCHAR" />
+    <result column="CREATEDATE" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+  </resultMap>  
+  <resultMap id="menuPrivilege" type="qxMenu">
+  	<id column="MENUID" property="menuid" />
+  	<result column="MENUNAME" property="menuname" />
+  	<result column="FID" property="fid" />
+  	<result column="MENULEVEL" property="menulevel" />
+  	<collection property="privileges" ofType="qxPrivilege">
+  		<id column="PRIVID" property="privilegeid" />
+  		<result column="PRIVILEGENAME" property="privilegename" />
+  		<result column="MID" property="menuid"/>
+  	</collection>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    RMPID, ROLEID, PRIVILEGEID, MENUID, CREATEDATE, COUNTRYNO, TOPERATORID
+  </sql>
+  <sql id="where_clause">
+  	<where>
+  			ROLEID = #{roleid,jdbcType=VARCHAR}
+  		<if test="null != countryno and '' != countryno">
+  			and COUNTRYNO = #{countryno,jdbcType=VARCHAR}
+  		</if>
+  		<if test="null != toperatorid and '' != toperatorid">
+  			and TOPERATORID = #{toperatorid,jdbcType=VARCHAR}
+  		</if>
+  	</where>
+  </sql>
+  <!-- 查询角色关联的菜单权限 -->
+  <select id="selectMenuByRole" parameterType="qxRoleMenuPrivilege" resultMap="menuPrivilege">
+	  	select m.MENUID,
+	       m.MENUNAME,
+	       m.FID,
+	       m.MENULEVEL,
+	       rmp.MENUID AS MID,
+	       p.PRIVILEGEID AS PRIVID,
+	       p.PRIVILEGENAME
+	    from 
+	  	 (select * from QX_MENU 
+		  	 <where> 
+		 		DELFLAG = 1 and menulevel = 2 			
+		  		<if test="null != countryno and '' != countryno">
+		  			and COUNTRYNO = #{countryno,jdbcType=VARCHAR}
+		  		</if>
+		  		<if test="null != toperatorid and '' != toperatorid">
+		  			and TOPERATORID = #{toperatorid,jdbcType=VARCHAR}
+		  		</if>
+		  	</where>) m
+	  	 left outer join QX_MENUPRIVILEGE mp on m.MENUID = mp.MENUID
+		 left outer join QX_PRIVILEGE p on mp.PRIVILEGEID = p.PRIVILEGEID
+		 left outer join		 
+		 (select MENUID,ROLEID,PRIVILEGEID from QX_ROLEMENUPRIVILEGE where ROLEID = #{roleid,jdbcType=VARCHAR}) rmp
+		 on m.MENUID = rmp.MENUID and mp.PRIVILEGEID = rmp.PRIVILEGEID
+		 order by m.orderno asc
+		 	 	
+  </select>
+  <!-- 查询角色关联的权限 -->
+  <select id="selectPrivilegeByMenu" parameterType="qxRoleMenuPrivilege" resultType="qxPrivilege">
+	  	select p.PRIVILEGEID, 
+	  	p.PRIVILEGENO, 
+	  	p.PRIVILEGENAME, 
+	  	p.CREATEDATE, 
+	  	p.COUNTRYNO, 
+	  	p.TOPERATORID, 
+	  	rmp.ROLEID
+	  from QX_PRIVILEGE p
+		 inner join (select PRIVILEGEID from QX_ROLEMENUPRIVILEGE 
+		 where rmp.MENUID = #{menuid,jdbcType=VARCHAR}) rmp
+		    on p.PRIVILEGEID = rmp.PRIVILEGEID
+	 	<where>  			
+	  		<if test="null != countryno and '' != countryno">
+	  			and p.COUNTRYNO = #{countryno,jdbcType=VARCHAR}
+	  		</if>
+	  		<if test="null != toperatorid and '' != toperatorid">
+	  			and p.TOPERATORID = #{toperatorid,jdbcType=VARCHAR}
+	  		</if>
+	  	</where>
+  </select>
+  <!-- 删除角色菜单权限关联关系 -->
+  <delete id="deleteRoleMenuPrivilege" parameterType="qxRoleMenuPrivilege" >
+    delete from QX_ROLEMENUPRIVILEGE
+    <include refid="where_clause"/>
+  </delete>
+  <!-- 新增角色菜单权限关联关系 -->
+  <insert id="insertRoleMenuPrivilege">
+    insert into QX_ROLEMENUPRIVILEGE (<include refid="Base_Column_List"/>)
+    <foreach collection="list" item="rmp" separator="union" >
+    	select #{rmp.rmpid,
+	       jdbcType = VARCHAR},
+	       #{rmp.roleid,
+	       jdbcType = VARCHAR},
+	       #{rmp.privilegeid,
+	       jdbcType = VARCHAR},
+	       #{rmp.menuid,
+	       jdbcType = VARCHAR},
+	       #{rmp.createdate,
+	       jdbcType = TIMESTAMP},
+	       #{rmp.countryno,
+	       jdbcType = VARCHAR},
+	       #{rmp.toperatorid,
+	       jdbcType = VARCHAR}
+	  from dual
+    </foreach>
+  </insert>
+</mapper>

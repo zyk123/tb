@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.omp.mapper.QxMenuMapper" >
+  <resultMap id="BaseResultMap" type="qxMenu" >
+    <id column="MENUID" property="menuid" jdbcType="VARCHAR" />
+    <result column="MENUNO" property="menuno" jdbcType="VARCHAR" />
+    <result column="MENUNAME" property="menuname" jdbcType="VARCHAR" />
+    <result column="MENUINDEX" property="menuindex" jdbcType="VARCHAR" />
+    <result column="FID" property="fid" jdbcType="VARCHAR" />
+    <result column="menulevel" property="menulevel" jdbcType="VARCHAR" />
+    <result column="ORDERNO" property="orderno" jdbcType="DECIMAL" />
+    <result column="CREATEDATE" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+    <result column="DELFLAG" property="delflag" jdbcType="VARCHAR" />
+    <result column="MODIFYMAN" property="modifyman" jdbcType="VARCHAR" />
+    <result column="MODIFYDATE" property="modifydate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    MENUID, MENUNO, MENUNAME, MENUINDEX, FID, menulevel, ORDERNO, CREATEDATE, COUNTRYNO, 
+    TOPERATORID, DELFLAG, MODIFYMAN, MODIFYDATE
+  </sql>
+  <sql id="where_clause">
+  	<where>
+  		DELFLAG = 1
+  		<if test="null != menuid and '' != menuid">
+  			and MENUID = #{menuid,jdbcType=VARCHAR}
+  		</if>
+  		<if test="null != countryno and '' != countryno">
+  			and COUNTRYNO = #{countryno,jdbcType=VARCHAR}
+  		</if>
+  		<if test="null != toperatorid and '' != toperatorid">
+  			and TOPERATORID = #{toperatorid,jdbcType=VARCHAR}
+  		</if>
+  	</where>
+  </sql>
+  <sql id="where_condition_clause">
+  	  <where>
+  		DELFLAG = 1
+  		<if test="null != menu.menuno and '' != menu.menuno">
+	 		and MENUNO = #{menu.menuno,jdbcType=VARCHAR}
+	 	</if>
+	 	<if test="null != menu.menuname and '' != menu.menuname">
+	 		and MENUNAME like concat( #{menu.menuname,jdbcType=VARCHAR},'%')
+	 	</if>
+  		<if test="null != menu.countryno and '' != menu.countryno">
+  			and COUNTRYNO = #{menu.countryno,jdbcType=VARCHAR}
+  		</if>
+  		<if test="null != menu.toperatorid and '' != menu.toperatorid">
+  			and TOPERATORID = #{menu.toperatorid,jdbcType=VARCHAR}
+  		</if>
+  	  </where>
+  </sql>
+  <!-- 查询菜单数 -->
+  <select id="selectMenuCount" parameterType="qxMenu" resultType="_integer">
+  	select count(0) from QX_MENU <include refid="where_condition_clause"/>
+  </select>
+  <!-- 主键查询菜单 -->
+  <select id="selectMenuByPrimaryKey" parameterType="qxMenu" resultType="qxMenu">
+  	select <include refid="Base_Column_List"/>
+  	from QX_MENU <include refid="where_clause"/>
+  </select>
+   <!-- 查询父级菜单 -->
+  <select id="selectParentMenu" parameterType="qxMenu" resultType="qxMenu">
+  	select <include refid="Base_Column_List"/>
+  	from QX_MENU
+  	<where>
+  		DELFLAG = 1
+  			and MENULEVEL = 1
+  		<if test="null != countryno and '' != countryno">
+  			and COUNTRYNO = #{countryno,jdbcType=VARCHAR}
+  		</if>
+  		<if test="null != toperatorid and '' != toperatorid">
+  			and TOPERATORID = #{toperatorid,jdbcType=VARCHAR}
+  		</if>
+  	</where>
+  </select>
+  <!-- 分页查询菜单列表 -->
+  <select id="selectMenuListByPage" parameterType="map" resultType="qxMenu">    
+	select <include refid = "Base_Column_List" />
+	  from (select <include refid = "Base_Column_List" />, rownum rn
+	          from (select * from (select * from (
+	          	select <include refid = "Base_Column_List" />
+	                  from QX_MENU
+	                 order by orderno asc
+	          )start with fid is null connect by prior menuid = fid)
+	                  <include refid="where_condition_clause"/>)
+	         where rownum <![CDATA[<=]]> #{page.endCount,
+	         jdbcType = VARCHAR})
+	 where rn <![CDATA[>=]]> #{page.startCount, jdbcType = VARCHAR}
+  </select>
+  <!-- 删除菜单 -->
+  <update id="deleteMenu" parameterType="map" >
+    update QX_MENU set DELFLAG = 0
+    <where>
+  		<if test="null != array">
+  			MENUID in
+  			<foreach collection="array" item="id" separator="," open="(" close=")">
+  				#{id,jdbcType=VARCHAR}
+  			</foreach>
+  		</if>
+	  	<if test="null != countryno and '' != countryno">
+	  		and COUNTRYNO = #{countryno,jdbcType=VARCHAR}
+	  	</if>
+	  	<if test="null != toperatorid and '' != toperatorid">
+	  		and TOPERATORID = #{toperatorid,jdbcType=VARCHAR}
+	  	</if>
+  	</where>
+  </update>
+  <!-- 新增菜单 -->
+  <insert id="insertMenu" parameterType="qxMenu" >
+  	<selectKey keyProperty="menuno" resultType="string" order="BEFORE">
+  		select concat(#{menuno,jdbcType=VARCHAR},substr('00' || SEQ_MENU.nextval,-3)) from dual
+  	</selectKey>
+    insert into QX_MENU
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="menuid != null" >
+        MENUID,
+      </if>
+      <if test="menuno != null" >
+        MENUNO,
+      </if>
+      <if test="menuname != null" >
+        MENUNAME,
+      </if>
+      <if test="menuindex != null" >
+        MENUINDEX,
+      </if>
+      <if test="fid != null" >
+        FID,
+      </if>
+      <if test="menulevel != null" >
+        menulevel,
+      </if>
+      <if test="orderno != null" >
+        ORDERNO,
+      </if>
+      <if test="createdate != null" >
+        CREATEDATE,
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO,
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID,
+      </if>
+        DELFLAG,
+      <if test="modifyman != null" >
+        MODIFYMAN,
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="menuid != null" >
+        #{menuid,jdbcType=VARCHAR},
+      </if>
+      <if test="menuno != null" >
+        #{menuno,jdbcType=VARCHAR},
+      </if>
+      <if test="menuname != null" >
+        #{menuname,jdbcType=VARCHAR},
+      </if>
+      <if test="menuindex != null" >
+        #{menuindex,jdbcType=VARCHAR},
+      </if>
+      <if test="fid != null" >
+        #{fid,jdbcType=VARCHAR},
+      </if>
+      <if test="menulevel != null" >
+        #{menulevel,jdbcType=VARCHAR},
+      </if>
+      <if test="orderno != null" >
+        #{orderno,jdbcType=DECIMAL},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="countryno != null" >
+        #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      	1,
+      <if test="modifyman != null" >
+        #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <!-- 更新菜单 -->
+  <update id="updateMenu" parameterType="qxMenu" >
+    update QX_MENU
+    <set >
+      <if test="menuno != null" >
+        MENUNO = #{menuno,jdbcType=VARCHAR},
+      </if>
+      <if test="menuname != null" >
+        MENUNAME = #{menuname,jdbcType=VARCHAR},
+      </if>
+      <if test="menuindex != null" >
+        MENUINDEX = #{menuindex,jdbcType=VARCHAR},
+      </if>
+      <if test="fid != null" >
+        FID = #{fid,jdbcType=VARCHAR},
+      </if>
+      <if test="menulevel != null" >
+        menulevel = #{menulevel,jdbcType=VARCHAR},
+      </if>
+      <if test="orderno != null" >
+        ORDERNO = #{orderno,jdbcType=DECIMAL},
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <include refid = "where_clause" />
+  </update>
+  <select id="selectTotalCount" parameterType="com.flash.toolbar.omp.model.QxMenu" resultType="integer">
+  	select count(0) from QX_MENU
+  	 <where>
+  	 	<if test="null != menuname and ''!= menuname">
+		    MENUNAME = #{menuname,jdbcType=VARCHAR}
+    	</if> 
+	     and COUNTRYNO = #{countryno,jdbcType=VARCHAR}
+		 and TOPERATORID = #{toperatorid,jdbcType=VARCHAR}
+  	 </where>
+  </select>
+</mapper>

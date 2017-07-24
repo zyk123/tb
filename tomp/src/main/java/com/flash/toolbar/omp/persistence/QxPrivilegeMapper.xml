@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flash.toolbar.omp.mapper.QxPrivilegeMapper" >
+  <resultMap id="BaseResultMap" type="qxPrivilege" >
+    <id column="PRIVILEGEID" property="privilegeid" jdbcType="VARCHAR" />
+    <result column="PRIVILEGENO" property="privilegeno" jdbcType="VARCHAR" />
+    <result column="PRIVILEGECODE" property="privilegecode" jdbcType="VARCHAR" />
+    <result column="PRIVILEGENAME" property="privilegename" jdbcType="VARCHAR" />
+    <result column="CREATEDATE" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="COUNTRYNO" property="countryno" jdbcType="VARCHAR" />
+    <result column="TOPERATORID" property="toperatorid" jdbcType="VARCHAR" />
+    <result column="MODIFYMAN" property="modifyman" jdbcType="VARCHAR" />
+    <result column="MODIFYDATE" property="modifydate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PRIVILEGEID, PRIVILEGENO, PRIVILEGECODE, PRIVILEGENAME, CREATEDATE, COUNTRYNO, TOPERATORID, DELFLAG,
+    MODIFYMAN, MODIFYDATE
+  </sql>
+  <sql id="where_clause">
+  	<where>
+  		DELFLAG = 1
+  		<if test="null != privilegeid and '' != privilegeid">
+  			and PRIVILEGEID = #{privilegeid,jdbcType=VARCHAR}
+  		</if>
+	  	<if test="null != countryno and '' != countryno">
+	  		and COUNTRYNO = #{countryno,jdbcType=VARCHAR}
+	  	</if>
+	  	<if test="null != toperatorid and '' != toperatorid">
+	  		and TOPERATORID = #{toperatorid,jdbcType=VARCHAR}
+	  	</if>
+  	</where>
+  </sql>
+  <sql id="where_condition_clause">
+  	<where>
+	 	DELFLAG = 1
+	 	<if test="null != privilege.privilegeno and '' != privilege.privilegeno">
+	 		and PRIVILEGENO = #{privilege.privilegeno,jdbcType=VARCHAR}
+	 	</if>
+	 	<if test="null != privilege.privilegecode and '' != privilege.privilegecode">
+	 		and PRIVILEGECODE = upper(#{privilege.privilegecode,jdbcType=VARCHAR})
+	 	</if>
+	 	<if test="null != privilege.privilegename and '' != privilege.privilegename">
+	 		and PRIVILEGENAME like concat(#{privilege.privilegename,jdbcType=VARCHAR},'%')
+	 	</if>
+	  	<if test="null != privilege.countryno and '' != privilege.countryno">
+	  		and COUNTRYNO = #{privilege.countryno,jdbcType=VARCHAR}
+	  	</if>
+	  	<if test="null !=  privilege.toperatorid and '' !=  privilege.toperatorid">
+	  		and TOPERATORID = #{privilege.toperatorid,jdbcType=VARCHAR}
+	  	</if>
+  	</where>
+  </sql>
+  <!-- 查询权限数 -->
+  <select id="selectPrivilegeCount" parameterType="qxPrivilege" resultType="_integer">
+  	  select count(0) from QX_PRIVILEGE
+  	  <include refid="where_condition_clause"/>
+  </select>
+  <!-- 主键查询权限 -->
+  <select id="selectPrivilegeByPrimaryKey" parameterType="qxPrivilege" resultType="qxPrivilege">
+  	  select <include refid="Base_Column_List" /> 
+  	  from QX_PRIVILEGE <include refid="where_clause"/>
+  </select>
+  <!-- 分页查询权限列表 -->
+  <select id="selectPrivilegeListByPage" resultMap="BaseResultMap" parameterType="map" >
+      select <include refid = "Base_Column_List" />
+	  from (select <include refid = "Base_Column_List" />, rownum rn
+          from (select <include refid = "Base_Column_List" />
+                  from QX_PRIVILEGE 
+                  <include refid="where_condition_clause"/>
+                 order by CREATEDATE desc)
+          where rownum <![CDATA[<=]]> ${page.endCount})
+	  where rn <![CDATA[>=]]> ${page.startCount}
+  </select>
+  <!-- 删除权限 -->
+  <update id="deletePrivilege" parameterType="map" >
+    update QX_PRIVILEGE set DELFLAG = 0
+    <where>
+  		<if test="null != array">
+  			PRIVILEGEID in
+  			<foreach collection="array" item="id" separator="," open="(" close=")">
+  				#{id,jdbcType=VARCHAR}
+  			</foreach>
+  		</if>
+	  	<if test="null != countryno and '' != countryno">
+	  		and COUNTRYNO = #{countryno,jdbcType=VARCHAR}
+	  	</if>
+	  	<if test="null != toperatorid and '' != toperatorid">
+	  		and TOPERATORID = #{toperatorid,jdbcType=VARCHAR}
+	  	</if>
+  	</where>
+  </update>
+  <!-- 新增权限 -->
+  <insert id="insertPrivilege" parameterType="qxPrivilege" >
+  	<selectKey keyProperty="privilegeno" resultType="string" order="BEFORE">
+  		select concat(#{privilegeno,jdbcType=VARCHAR},substr('00' || SEQ_PRIVILEGE.nextval,-3)) from dual
+  	</selectKey>
+    insert into QX_PRIVILEGE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="privilegeid != null" >
+        PRIVILEGEID,
+      </if>
+      <if test="privilegeno != null" >
+        PRIVILEGENO,
+      </if>
+      <if test="privilegecode != null" >
+        PRIVILEGECODE,
+      </if>
+      <if test="privilegename != null" >
+        PRIVILEGENAME,
+      </if>
+      <if test="createdate != null" >
+        CREATEDATE,
+      </if>
+      <if test="countryno != null" >
+        COUNTRYNO,
+      </if>
+      <if test="toperatorid != null" >
+        TOPERATORID,
+      </if>
+      	DELFLAG,
+      <if test="modifyman != null" >
+        MODIFYMAN,
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="privilegeid != null" >
+        #{privilegeid,jdbcType=VARCHAR},
+      </if>
+      <if test="privilegeno != null" >
+        #{privilegeno,jdbcType=VARCHAR},
+      </if>
+      <if test="privilegecode != null" >
+        #{privilegecode,jdbcType=VARCHAR},
+      </if>
+      <if test="privilegename != null" >
+        #{privilegename,jdbcType=VARCHAR},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="countryno != null" >
+        #{countryno,jdbcType=VARCHAR},
+      </if>
+      <if test="toperatorid != null" >
+        #{toperatorid,jdbcType=VARCHAR},
+      </if>
+      	1,
+      <if test="modifyman != null" >
+        #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <!-- 更新权限 -->
+  <update id="updatePrivilege" parameterType="qxPrivilege" >
+    update QX_PRIVILEGE
+    <set >
+      <if test="privilegeno != null" >
+        PRIVILEGENO = #{privilegeno,jdbcType=VARCHAR},
+      </if>
+      <if test="privilegename != null" >
+        PRIVILEGENAME = #{privilegename,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyman != null" >
+        MODIFYMAN = #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <include refid="where_clause"/>
+  </update>
+  <select id="selectTotalCount" parameterType="com.flash.toolbar.omp.model.QxPrivilege" resultType="integer">
+  	select count(0) from QX_PRIVILEGE
+  	 <where>
+  	 	<if test="null != privilegename and ''!= privilegename">
+		    PRIVILEGENAME = #{privilegename,jdbcType=VARCHAR}
+    	</if> 
+	     and COUNTRYNO = #{countryno,jdbcType=VARCHAR}
+		 and TOPERATORID = #{toperatorid,jdbcType=VARCHAR}
+  	 </where>
+  </select>
+</mapper>
